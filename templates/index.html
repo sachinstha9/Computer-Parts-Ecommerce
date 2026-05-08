@@ -22,10 +22,15 @@
   <body>
     <header>
       <div id="first-row">
-        <ul id="first-col-header">
-          <li>Home</li>
-          <li>Items</li>
-        </ul>
+        <div id="first-col-header">
+          <img src="../static/images/pb-logo-alt.svg" alt="" />
+          <span>
+            <div>
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </div>
+            <input type="text" placeholder="Search..." />
+          </span>
+        </div>
 
         <ul id="second-col-header">
           <li>
@@ -34,27 +39,82 @@
 
           <li>
             <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+            <p>Cart</p>
           </li>
 
           <li>
             <i class="fa fa-heart" aria-hidden="true"></i>
+            <p>Wishlist</p>
           </li>
 
           <li>
             <i class="fa fa-user" aria-hidden="true"></i>
+            <p>Register</p>
           </li>
         </ul>
       </div>
 
       <div id="second-row">
-        <span>
-          <div>
-            <i class="fa fa-search" aria-hidden="true"></i>
-          </div>
-          <input type="text" placeholder="Search..." />
-          <button>Search</button>
-        </span>
+        <ul id="header-items-container">
+          <li class="header-item">
+            Gaming PCs
+            <div class="header-item-hover">
+              <ul class="header-item-list">
+                <li>Ready to Ships PCs</li>
+                <li>Core Series Gaming PCs</li>
+                <li>Ultra Series Gaming PCs</li>
+                <li>Zen Series Gaming PCs</li>
+                <li>Ark Series Gaming PCs</li>
+              </ul>
+
+              <ul class="header-item-images">
+                <li>
+                  <p>Core Gaming PCs</p>
+                  <img
+                    src="../static/images/core-series-gaming.webp"
+                    alt="Core Series Gaming PC"
+                  />
+                </li>
+
+                <li>
+                  <p>Ultra Gaming PCs</p>
+                  <img
+                    src="../static/images/ultra-series-gaming.webp"
+                    alt="Ultra Series Gaming PC"
+                  />
+                </li>
+
+                <li>
+                  <p>Zen Gaming PCs</p>
+                  <img
+                    src="../static/images/zen-series-gaming.webp"
+                    alt="Zen Series Gaming PC"
+                  />
+                </li>
+
+                <li>
+                  <p>Ark Gaming PCs</p>
+                  <img
+                    src="../static/images/ark-series-gaming.webp"
+                    alt="Ark Series Gaming PC"
+                  />
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="header-item">
+            Laptops
+            <!-- <div class="header-item-hover">this is laptop</div> -->
+          </li>
+          <li class="header-item">PC Components</li>
+          <li class="header-item">Peripherals</li>
+          <li class="header-item">Audio</li>
+          <li class="header-item">New Arrival</li>
+          <li class="header-item">Specials</li>
+        </ul>
       </div>
     </header>
+
+    <body></body>
   </body>
 </html>
