@@ -1,34 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
-</head>
-<body>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../static/css/home.css" />
+  </head>
+  <body>
     <header>
-        <span>
-            <ul>
-                <li>Home</li>
-                <li>Items</li>
-            </ul>
-
-            <input type="text">
-        </span>
-
-        <ul>
-            <li>
-                <img src="../static/images/heart-svg.svg" alt="heart">
-            </li>
-
-            <li>
-                <img src="../static/images/cart-shopping-svg.svg" alt="cart">
-            </li>
-
-            <li>
-                <img src="../static/images/profile-svg.svg" alt="profile">
-            </li>
+      <div id="first-row">
+        <ul id="first-col-header">
+          <li>Home</li>
+          <li>Items</li>
         </ul>
+
+        <ul id="second-col-header">
+          <li>
+            <i class="fa fa-bell" aria-hidden="true"></i>
+          </li>
+
+          <li>
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+          </li>
+
+          <li>
+            <i class="fa fa-heart" aria-hidden="true"></i>
+          </li>
+
+          <li>
+            <i class="fa fa-user" aria-hidden="true"></i>
+          </li>
+        </ul>
+      </div>
+
+      <div id="second-row">
+        <span>
+          <div>
+            <i class="fa fa-search" aria-hidden="true"></i>
+          </div>
+          <input type="text" placeholder="Search..." />
+          <button>Search</button>
+        </span>
+      </div>
     </header>
-</body>
+  </body>
 </html>
