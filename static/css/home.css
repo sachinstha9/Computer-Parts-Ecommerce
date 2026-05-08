@@ -116,7 +116,7 @@ header #first-row {
   padding: 30px 50px 50px;
   border-top: 1px solid black;
   color: black;
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   justify-content: start;
   row-gap: 50px;
