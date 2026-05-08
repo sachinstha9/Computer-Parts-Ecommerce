@@ -114,10 +114,12 @@ header #first-row {
   width: 100vw;
   left: -50px;
   padding: 30px 50px 50px;
-  display: flex;
-  gap: 50px;
   border-top: 1px solid black;
   color: black;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  row-gap: 50px;
 }
 
 #second-row ul li:hover .header-item-hover {
@@ -131,6 +133,7 @@ header #first-row {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-right: 50px;
 }
 
 .header-item-list li {
@@ -143,27 +146,20 @@ header #first-row {
   margin: 0 0 5px 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   font-size: 16px;
+  font-weight: 500;
 }
 
-.header-item-images {
-  display: flex;
-  justify-content: start;
-  width: 75%;
-  list-style: none;
-  gap: 10px;
-}
-
-.header-item-images li {
+.header-item-with-image {
   width: 250px;
   align-items: center;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-right: 30px;
 }
 
-.header-item-images li img {
+.header-item-with-image img {
   width: 100%;
-  max-width: 250px;
 }
 
 body {
