@@ -5,6 +5,14 @@
   font-family: "Montserrat", sans-serif;
 }
 
-body {
-  background-color: rgb(255, 163, 163);
+main {
+}
+
+#carousel-container {
+  display: flex;
+  overflow-x: hidden;
+}
+
+.carousel-item {
+  width: 100vw;
 }
