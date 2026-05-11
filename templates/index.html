@@ -17,8 +17,10 @@
       rel="stylesheet"
     />
 
+    <link rel="stylesheet" href="../static/css/global.css" />
     <link rel="stylesheet" href="../static/css/home.css" />
     <link rel="stylesheet" href="../static/css/header.css" />
+    <link rel="stylesheet" href="../static/css/carousel.css" />
   </head>
   <body>
     <header>
@@ -372,17 +374,22 @@
     </header>
 
     <main>
-      <section id="carousel-container">
-        {% for item in in_banner_products %}
-        <div class="carousel-item">
-          <div class="courousel-item-content-container">
-            <p class="carousel-eyebrow-text">{{ item.main_category }}</p>
-            <p class="carousel-title">{{ item.title }}</p>
-            <p class="carousel-description">{{ item.description }}</p>
-            <button class="carousel-shop">Shop Now</button>
+      <section id="carousel-wrapper">
+        <div id="carousel-container">
+          {% for item in in_banner_products %}
+          <div
+            class="carousel-item"
+            style="background-image: url({{item.img_sources[0]}});"
+          >
+            <div class="carousel-item-content-container">
+              <p class="carousel-eyebrow-text">{{ item.main_category }}</p>
+              <p class="carousel-title">{{ item.title }}</p>
+              <p class="carousel-description">{{ item.description }}</p>
+              <button class="carousel-shop">Shop Now</button>
+            </div>
           </div>
+          {% endfor %}
         </div>
-        {% endfor %}
 
         <ul class="carousel-indicators">
           {% for item in in_banner_products %}
@@ -392,4 +399,5 @@
       </section>
     </main>
   </body>
+  <script src="../static/js/carousel.js"></script>
 </html>

@@ -4,10 +4,11 @@ header {
   align-items: center;
   justify-content: center;
   background-color: rgb(48, 48, 48);
+  position: relative;
 }
 
 #header-container {
-  max-width: 1440px;
+  max-width: var(--max-width);
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -94,7 +95,6 @@ header {
 #second-row {
   width: 100%;
   height: auto;
-  position: relative;
 }
 
 #header-items-container {
@@ -121,10 +121,11 @@ header {
 
 .header-item-hover {
   position: absolute;
+  z-index: 10;
   top: 100%;
   background-color: white;
   width: 100vw;
-  left: -50px;
+  left: 0;
   padding: 30px 50px 50px;
   border-top: 1px solid black;
   color: black;
@@ -132,6 +133,8 @@ header {
   flex-wrap: wrap;
   justify-content: start;
   row-gap: 50px;
+  height: 60vh;
+  overflow-y: scroll;
 }
 
 #second-row ul li:hover .header-item-hover {

@@ -1,0 +1,93 @@
+#carousel-wrapper {
+  position: relative;
+  width: 100vw;
+  overflow: hidden;
+}
+
+#carousel-container {
+  display: flex;
+  width: 100vw;
+  transition: 1s;
+}
+
+.carousel-item {
+  min-width: 100vw;
+  height: 500px;
+
+  box-sizing: border-box;
+  padding: 0 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.carousel-item-content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: var(--max-width);
+  height: 100%;
+}
+
+.carousel-eyebrow-text {
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.carousel-title {
+  color: white;
+  font-size: 42px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.carousel-description {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  max-width: 600px;
+  margin-bottom: 30px;
+}
+
+.carousel-shop {
+  background: white;
+  width: 200px;
+  height: 40px;
+  border: none;
+  outline: none;
+  color: rgb(48, 48, 48);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.carousel-shop:hover {
+  background: rgb(243, 243, 243);
+  cursor: pointer;
+}
+
+.carousel-indicators {
+  position: absolute;
+  list-style: none;
+  bottom: 30px;
+  margin: auto;
+  display: flex;
+  column-gap: 7px;
+  width: 100vw;
+  justify-content: center;
+}
+
+.carousel-indicators li {
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
