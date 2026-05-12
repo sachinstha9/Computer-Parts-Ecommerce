@@ -373,83 +373,59 @@
       </div>
     </header>
 
-    <main>
-      <section id="carousel-wrapper">
-        <div id="carousel-container">
-          {% for item in in_banner_products %}
-          <div
-            class="carousel-item"
-            style="background-image: url({{item.img_sources[0]}});"
-          >
-            <div class="carousel-item-content-container">
-              <p class="carousel-eyebrow-text">{{ item.main_category }}</p>
-              <p class="carousel-title">{{ item.title }}</p>
-              <p class="carousel-description">{{ item.description }}</p>
-              <button class="carousel-shop">Shop Now</button>
-            </div>
+    <section id="carousel-wrapper">
+      <div id="carousel-container">
+        {% for item in in_banner_products %}
+        <div
+          class="carousel-item"
+          style="background-image: url({{item.img_sources[0]}});"
+        >
+          <div class="carousel-item-content-container">
+            <p class="carousel-eyebrow-text">{{ item.main_category }}</p>
+            <p class="carousel-title">{{ item.title }}</p>
+            <p class="carousel-description">{{ item.description }}</p>
+            <button class="carousel-shop">Shop Now</button>
           </div>
-          {% endfor %}
         </div>
+        {% endfor %}
+      </div>
 
-        <ul class="carousel-indicators">
-          {% for item in in_banner_products %}
-          <li></li>
-          {% endfor %}
-        </ul>
-      </section>
+      <ul class="carousel-indicators">
+        {% for item in in_banner_products %}
+        <li></li>
+        {% endfor %}
+      </ul>
+    </section>
 
+    <main>
       <section class="products-section">
         <p class="products-section-title">Core Series Gaming PCs</p>
 
         <div class="products-section-items-wrapper">
           <div class="product-section-items-container">
+            {% for item in all_products %}
             <div class="product-section-item">
               <img
-                src="../static/images/ark-series-gaming.webp"
+                src="{{ item.img_sources[0] }}"
                 alt=""
                 class="product-section-img"
               />
-              <p class="product-section-item-title">
-                Adjudicator AMP RTX 5060 Ti 8GB Ryzen 5 7500F EVO Gaming PC -
-                Black
-              </p>
+              <p class="product-section-item-title">{{ item.title }}</p>
               <ul class="product-section-item-tags">
-                <li><button>RTX 5090 Ti</button></li>
-                <li><button>1TB SSD</button></li>
-                <li><button>Ryzen 5 7500F</button></li>
-                <li><button>16 GB Ram</button></li>
+                {% for tag in item.tags %}
+                <li>
+                  <button>{{ tag }}</button>
+                </li>
+                {% endfor %}
               </ul>
               <div class="product-section-item-availabilty">
                 <i class="fa fa-check" aria-hidden="true"></i>
 
                 <p>In Stock</p>
               </div>
-              <p class="product-section-item-price">$2,498.00</p>
+              <p class="product-section-item-price">${{ item.price }}</p>
             </div>
-
-            <div class="product-section-item">
-              <img
-                src="../static/images/ark-series-gaming.webp"
-                alt=""
-                class="product-section-img"
-              />
-              <p class="product-section-item-title">
-                Adjudicator AMP RTX 5060 Ti 8GB Ryzen 5 7500F EVO Gaming PC -
-                Black
-              </p>
-              <ul class="product-section-item-tags">
-                <li><button>RTX 5090 Ti</button></li>
-                <li><button>1TB SSD</button></li>
-                <li><button>Ryzen 5 7500F</button></li>
-                <li><button>16 GB Ram</button></li>
-              </ul>
-              <div class="product-section-item-availabilty">
-                <i class="fa fa-check" aria-hidden="true"></i>
-
-                <p>In Stock</p>
-              </div>
-              <p class="product-section-item-price">$2,498.00</p>
-            </div>
+            {% endfor %}
           </div>
         </div>
       </section>
