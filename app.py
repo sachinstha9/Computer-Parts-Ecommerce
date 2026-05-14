@@ -15,7 +15,7 @@ def product_formatter(products):
             "tags": product[4].split(","),
             "price": product[5],
             "specifications": json.loads(product[6]),
-            "availabilty": product[7],
+            "availability": product[7],
             "in_banner": product[8],
             "company": product[9],
             "main_category": product[10],
@@ -39,6 +39,8 @@ def index():
 
     all_products = product_formatter(all_products)
     in_banner_products = product_formatter(in_banner_products)
+
+    display_sections = ["Monitors", "Laptops", "Mouses"]
 
     return render_template("index.html", in_banner_products=in_banner_products, all_products=all_products)
 
