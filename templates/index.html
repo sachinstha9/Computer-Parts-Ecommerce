@@ -398,12 +398,13 @@
     </section>
 
     <main>
+      {% for section in display_sections.values() %}
       <section class="products-section">
-        <p class="products-section-title">Core Series Gaming PCs</p>
+        <p class="products-section-title">{{ section.title}}</p>
 
         <div class="products-section-items-wrapper">
           <div class="product-section-items-container">
-            {% for item in all_products %}
+            {% for item in section.products %}
             <div class="product-section-item">
               <img
                 src="{{ item.img_sources[0] }}"
@@ -443,6 +444,7 @@
           </div>
         </div>
       </section>
+      {% endfor %}
     </main>
   </body>
   <script src="../static/js/carousel.js"></script>

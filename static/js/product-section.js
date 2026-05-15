@@ -24,12 +24,12 @@ products_section.forEach((e, i) => {
 
   let currentIndex = 0;
 
-  left_products_section_slider.addEventListener("click", () => {
+  right_products_section_slider.addEventListener("click", () => {
     if (currentIndex < maxIndex) currentIndex += 1;
     product_section_items_container.style.transform = `translateX(-${currentIndex * product_section_item_style.width}px)`;
   });
 
-  right_products_section_slider.addEventListener("click", () => {
+  left_products_section_slider.addEventListener("click", () => {
     if (currentIndex > 0) {
       currentIndex -= 1;
       product_section_items_container.style.transform = `translateX(-${currentIndex * product_section_item_style.width}px)`;
