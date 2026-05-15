@@ -22,17 +22,17 @@ products_section.forEach((e, i) => {
 
   let maxIndex = product_section_item.length - number_of_item_can_fit;
 
-  let currentIndex = 1;
-
-  if (maxIndex == 0) currentIndex = 0;
+  let currentIndex = 0;
 
   left_products_section_slider.addEventListener("click", () => {
-    product_section_items_container.style.transform = `translateX(-${currentIndex * product_section_item_style.width}px)`;
-
     if (currentIndex < maxIndex) currentIndex += 1;
+    product_section_items_container.style.transform = `translateX(-${currentIndex * product_section_item_style.width}px)`;
+  });
 
-    console.log(maxIndex);
-
-    console.log(product_section_items_container_style.width);
+  right_products_section_slider.addEventListener("click", () => {
+    if (currentIndex > 0) {
+      currentIndex -= 1;
+      product_section_items_container.style.transform = `translateX(-${currentIndex * product_section_item_style.width}px)`;
+    }
   });
 });
