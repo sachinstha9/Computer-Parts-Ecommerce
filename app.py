@@ -67,5 +67,9 @@ def index():
     return render_template("index.html", in_banner_products=in_banner_products, 
                            display_sections=display_sections)
 
+@app.route('/products')
+def products():
+    return render_template("products.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
