@@ -1,0 +1,502 @@
+/********* Products page styles
+   I kept the big section comments because they make this file easier to scan later.
+***********/
+
+
+/**************** RESET ***************/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/**************** BASE PAGE ****************/
+body {
+    min-height: 100vh;
+    font-family: 'Fira Code', monospace;
+    font-weight: 500;
+    color: #fff;
+
+    /* Slight overlay so the background doesn't look completely flat. */
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)),
+        #282828;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+
+/**************** PAGE WRAPPER ****************/
+.page {
+    width: 100%;
+    min-height: 100vh;
+}
+
+
+/**************** NAVBAR ****************/
+.navbar {
+    width: 100%;
+    height: 110px;
+    padding: 0 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 38px;
+}
+
+.nav-link {
+    font-size: 0.85rem;
+    font-style: italic;
+    letter-spacing: 3px;
+}
+
+.icon-link {
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.cart-icon {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+
+    background-color: #fff;
+    color: #111;
+    border-radius: 50%;
+    font-size: 1rem;
+}
+
+
+/**************** HAMBURGER MENU ****************/
+.menu-button {
+    width: 30px;
+    height: 24px;
+
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.menu-button span {
+    height: 2px;
+    background-color: #fff;
+    display: block;
+}
+
+/* Not the cleanest way, but it gives the menu icon the uneven look from the design. */
+.menu-button span:nth-child(1) { width: 30px; }
+.menu-button span:nth-child(2) { width: 22px; }
+.menu-button span:nth-child(3) { width: 14px; }
+
+
+/**************** MAIN PRODUCTS LAYOUT ****************/
+.products-layout {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 310px minmax(0, 1fr);
+    column-gap: 40px;
+    padding: 60px 45px 0;
+}
+
+
+/**************** SIDEBAR ****************/
+.sidebar {
+    width: 270px;
+}
+
+.sidebar-spacer {
+    height: 175px;
+}
+
+
+/**************** FILTER BOX ****************/
+.filter-box {
+    border-top: 1px dotted #bbb;
+    border-bottom: 1px dotted #bbb;
+    padding: 22px 0;
+    margin-bottom: 4px;
+}
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    font-size: 0.8rem;
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 12px 0;
+
+    font-size: 0.85rem;
+    font-style: italic;
+    letter-spacing: 2px;
+    cursor: pointer;
+}
+
+.checkbox-row input {
+    width: 22px;
+    height: 22px;
+    appearance: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+/* Tiny checked state; I almost left this out, but the checkbox felt broken without it. */
+.checkbox-row input:checked {
+    background:
+        linear-gradient(45deg, transparent 40%, #111 40%, #111 60%, transparent 60%),
+        #fff;
+}
+
+.checkbox-row small {
+    color: #536dff;
+    font-size: 0.75rem;
+}
+
+
+/**************** CATEGORY MENU ****************/
+.category-menu {
+    list-style: none;
+    width: 100%;
+}
+
+.category-menu li {
+    border-bottom: 1px dotted #bbb;
+}
+
+.category-filter {
+    width: 100%;
+    padding: 14px 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: none;
+    border: none;
+    color: #fff;
+
+    font-size: 0.95rem;
+    font-style: italic;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.category-filter span {
+    margin-left: auto;
+}
+
+.category-filter:hover,
+.category-filter.active {
+    color: #cccccc;
+}
+
+
+/**************** PRODUCTS MAIN AREA ****************/
+.products-main {
+    width: 100%;
+}
+
+
+/**************** SEARCH BAR ****************/
+.search-bar {
+    width: 368px;
+    height: 50px;
+    margin-bottom: 38px;
+
+    display: flex;
+    align-items: center;
+
+    background-color: #ddd;
+    color: #111;
+}
+
+.search-icon {
+    width: 55px;
+    text-align: center;
+    font-size: 1.7rem;
+    color: #000;
+}
+
+.search-bar input {
+    flex: 1;
+    height: 100%;
+
+    border: none;
+    outline: none;
+    background: transparent;
+
+    letter-spacing: 2px;
+    color: #111;
+}
+
+.search-bar input::placeholder {
+    color: #333;
+}
+
+
+/**************** PRODUCT GRID ****************/
+.product-grid {
+    width: 100%;
+    display: grid;
+
+    /* Let the browser decide how many cards fit. Saves me a few media queries. */
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 22px;
+}
+
+
+/**************** PRODUCT CARD ****************/
+.product-card {
+    width: 100%;
+}
+
+.product-image {
+    position: relative;
+    width: 100%;
+    height: 315px;
+
+    border: 1px solid #ddd;
+    overflow: hidden;
+    background-color: #111;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* TODO: replace the placeholder images, then maybe tone down this button a bit. */
+.add-button {
+    position: absolute;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+
+    width: 74px;
+    height: 74px;
+
+    border: none;
+    border-radius: 8px;
+
+    background-color: rgba(255, 255, 255, 0.22);
+    color: #fff;
+
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.add-button:hover {
+    background-color: rgba(255, 255, 255, 0.32);
+}
+
+.product-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding-top: 8px;
+
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+.product-info p,
+.product-info strong {
+    color: #fff;
+}
+
+.product-info strong {
+    font-size: 0.9rem;
+}
+
+
+/**************** HIDDEN PRODUCTS ****************/
+.product-card.hidden {
+    display: none;
+}
+
+
+/**************** RESPONSIVE ****************/
+@media (max-width: 900px) {
+    .products-layout {
+        grid-template-columns: 1fr;
+        padding: 30px 25px;
+    }
+
+    .sidebar {
+        width: 100%;
+        margin-bottom: 40px;
+    }
+
+    .sidebar-spacer {
+        height: 20px;
+    }
+
+    .search-bar {
+        width: 100%;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+@media (max-width: 600px) {
+    .navbar {
+        padding: 0 22px;
+    }
+
+    .nav-left,
+    .nav-right {
+        gap: 18px;
+    }
+
+    .nav-link {
+        font-size: 0.75rem;
+    }
+
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/************* HERO SECTION ***************/
+
+.hero {
+    display : inline-block;
+    width: 100%;
+    height: 500px;
+    position: relative;
+}
+
+.diagonal-hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 400px;
+    background: rgba(0, 0, 0, 0.20);
+    background: -webkit-linear-gradient(to right, rgba(0, 0, 0, 0.20), rgba(48, 8, 141, 0.8));
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.20), rgba(48, 8, 141, 0.8));
+
+    z-index: -1;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 80%);
+}
+
+@function stars($n) {
+  $value: '#{random(2000)}px #{random(2000)}px #767676';
+  @for $i from 2 through $n {
+    $value: '#{$value} , #{random(2000)}px #{random(2000)}px #767676';
+  }
+  @return unquote($value);
+}
+
+// store random stars
+$stars-small: stars(700);
+$stars-medium: stars(200);
+$stars-big: stars(100);
+
+
+.stars {
+  z-index: -1;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  transition: opacity 1s ease-in-out;
+}
+
+.stars > .small {
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  box-shadow: $stars-small;
+  animation: starsAnimation 50s linear infinite;
+
+  &:after {
+    content: " ";
+    position: absolute;
+    top: 2000px;
+    width: 1px;
+    height: 1px;
+    background: transparent;
+    box-shadow: $stars-small;
+  }
+}
+
+.stars > .medium {
+  width: 2px;
+  height: 2px;
+  background: transparent;
+  box-shadow: $stars-medium;
+  animation: starsAnimation 100s linear infinite;
+
+  &:after {
+    content: " ";
+    position: absolute;
+    top: 2000px;
+    width: 2px;
+    height: 2px;
+    background: transparent;
+    box-shadow: $stars-medium;
+  }
+}
+
+.stars > .big {
+  width: 3px;
+  height: 3px;
+  background: transparent;
+  box-shadow: $stars-big;
+  border-radius: 100%;
+  animation: starsAnimation 150s linear infinite;
+
+  &:after {
+    content: " ";
+    position: absolute;
+    top: 2000px;
+    width: 3px;
+    height: 3px;
+    background: transparent;
+    box-shadow: $stars-big;
+    border-radius: 100%;
+  }
+}
+
+// swap from/to values to reverse animation
+@keyframes starsAnimation {
+  from {
+    transform: translateY(-2000px);
+  }
+  to {
+    transform: translateY(0px);
+  }
+}
