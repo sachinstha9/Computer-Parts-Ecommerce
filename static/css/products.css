@@ -703,3 +703,73 @@ grid-template-columns:1fr;
 }
 
 }
+
+.cart-icon {
+    position: relative;
+}
+
+.cart-count {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+
+    width: 18px;
+    height: 18px;
+
+    background: #7b7cff;
+    color: white;
+
+    border-radius: 50%;
+
+    font-size: 0.65rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-button {
+
+    position:absolute;
+
+    left:50%;
+    bottom:18px;
+
+    transform:translateX(-50%);
+
+    width:75%;
+
+    height:44px;
+
+    border:none;
+    border-radius:6px;
+
+    background:#7b7cff;
+    color:white;
+
+    font-size:0.85rem;
+    font-weight:700;
+
+    letter-spacing:2px;
+    text-transform:uppercase;
+
+    cursor:pointer;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.35);
+
+    opacity:0;
+
+    transition:0.25s;
+}
+
+.product-card:hover .add-button {
+
+    opacity:1;
+    bottom:24px;
+}
+
+.add-button:hover {
+
+    background:#ffffff;
+    color:#111;
+}

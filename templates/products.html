@@ -81,14 +81,10 @@
 
         </a>
 
-        <a
-            href="/cart"
-            class="cart-icon"
-            aria-label="Shopping Cart">
-
-            🛍
-
-        </a>
+<a href="/cart" class="cart-icon" aria-label="Shopping Cart">
+    🛍
+    <span class="cart-count">0</span>
+</a>
 
         <a
             href="/profile"
@@ -173,7 +169,7 @@
 <article class="product-card" data-category="cpu-gpu" data-stock="available">
 <div class="product-image">
 <img src="{{ url_for('static', filename='images/GeForce5060tipny.png') }}" alt="High-end RTX 4090 Graphics Card">   <!-- RTX 4090 -->
-<button class="add-button" aria-label="Add RTX 4090 to cart">+</button>
+<button class="add-button" aria-label="Add RTX 4090 to cart">Add to Cart</button>
 </div>
 <div class="product-info">
 <p>RTX 4090 Graphics Card</p>
@@ -183,7 +179,7 @@
 <article class="product-card" data-category="cpu-gpu" data-stock="available">
 <div class="product-image">
 <img src="{{ url_for('static', filename='images/SapphireNitro+.png') }}" alt="High-end RTX 4090 Graphics Card">   <!-- RX9070 XT-->
-<button class="add-button" aria-label="Add RX 9070XT to cart">+</button>
+<button class="add-button" aria-label="Add RX 9070XT to cart">Add to Cart</button>
 </div>
 <div class="product-info">
 <p>Sapphire Nitro+ RX 9070XT Graphics Card</p>
@@ -193,7 +189,7 @@
 <article class="product-card" data-category="cpu-gpu" data-stock="available">
 <div class="product-image">
 <img src="{{ url_for('static', filename='images/RTX3070TI.webp') }}" alt="RTX 3070TI Graphics Card">   <!-- RTX 3070TI-->
-<button class="add-button" aria-label="Add RTX 3070TI to cart">+</button>
+<button class="add-button" aria-label="Add RTX 3070TI to cart">Add to Cart</button>
 </div>
 <div class="product-info">
 <p>RTX 3070TI Graphics Card</p>
@@ -203,7 +199,7 @@
 <article class="product-card" data-category="cpu-gpu" data-stock="available">
 <div class="product-image">
 <img src="{{ url_for('static', filename='images/SapphireNitro+.png') }}" alt="High-end RTX 4090 Graphics Card">   <!-- RX9070 XT-->
-<button class="add-button" aria-label="Add RX 9070XT to cart">+</button>
+<button class="add-button" aria-label="Add RX 9070XT to cart">Add to Cart</button>
 </div>
 <div class="product-info">
 <p>Sapphire Nitro+ RX 9070XT Graphics Card</p>
@@ -213,7 +209,7 @@
 <article class="product-card" data-category="cpu-gpu" data-stock="available">
 <div class="product-image">
 <img src="{{ url_for('static', filename='images/SapphireNitro+.png') }}" alt="High-end RTX 4090 Graphics Card">   <!-- RX9070 XT-->
-<button class="add-button" aria-label="Add RX 9070XT to cart">+</button>
+<button class="add-button" aria-label="Add RX 9070XT to cart">Add to Cart</button>
 </div>
 <div class="product-info">
 <p>Sapphire Nitro+ RX 9070XT Graphics Card</p>
@@ -225,7 +221,7 @@
 <article class="product-card" data-category="ram" data-stock="available">
 <div class="product-image">
 <img src="{{ url_for('static', filename='images/CORRAM32.jpg') }}" alt="32GB DDR5 Corsair RAM">                  <!-- CORSAIR 32GB RAM -->
-<button class="add-button" aria-label="Add Corsair RAM to cart">+</button>
+<button class="add-button" aria-label="Add Corsair RAM to cart">Add to Cart</button>
 </div>
 <div class="product-info">
 <p>Corsair 32GB RAM</p>
@@ -237,7 +233,7 @@
 <article class="product-card" data-category="cases" data-stock="available">
 <div class="product-image">
 <img src="{{ url_for('static', filename='images/LianLiCase.jpg') }}" alt="Lian Li Gaming PC Case">              <!-- LIAN LI PC CASE-->
-<button class="add-button" aria-label="Add Gaming Case to cart">+</button>
+<button class="add-button" aria-label="Add Gaming Case to cart">Add to Cart</button>
 </div>
 <div class="product-info">
 <p>Lian Li PC Case</p>
@@ -249,7 +245,7 @@
 <article class="product-card" data-category="powersupply" data-stock="available">
 <div class="product-image">
 <img src="{{ url_for('static', filename='images/CORPSU750.jpg') }}" alt="750W Modular Power Supply">            <!-- CORSAIR 750W PSU-->
-<button class="add-button" aria-label="Add 750W Power Supply to cart">+</button>
+<button class="add-button" aria-label="Add 750W Power Supply to cart">Add to Cart</button>
 </div>
 <div class="product-info">
 <p>Corsair 750W Power Supply</p>
@@ -261,7 +257,7 @@
 <article class="product-card" data-category="mice-keyboards" data-stock="available">
 <div class="product-image">
 <img src="{{ url_for('static', filename='images/KEYCHRONMECH.webp') }}" alt="Keychron Mechanical Keyboard">     <!-- KEYCHRON NO BACKLIT KEYBOARD -->
-<button class="add-button" aria-label="Add Keychron Keyboard to cart">+</button>
+<button class="add-button" aria-label="Add Keychron Keyboard to cart">Add to Cart</button>
 </div>
 <div class="product-info">
 <p>Keychron K6 Non-Backlit Mechanical Keyboard</p>
@@ -273,7 +269,7 @@
 <article class="product-card" data-category="monitors" data-stock="out">
 <div class="product-image">
 <img src="{{ url_for('static', filename='images/SapphireNitro+.png') }}" alt="4K Gaming Monitor">
-<button class="add-button" aria-label="Add Monitor to cart">+</button>
+<button class="add-button" aria-label="Add Monitor to cart">Add to Cart</button>
 </div>
 <div class="product-info">
 <p>Gaming Monitor (Out of Stock)</p>
