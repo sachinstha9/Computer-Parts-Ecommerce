@@ -553,16 +553,19 @@ input {
     display:grid;
 
     grid-template-columns:
-
     repeat(
-        auto-fit,
-        minmax(240px,1fr)
+        auto-fill,
+        260px
     );
 
     gap:22px;
+
+    align-items:start;
 }
 
 .product-image {
+
+    width:260px;
 
     height:315px;
 
@@ -573,6 +576,11 @@ input {
     background:#111;
 
     border:1px solid #444;
+}
+
+.product-card {
+
+    width:260px;
 }
 
 .product-image img {
@@ -772,4 +780,125 @@ grid-template-columns:1fr;
 
     background:#ffffff;
     color:#111;
+}
+
+.cart-wrapper {
+    position: relative;
+}
+
+.cart-icon {
+    border: none;
+    cursor: pointer;
+}
+
+.cart-dropdown {
+    position: absolute;
+    top: 55px;
+    right: 0;
+
+    width: 320px;
+    max-height: 420px;
+
+    padding: 18px;
+
+    background: #181818;
+    border: 1px solid rgba(255,255,255,0.15);
+
+    box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+
+    z-index: 50;
+
+    display: none;
+}
+
+.cart-dropdown.open {
+    display: block;
+}
+
+.cart-dropdown h3 {
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+}
+
+.cart-items {
+    max-height: 260px;
+    overflow-y: auto;
+}
+
+.cart-preview-item {
+    display: flex;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.cart-preview-item img {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    background: white;
+}
+
+.cart-preview-info p {
+    font-size: 0.75rem;
+    margin-bottom: 6px;
+}
+
+.cart-preview-info strong {
+    font-size: 0.75rem;
+    color: #7b7cff;
+}
+
+.empty-cart-message {
+    font-size: 0.8rem;
+    color: #ccc;
+    margin-bottom: 14px;
+}
+
+.checkout-button {
+    display: block;
+    margin-top: 16px;
+    padding: 12px;
+
+    text-align: center;
+
+    background: #7b7cff;
+    color: white;
+
+    font-size: 0.8rem;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.checkout-button:hover {
+    background: white;
+    color: #111;
+}
+
+.cart-preview-item {
+    position: relative;
+}
+
+.remove-cart-item {
+    margin-left: auto;
+
+    width: 26px;
+    height: 26px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.12);
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 1rem;
+}
+
+.remove-cart-item:hover {
+    background: #ff4d4d;
 }
