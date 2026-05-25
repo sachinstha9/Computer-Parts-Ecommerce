@@ -1,220 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
-    <!-- Start Head -->
+
+<!-- Start Head -->
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" type="text/css" href="../static/css/products.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap" rel="stylesheet">
 
     <title>Products | Galact</title>
+
 </head>
 <!-- End Head -->
 
-<!-- Start Body -->
+
 <body>
+
     <div class="page">
-<!-- Start Header -->
+
+        <!-- ================= HEADER ================= -->
+
         <header class="navbar">
+
             <div class="nav-left">
+
                 <button class="menu-button" aria-label="Toggle mobile menu">
+
                     <span></span>
                     <span></span>
                     <span></span>
+
                 </button>
-                <a href="#" class="nav-link">Home</a>
-                <a href="#" class="nav-link">Items</a>
+
+                <a href="/" class="nav-link">
+                    Home
+                </a>
+
+                <a href="/products" class="nav-link">
+                    Items
+                </a>
+
             </div>
+
+
+            <div class="nav-center">
+
+                <h2 class="logo">
+                    GALACT
+                </h2>
+
+            </div>
+
 
             <div class="nav-right">
-                <a href="#" class="icon-link" aria-label="View Wishlist">♡</a>
-                <a href="#" class="nav-link">Cart</a>
-                <a href="#" class="cart-icon" aria-label="View Shopping Bag">🛍</a>
-                <a href="#" class="icon-link" aria-label="User Profile">♙</a>
-            </div>
-        </header>
-<!-- End Header -->
 
-<!-- Hero Section -->
-<div class="hero">
-<div class="diagonal-hero-bg">
-<div class="stars">
-<div class="small"></div>
-    <div class="medium"></div>
-        <div class="big"></div>
-</div>
-</div>
+                <!-- Wishlist -->
+                <a href="/wishlist" class="icon-link" aria-label="Wishlist">
 
-<!-- End Hero Section -->
+                    ♡
 
-        <main class="products-layout">
-<!-- Products Sidebar -->
-            <aside class="sidebar">
-                <div class="sidebar-spacer"></div>
+                </a>
 
-                <section class="filter-box" aria-label="Stock availability filters">
-                    <div class="filter-header">
-                        <span>Status</span>
-                        <span>⌃</span>
+
+                <!-- Cart -->
+                <div class="cart-wrapper">
+
+                    <button class="cart-icon" type="button" aria-label="Open cart preview">
+
+                        🛍
+
+                        <span class="cart-count">
+                            0
+                        </span>
+
+                    </button>
+
+
+                    <div class="cart-dropdown">
+
+                        <h3>
+                            Your Cart
+                        </h3>
+
+                        <div class="cart-items">
+
+                            <p class="empty-cart-message">
+                                Your cart is empty.
+                            </p>
+
+                        </div>
+
+
+                        <a href="/cart" class="checkout-button">
+
+                            Checkout
+
+                        </a>
+
                     </div>
 
-                    <label class="checkbox-row">
-                        <input type="checkbox" data-stock-filter="available">
-                        <span>In Stock</span>
-                        <small>(TBD)</small>
-                    </label>
+                </div>
 
-                    <label class="checkbox-row">
-                        <input type="checkbox" data-stock-filter="out">
-                        <span>Out Of Stock</span>
-                        <small>(TBD)</small>
-                    </label>
+
+                <!-- Profile -->
+                <a href="/profile" class="icon-link" aria-label="User Profile">
+
+                    ♙
+
+                </a>
+
+            </div>
+        </header>
+
+        <!-- ================= HERO ================= -->
+
+        <section class="hero">
+
+            <div class="diagonal-hero-bg"></div>
+
+            <div class="hero-content">
+
+                <h1>
+                    BUILD YOUR DREAM PC
+                </h1>
+
+                <p>
+                    Browse premium PC hardware,
+                    gaming peripherals,
+                    and high performance components.
+                </p>
+
+            </div>
+
+        </section>
+
+        <main class="products-layout">
+            <! --==================PRODUCTS SIDEBAR=================-->
+                <aside class="sidebar">
+                    <div class="sidebar-spacer"></div>
+
+                    <section class="filter-box" aria-label="Stock availability filters">
+                        <div class="filter-header">
+                            <span>Status</span>
+                            <span>⌃</span>
+                        </div>
+
+                        <label class="checkbox-row">
+                            <input type="checkbox" data-stock-filter="available">
+                            <span>In Stock</span>
+                            <small>(TBD)</small>
+                        </label>
+
+                        <label class="checkbox-row">
+                            <input type="checkbox" data-stock-filter="out">
+                            <span>Out Of Stock</span>
+                            <small>(TBD)</small>
+                        </label>
+                    </section>
+
+                    <ul class="category-menu">
+                        <li><button class="category-filter active" data-filter="all">All Items
+                                <span>&gt;</span></button></li>
+                        <li><button class="category-filter" data-filter="cpu-gpu">CPU/GPU <span>&gt;</span></button>
+                        </li>
+                        <li><button class="category-filter" data-filter="ram">RAM <span>&gt;</span></button></li>
+                        <li><button class="category-filter" data-filter="cases">Cases <span>&gt;</span></button></li>
+                        <li><button class="category-filter" data-filter="powersupply">Power Supply
+                                <span>&gt;</span></button></li>
+                        <li><button class="category-filter" data-filter="mice-keyboards">Peripherals
+                                <span>&gt;</span></button></li>
+                        <li><button class="category-filter" data-filter="monitors">Monitors <span>&gt;</span></button>
+                        </li>
+                    </ul>
+                </aside>
+                <!-- End Products Sidebar -->
+
+                <!-- Start Products Grid -->
+                <section class="products-main">
+                    <div class="search-bar">
+                        <span class="search-icon">⌕</span>
+                        <input class="product-search" type="text" placeholder="Search for hardware..."
+                            aria-label="Search products">
+                    </div>
+
+                    <!--                         *****                  CPU/GPU CATEGORY          ****                             -->
+                    <div class="product-grid">
+                        {% for product in filtered_products %}
+                        <article class="product-card" data-category="cpu-gpu" data-stock="available">
+                            <div class="product-image">
+                                <img src="{{product.img_sources[0]}}" alt="RTX 4090 Graphics Card" />
+
+                                <button class="add-button" aria-label="Add RTX 4090 to cart">
+                                    +
+                                </button>
+                            </div>
+
+                            <div class="product-info">
+                                <p>{{product.title}}</p>
+                                <strong>${{product.price}}</strong>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    </div>
                 </section>
-
-                <ul class="category-menu">
-                    <li><button class="category-filter active" data-filter="all">All Items <span>&gt;</span></button></li>
-                    <li><button class="category-filter" data-filter="cpu-gpu">CPU/GPU <span>&gt;</span></button></li>                    
-                    <li><button class="category-filter" data-filter="ram">RAM <span>&gt;</span></button></li>
-                    <li><button class="category-filter" data-filter="cases">Cases <span>&gt;</span></button></li>
-                    <li><button class="category-filter" data-filter="powersupply">Power Supply <span>&gt;</span></button></li>
-                    <li><button class="category-filter" data-filter="mice-keyboards">Peripherals <span>&gt;</span></button></li>
-                    <li><button class="category-filter" data-filter="monitors">Monitors <span>&gt;</span></button></li>
-                </ul>
-            </aside>
-<!-- End Products Sidebar -->
-
- <!-- Start Products Grid -->
-<section class="products-main">
-<div class="search-bar">
-<span class="search-icon">⌕</span>
-<input class="product-search" type="text" placeholder="Search for hardware..." aria-label="Search products">
-</div>
- 
-                    <!--                         *****                  CPU/GPU CATEGORY          ****                             -->                
-<div class="product-grid">
-<article class="product-card" data-category="cpu-gpu" data-stock="available">
-<div class="product-image">
-<img src="{{ url_for('static', filename='images/GeForce5060tipny.png') }}" alt="High-end RTX 4090 Graphics Card">   <!-- RTX 4090 -->
-<button class="add-button" aria-label="Add RTX 4090 to cart">+</button>
-</div>
-<div class="product-info">
-<p>RTX 4090 Graphics Card</p>
-<strong>$199</strong>
-</div>
-</article>
-<article class="product-card" data-category="cpu-gpu" data-stock="available">
-<div class="product-image">
-<img src="{{ url_for('static', filename='images/SapphireNitro+.png') }}" alt="High-end RTX 4090 Graphics Card">   <!-- RX9070 XT-->
-<button class="add-button" aria-label="Add RX 9070XT to cart">+</button>
-</div>
-<div class="product-info">
-<p>Sapphire Nitro+ RX 9070XT Graphics Card</p>
-<strong>$199</strong>
-</div>
-</article> 
-<article class="product-card" data-category="cpu-gpu" data-stock="available">
-<div class="product-image">
-<img src="{{ url_for('static', filename='images/RTX3070TI.webp') }}" alt="RTX 3070TI Graphics Card">   <!-- RTX 3070TI-->
-<button class="add-button" aria-label="Add RTX 3070TI to cart">+</button>
-</div>
-<div class="product-info">
-<p>RTX 3070TI Graphics Card</p>
-<strong>$199</strong>
-</div>
-</article>   
-<article class="product-card" data-category="cpu-gpu" data-stock="available">
-<div class="product-image">
-<img src="{{ url_for('static', filename='images/SapphireNitro+.png') }}" alt="High-end RTX 4090 Graphics Card">   <!-- RX9070 XT-->
-<button class="add-button" aria-label="Add RX 9070XT to cart">+</button>
-</div>
-<div class="product-info">
-<p>Sapphire Nitro+ RX 9070XT Graphics Card</p>
-<strong>$199</strong>
-</div>
-</article>   
-<article class="product-card" data-category="cpu-gpu" data-stock="available">
-<div class="product-image">
-<img src="{{ url_for('static', filename='images/SapphireNitro+.png') }}" alt="High-end RTX 4090 Graphics Card">   <!-- RX9070 XT-->
-<button class="add-button" aria-label="Add RX 9070XT to cart">+</button>
-</div>
-<div class="product-info">
-<p>Sapphire Nitro+ RX 9070XT Graphics Card</p>
-<strong>$199</strong>
-</div>
-</article>                                                                                  
-<!--                         *****               END CPU/GPU CATEGORY          ****                             --> 
-<!--                         *****                  RAM CATEGORY          ****                             -->                    
-<article class="product-card" data-category="ram" data-stock="available">
-<div class="product-image">
-<img src="{{ url_for('static', filename='images/CORRAM32.jpg') }}" alt="32GB DDR5 Corsair RAM">                  <!-- CORSAIR 32GB RAM -->
-<button class="add-button" aria-label="Add Corsair RAM to cart">+</button>
-</div>
-<div class="product-info">
-<p>Corsair 32GB RAM</p>
-<strong>$89</strong>
-</div>
-</article>
-<!--                         *****                 END RAM CATEGORY          ****                             -->
-<!--                         *****                  PC CASES CATEGORY          ****                             -->
-<article class="product-card" data-category="cases" data-stock="available">
-<div class="product-image">
-<img src="{{ url_for('static', filename='images/LianLiCase.jpg') }}" alt="Lian Li Gaming PC Case">              <!-- LIAN LI PC CASE-->
-<button class="add-button" aria-label="Add Gaming Case to cart">+</button>
-</div>
-<div class="product-info">
-<p>Lian Li PC Case</p>
-<strong>$129</strong>
-</div>
-</article>
-<!--                         *****              END PC CASES CATEGORY          ****                             -->
-<!--                         *****              POWER SUPPLY CATEGORY          ****                             -->                                             
-<article class="product-card" data-category="powersupply" data-stock="available">
-<div class="product-image">
-<img src="{{ url_for('static', filename='images/CORPSU750.jpg') }}" alt="750W Modular Power Supply">            <!-- CORSAIR 750W PSU-->
-<button class="add-button" aria-label="Add 750W Power Supply to cart">+</button>
-</div>
-<div class="product-info">
-<p>Corsair 750W Power Supply</p>
-<strong>$99</strong>
-</div>
-</article>
-<!--                         *****           END POWER SUPPLY CATEGORY          ****                             -->
-<!--                         *****           KEYBOARD/MOUSE CATEGORY          ****                             -->                                               
-<article class="product-card" data-category="mice-keyboards" data-stock="available">
-<div class="product-image">
-<img src="{{ url_for('static', filename='images/KEYCHRONMECH.webp') }}" alt="Keychron Mechanical Keyboard">     <!-- KEYCHRON NO BACKLIT KEYBOARD -->
-<button class="add-button" aria-label="Add Keychron Keyboard to cart">+</button>
-</div>
-<div class="product-info">
-<p>Keychron K6 Non-Backlit Mechanical Keyboard</p>
-<strong>$119</strong>
-</div>
-</article>
-<!--                         *****            END KEYBOARD/MOUSE CATEGORY          ****                             -->
-<!--                         *****              MONITORS CATEGORY          ****                             -->                                               
-<article class="product-card" data-category="monitors" data-stock="out">
-<div class="product-image">
-<img src="{{ url_for('static', filename='images/SapphireNitro+.png') }}" alt="4K Gaming Monitor">
-<button class="add-button" aria-label="Add Monitor to cart">+</button>
-</div>
-<div class="product-info">
-<p>Gaming Monitor (Out of Stock)</p>
-<strong>$249</strong>
-</div>
-</article>
-<!--                         *****              END MONITOR CATEGORY          ****                             -->                     
-</div>
-</section>
-</main>
-</div>
-<!-- End of products grid -->
-<!-- Products JS linkage --> 
+        </main>
+    </div>
+    <!-- End of products grid -->
+    <!-- Products JS linkage -->
     <script src="../static/js/products.js"></script>
 </body>
 <!-- End of body -->
+
 </html>
- 
