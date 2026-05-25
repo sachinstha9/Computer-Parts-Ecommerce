@@ -152,8 +152,12 @@ header {
 }
 
 .header-item-list li {
-  color: black;
   font-size: 14px;
+}
+
+.header-item-list li a {
+  color: black;
+  text-decoration: none;
 }
 
 .header-item-list li:nth-child(1) {

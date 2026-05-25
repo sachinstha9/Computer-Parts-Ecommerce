@@ -10,7 +10,7 @@ CREATE TABLE "products" (
 	"img_sources"	TEXT,
 	"tags"	TEXT,
 	"price"	INTEGER,
-	"specifications"	REAL,
+	"specifications"	TEXT,
 	"availability"	INTEGER,
 	"in_banner"	INTEGER,
 	"company"	TEXT,

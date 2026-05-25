@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <!-- Start Head -->
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="../static/css/products.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Products | Galact</title>
+  </head>
+  <!-- End Head -->
+
+  <!-- Start Body -->
+
+  <body>
+    <div class="page">
+      <!-- Start Header -->
+      <header class="navbar">
+        <div class="nav-left">
+          <button class="menu-button" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <a href="#" class="nav-link">Home</a>
+          <a href="#" class="nav-link">Items</a>
+        </div>
+
+        <div class="nav-right">
+          <a href="#" class="icon-link" aria-label="View Wishlist">♡</a>
+          <a href="#" class="nav-link">Cart</a>
+          <a href="#" class="cart-icon" aria-label="View Shopping Bag">🛍</a>
+          <a href="#" class="icon-link" aria-label="User Profile">♙</a>
+        </div>
+      </header>
+      <!-- End Header -->
+
+      <main class="products-layout">
+        <!-- Products Sidebar -->
+        <aside class="sidebar">
+          <div class="sidebar-spacer"></div>
+
+          <section class="filter-box" aria-label="Stock availability filters">
+            <div class="filter-header">
+              <span>Status</span>
+              <span>⌃</span>
+            </div>
+
+            <label class="checkbox-row">
+              <input type="checkbox" data-stock-filter="available" />
+              <span>In Stock</span>
+              <small>(TBD)</small>
+            </label>
+
+            <label class="checkbox-row">
+              <input type="checkbox" data-stock-filter="out" />
+              <span>Out Of Stock</span>
+              <small>(TBD)</small>
+            </label>
+          </section>
+
+          <ul class="category-menu">
+            <li>
+              <button class="category-filter active" data-filter="all">
+                All Items <span>&gt;</span>
+              </button>
+            </li>
+
+            <li>
+              <button class="category-filter" data-filter="cpu-gpu">
+                CPU/GPU <span>&gt;</span>
+              </button>
+            </li>
+
+            <li>
+              <button class="category-filter" data-filter="ram">
+                RAM <span>&gt;</span>
+              </button>
+            </li>
+
+            <li>
+              <button class="category-filter" data-filter="cases">
+                Cases <span>&gt;</span>
+              </button>
+            </li>
+
+            <li>
+              <button class="category-filter" data-filter="powersupply">
+                Power Supply <span>&gt;</span>
+              </button>
+            </li>
+
+            <li>
+              <button class="category-filter" data-filter="mice-keyboards">
+                Peripherals <span>&gt;</span>
+              </button>
+            </li>
+
+            <li>
+              <button class="category-filter" data-filter="monitors">
+                Monitors <span>&gt;</span>
+              </button>
+            </li>
+          </ul>
+        </aside>
+        <!-- End Products Sidebar -->
+
+        <!-- Start Products Grid -->
+        <section class="products-main">
+          <div class="search-bar">
+            <span class="search-icon">⌕</span>
+
+            <input
+              class="product-search"
+              type="text"
+              placeholder="Search for hardware..."
+              aria-label="Search products"
+            />
+          </div>
+
+          <div class="product-grid">
+            <!-- CPU/GPU CATEGORY -->
+
+            {% for product in filtered_products %}
+            <article
+              class="product-card"
+              data-category="cpu-gpu"
+              data-stock="available"
+            >
+              <div class="product-image">
+                <img
+                  src="{{product.img_sources[0]}}"
+                  alt="RTX 4090 Graphics Card"
+                />
+
+                <button class="add-button" aria-label="Add RTX 4090 to cart">
+                  +
+                </button>
+              </div>
+
+              <div class="product-info">
+                <p>{{product.title}}</p>
+                <strong>${{product.price}}</strong>
+              </div>
+            </article>
+            {% endfor %}
+
+            <!-- END MONITOR CATEGORY -->
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Products JS linkage -->
+    <script src="../static/js/products.js"></script>
+  </body>
+  <!-- End Body -->
+</html>

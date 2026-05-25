@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="../static/css/home.css" />
     <link rel="stylesheet" href="../static/css/header.css" />
     <link rel="stylesheet" href="../static/css/carousel.css" />
+    <link rel="stylesheet" href="../static/css/footer.css" />
   </head>
   <body>
     <header>
@@ -116,25 +117,95 @@
               <div class="header-item-hover">
                 <ul class="header-item-list">
                   <li>By Series</li>
-                  <li>Business</li>
-                  <li>Gaming</li>
-                  <li>Mobile Workstations</li>
-                  <li>Home & Study</li>
-                  <li>2 in 1/Flip</li>
-                  <li>Thin & Light</li>
-                  <li>Copilot+</li>
-                  <li>Chromebooks</li>
+                  <li>
+                    <a
+                      href="{{ url_for('products', tags=['laptop', 'business'])}}"
+                      >Business</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="{{ url_for('products', tags=['laptop', 'gaming'])}}"
+                      >Gaming</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="{{ url_for('products', tags=['laptop', 'mobile workstations'])}}"
+                      >Mobile Workstations</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="{{ url_for('products', tags=['laptop', 'home & study'])}}"
+                      >Home & Study</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="{{ url_for('products', tags=['laptop', '2 in 1/Flip'])}}"
+                      >2 in 1/Flip</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="{{ url_for('products', tags=['laptop', 'Thin & Light'])}}"
+                      >Thin & Light</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="{{ url_for('products', tags=['laptop', 'Copilot+'])}}"
+                      >Copilot+</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="{{ url_for('products', tags=['laptop', 'Chromebooks'])}}"
+                      >Chromebooks</a
+                    >
+                  </li>
                 </ul>
 
                 <ul class="header-item-list">
                   <li>By Brand</li>
-                  <li>ASUS</li>
-                  <li>MSI</li>
-                  <li>HP</li>
-                  <li>Gigabyte</li>
-                  <li>Lenovo</li>
-                  <li>Dell</li>
-                  <li>Acer</li>
+                  <li>
+                    <a href="{{ url_for('products', tags=['laptop', 'asus'])}}"
+                      >ASUS</a
+                    >
+                  </li>
+                  <li>
+                    <a href="{{ url_for('products', tags=['laptop', 'msi'])}}"
+                      >MSI</a
+                    >
+                  </li>
+                  <li>
+                    <a href="{{ url_for('products', tags=['laptop', 'hp'])}}"
+                      >HP</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="{{ url_for('products', tags=['laptop', 'gigabyte'])}}"
+                      >Gigabyte</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="{{ url_for('products', tags=['laptop', 'lenovo'])}}"
+                      >Lenovo</a
+                    >
+                  </li>
+                  <li>
+                    <a href="{{ url_for('products', tags=['laptop', 'dell'])}}"
+                      >Dell</a
+                    >
+                  </li>
+                  <li>
+                    <a href="{{ url_for('products', tags=['laptop', 'acer'])}}"
+                      >Acer</a
+                    >
+                  </li>
                 </ul>
 
                 <div class="header-item-with-image">
@@ -162,61 +233,59 @@
 
               <div class="header-item-hover">
                 <ul class="header-item-list">
-                  <li>Graphics Cards</li>
-                  <li>Nvidia Geforce Graphics Card</li>
-                  <li>AMD Radeon Graphics Card</li>
-                  <li>Workstation Graphics Card</li>
-                  <li>Accessories</li>
+                  <li><a href="{{url_for('products', tags=['graphics cards'])}}">Graphics Cards</a></li>
+                  <li><a href="{{url_for('products', tags=['graphics cards', 'nvidia'])}}">Nvidia Geforce Graphics Card</a></li>
+                  <li><a href="{{url_for('products', tags=['graphics cards', 'amd'])}}">AMD Radeon Graphics Card</a></li>
+                  <li><a href="{{url_for('products', tags=['graphics cards', 'workstation'])}}">Workstation Graphics Card</a></li>
                 </ul>
 
                 <ul class="header-item-list">
-                  <li>CPUs/Processors</li>
-                  <li>AMD CPUs/Processors</li>
-                  <li>Intel CPUs/Processors</li>
-                  <li>Server CPUs/Processors</li>
+                  <li><a href="{{url_for('products', tags=['cpu'])}}">CPUs/Processors</a></li>
+                  <li><a href="{{url_for('products', tags=['cpu', 'amd'])}}">AMD CPUs/Processors</a></li>
+                  <li><a href="{{url_for('products', tags=['cpu', 'intel'])}}">Intel CPUs/Processors</a></li>
+                  <li><a href="{{url_for('products', tags=['cpu', 'server'])}}">Server CPUs/Processors</a></li>
                 </ul>
 
                 <ul class="header-item-list">
-                  <li>Motherboards</li>
-                  <li>AMD Motherboards</li>
-                  <li>Intel Motherboards</li>
-                  <li>Server Motherboards</li>
-                  <li>Workstation Motherboards</li>
+                  <li><a href="{{url_for('products', tags=['motherboard'])}}">Motherboards</a></li>
+                  <li><a href="{{url_for('products', tags=['motherboard', 'amd'])}}">AMD Motherboards</a></li>
+                  <li><a href="{{url_for('products', tags=['motherboard', 'intel'])}}">Intel Motherboards</a></li>
+                  <li><a href="{{url_for('products', tags=['motherboard', 'server'])}}">Server Motherboards</a></li>
+                  <li><a href="{{url_for('products', tags=['motherboard', 'workstation'])}}">Workstation Motherboards</a></li>
                 </ul>
 
                 <ul class="header-item-list">
-                  <li>Cases/Chasis</li>
-                  <li>PC Cases</li>
-                  <li>Server Cases</li>
+                  <li><a href="{{url_for('products', tags=['cases'])}}">Cases</a></li>
+                  <li><a href="{{url_for('products', tags=['cases', 'pc'])}}">PC Cases</a></li>
+                  <li><a href="{{url_for('products', tags=['cases', 'server'])}}">Server Cases</a></li>
                 </ul>
 
                 <ul class="header-item-list">
-                  <li>Memory/RAM</li>
-                  <li>Desktop Memory</li>
-                  <li>Laptop Memory</li>
-                  <li>Server Memory</li>
+                  <li><a href="{{url_for('products', or_tags=['memory', 'ram'])}}">Memory/RAM</a></li>
+                  <li><a href="{{url_for('products', tags=['desktop'], or_tags=['memory', 'ram'])}}">Desktop Memory</a></li>
+                  <li><a href="{{url_for('products', tags=['laptop'], or_tags=['memory', 'ram'])}}">Laptop Memory</a></li>
+                  <li><a href="{{url_for('products', tags=['server'], or_tags=['memory', 'ram'])}}">Server Memory</a></li>
                 </ul>
 
                 <ul class="header-item-list">
-                  <li>Power Supplies/PSU</li>
-                  <li>Power Supplies</li>
-                  <li>Sleeved Cables</li>
+                  <li><a href="{{url_for('products', or_tags=['power supplies', 'psu'])}}">Power Supplies/PSU</a></li>
+                  <li><a href="{{url_for('products', tags=['sleeved cables'], or_tags=['power supplies', 'psu'])}}">Sleeved Cables</a></li>
                 </ul>
 
                 <ul class="header-item-list">
-                  <li>Cooling</li>
-                  <li>CPU Air Coolers</li>
-                  <li>CPU AIO Watercoolers</li>
-                  <li>Custom Watercooling</li>
-                  <li>Thermal Compund</li>
-                  <li>Case Fans</li>
+                  <li><a href="{{url_for('products', or_tags=['cooler, cooling'])}}">Cooling</a></li>
+                  <li><a href="{{url_for('products', tags=['cpu air'], or_tags=['cooler', 'cooling'])}}">CPU Air Coolers</a></li>
+                  <li><a href="{{url_for('products', tags=['cpu aio'], or_tags=['cooler', 'cooling'])}}">CPU AIO Watercoolers</a></li>
+                  <li><a href="{{url_for('products', tags=['custom'], or_tags=['cooler', 'cooling'])}}">Custom Watercooling</a></li>
+                  <li><a href="{{url_for('products', tags=['thermal compound'], or_tags=['cooler', 'cooling'])}}">Thermal Compund</a></li>
+                  <li><a href="{{url_for('products', tags=['fans'], or_tags=['cooler', 'cooling'])}}">Case Fans</a></li>
                 </ul>
 
                 <ul class="header-item-list">
-                  <li>Storage</li>
-                  <li>Solid State Drives</li>
-                  <li>Hard Drives</li>
-                  <li>Optical Drives</li>
+                  <li><a href="{{url_for('products', tags=['storage'])}}">Storage</</li>
+                  <li><a href="{{url_for('products', tags=['storage'], or_tags=['ssd', 'solid state drive'])}}">Solid State Drives</a></li>
+                  <li><a href="{{url_for('products', tags=['storage'], or_tags=['hd', 'hard drive'])}}">Hard Drives</a></li>
+                  <li><a href="{{url_for('products', tags=['storage', 'optical drive'])}}">Optical Drives</a></li>
                 </ul>
               </div>
             </li>
@@ -446,6 +515,72 @@
       </section>
       {% endfor %}
     </main>
+
+    <footer>
+      <div id="footer-row-1">
+        <section id="footer-col-1" style="flex: 1.5">
+          <img src="../static/images/pb-logo-alt.svg" alt="" />
+
+          <p>
+            Providing Kiwis with state-of-the-art gaming and workstation PCs.
+          </p>
+
+          <ul id="footer-social-media-links">
+            <li>
+              <a href="#" target="_blank">
+                <i class="fa fa-facebook-official" aria-hidden="true"></i>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" target="_blank">
+                <i class="fa fa-youtube-play" aria-hidden="true"></i>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" target="_blank">
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" target="_blank">
+                <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+              </a>
+            </li>
+          </ul>
+        </section>
+        <ul id="footer-col-2">
+          <li>Help</li>
+          <li>Contact Us</li>
+          <li>Return & Warranties</li>
+          <li>Delivery</li>
+          <li>FInances</li>
+          <li>Price Match</li>
+        </ul>
+        <ul id="footer-col-3">
+          <li>Company</li>
+          <li>About Us</li>
+          <li>Gift Card</li>
+          <li>Careers</li>
+        </ul>
+        <section id="footer-col-4" style="flex: 1.5">
+          <p>Newsletter</p>
+          <p>Sign up for exclusive offers original stories, events and more.</p>
+          <span id="footer-email-wrapper">
+            <input type="email" placeholder="Enter you email" />
+            <button>
+              <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </button>
+          </span>
+        </section>
+      </div>
+
+      <div id="footer-row-2">
+        <p>&copy; 2026 All rights reserved.</p>
+      </div>
+    </footer>
   </body>
   <script src="../static/js/carousel.js"></script>
   <script src="../static/js/product-section.js"></script>

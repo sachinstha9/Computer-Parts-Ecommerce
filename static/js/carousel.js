@@ -23,7 +23,6 @@ carousel_indicators.forEach((indicator, i) => {
 update_carousel(0);
 
 let c_i = 1;
-
 setInterval(() => {
   update_carousel(c_i);
 
