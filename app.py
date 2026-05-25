@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import sqlite3
 import json
 
@@ -69,7 +69,36 @@ def index():
 
 @app.route('/products')
 def products():
-    return render_template("products.html")
+    tags = request.args.getlist('tags')
+    or_tags = request.args.getlist('or_tags')
+ 
+    conn = sqlite3.connect("computer-ecommerce.db")
+    c = conn.cursor()
+ 
+    sql_tag = ""
+    for tag in tags:
+        sql_tag += "tags LIKE '%" + tag + "%' AND "
+ 
+    if or_tags:
+        for i, tag in enumerate(or_tags):
+            if i == 0:
+                sql_tag += "(tags LIKE '%" + tag + "%' OR "
+            else:
+                sql_tag += "tags LIKE '%" + tag + "%' OR "
+ 
+        sql_tag = sql_tag[:-4]
+        sql_tag += ")"
+    else:
+        sql_tag = sql_tag[:-5]
+   
+    print(sql_tag)
+ 
+    c.execute("SELECT * FROM products WHERE " + sql_tag)
+ 
+    filtered_products = c.fetchall()
+    filtered_products = product_formatter(filtered_products)
+ 
+    return render_template("products.html", filtered_products=filtered_products)
 
 if __name__ == "__main__":
     app.run(debug=True)
