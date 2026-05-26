@@ -1,1 +1,103 @@
 <!-- Shopping Bag  -->
+<!doctype html>
+<html lang="en">
+  <!-- Start Head -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="../static/css/products.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/shoppingbag.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Shopping Bag | Galact</title>
+  </head>
+  <!-- End Head -->
+
+    <body>
+    <div class="page">
+      <!-- ================= HEADER ================= -->
+
+      <header class="navbar">
+        <div class="nav-left">
+          <button class="menu-button" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <a href="/" class="nav-link"> Home </a>
+
+          <a href="/products" class="nav-link"> Items </a>
+        </div>
+
+        <div class="nav-center">
+          <h2 class="logo">GALACT</h2>
+        </div>
+
+        <div class="nav-right">
+          <!-- Wishlist -->
+          <a href="/wishlist" class="icon-link" aria-label="Wishlist"> ♡ </a>
+
+          <!-- Cart -->
+          <div class="cart-wrapper">
+            <button
+              class="cart-icon"
+              type="button"
+              aria-label="Open cart preview"
+            >
+              🛍
+
+              <span class="cart-count"> 0 </span>
+            </button>
+
+            <div class="cart-dropdown">
+              <h3>Your Cart</h3>
+
+              <div class="cart-items">
+                <p class="empty-cart-message">Your cart is empty.</p>
+              </div>
+
+              <a href="/cart" class="checkout-button"> Checkout </a>
+            </div>
+          </div>
+
+          <!-- Profile -->
+          <a href="/profile" class="icon-link" aria-label="User Profile"> ♙ </a>
+        </div>
+      </header>
+
+      <!-- ================= HERO ================= -->
+
+      <section class="hero">
+        <div class="diagonal-hero-bg"></div>
+
+        <div class="hero-content">
+          <h1>SHOPPING CART</h1>
+
+          <p>
+            Review your items and proceed to checkout.
+          </p>
+        </div>
+      </section>
+
+  <div class="checkout">
+    <h2>Shopping Bag</h2>
+
+    <div class="cart-items">
+      <p>Your shopping bag is currently empty.</p>
+    </div>
+
+    <a href="/products" class="continue-shopping">Continue Shopping</a> 
+    
+
+  </div>
+</html>

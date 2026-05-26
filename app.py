@@ -100,5 +100,9 @@ def products():
  
     return render_template("products.html", filtered_products=filtered_products)
 
+@app.route('/shopping-cart')
+def shopping_cart():
+    return render_template("shoppingbag.html")
+
 if __name__ == "__main__":
     app.run(debug=True)

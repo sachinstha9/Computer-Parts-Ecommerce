@@ -6,7 +6,7 @@ header {
   background-color: rgb(48, 48, 48);
   position: relative;
 }
- 
+
 #header-container {
   max-width: var(--max-width);
   width: 100%;
@@ -14,31 +14,31 @@ header {
   flex-direction: column;
   row-gap: 20px;
 }
- 
+
 #first-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 }
- 
+
 #first-col-header {
   display: flex;
   gap: 30px;
   align-items: center;
 }
- 
+
 #first-col-header img {
   height: 20px;
 }
- 
+
 #first-col-header span {
   width: auto;
   height: 40px;
   display: inline-flex;
   background: white;
 }
- 
+
 #first-col-header span div {
   width: 25px;
   height: 100%;
@@ -47,13 +47,13 @@ header {
   justify-content: center;
   padding: 0 10px 0 20px;
 }
- 
+
 #first-col-header span div i {
   font-size: 12px;
   opacity: 0.7;
   color: black;
 }
- 
+
 #first-col-header span input {
   width: 550px;
   height: 100%;
@@ -62,13 +62,13 @@ header {
   outline: none;
   background-color: transparent;
 }
- 
+
 #second-col-header {
   display: flex;
   list-style: none;
   column-gap: 20px;
 }
- 
+
 #second-col-header li {
   display: flex;
   gap: 10px;
@@ -76,49 +76,49 @@ header {
   padding: 10px 15px;
   border-radius: 5px;
 }
- 
+
 #second-col-header li:hover {
   background: rgba(255, 255, 255, 0.3);
   cursor: pointer;
 }
- 
+
 #second-col-header li i {
   font-size: 18px;
   color: white;
 }
- 
+
 #second-col-header li p {
   color: white;
   font-size: 14px;
 }
- 
+
 #second-row {
   width: 100%;
   height: auto;
 }
- 
+
 #header-items-container {
   display: flex;
   list-style: none;
   gap: 20px;
 }
- 
+
 #header-items-container .header-item {
   padding: 10px 5px;
   color: white;
   border-bottom: 2px solid rgba(255, 255, 255, 0);
 }
- 
+
 #header-items-container .header-item:hover {
   border-bottom: 2px solid white;
 }
- 
+
 .header-item-title {
   display: flex;
   cursor: pointer;
   gap: 10px;
 }
- 
+
 .header-item-hover {
   position: absolute;
   z-index: 10;
@@ -136,11 +136,11 @@ header {
   max-height: 60vh;
   overflow-y: scroll;
 }
- 
+
 #second-row ul li:hover .header-item-hover {
   display: flex;
 }
- 
+
 .header-item-list {
   list-style: none;
   color: black;
@@ -150,16 +150,16 @@ header {
   gap: 10px;
   margin-right: 50px;
 }
- 
+
 .header-item-list li {
   font-size: 14px;
 }
- 
+
 .header-item-list li a {
   color: black;
   text-decoration: none;
 }
- 
+
 .header-item-list li:nth-child(1) {
   padding: 0 0 10px 0;
   margin: 0 0 5px 0;
@@ -168,7 +168,7 @@ header {
   font-weight: 500;
   font-size: 18px;
 }
- 
+
 .header-item-with-image {
   width: 250px;
   align-items: center;
@@ -177,7 +177,7 @@ header {
   gap: 10px;
   margin-right: 30px;
 }
- 
+
 .header-item-with-image img {
   width: 100%;
 }
