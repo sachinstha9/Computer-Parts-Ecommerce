@@ -1,13 +1,11 @@
-<!-- Shopping Bag  -->
 <!doctype html>
 <html lang="en">
-  <!-- Start Head -->
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" type="text/css" href="../static/css/products.css" />
-    <link rel="stylesheet" type="text/css" href="../static/css/shoppingbag.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
 
@@ -18,14 +16,11 @@
       rel="stylesheet"
     />
 
-    <title>Shopping Bag | Galact</title>
+    <title>Shopping Cart | Galact</title>
   </head>
-  <!-- End Head -->
 
-    <body>
+  <body>
     <div class="page">
-      <!-- ================= HEADER ================= -->
-
       <header class="navbar">
         <div class="nav-left">
           <button class="menu-button" aria-label="Toggle mobile menu">
@@ -34,70 +29,118 @@
             <span></span>
           </button>
 
-          <a href="/" class="nav-link"> Home </a>
+          <a href="/" class="nav-link">Home</a>
 
-          <a href="/products" class="nav-link"> Items </a>
+          <a href="/products" class="nav-link">Items</a>
         </div>
 
         <div class="nav-center">
-          <h2 class="logo">GALACT</h2>
+          <a href="/" class="logo-link">
+            <img
+              src="../static/images/galact.png"
+              alt="Galact Logo"
+              class="logo-image"
+            />
+          </a>
         </div>
 
         <div class="nav-right">
-          <!-- Wishlist -->
-          <a href="/wishlist" class="icon-link" aria-label="Wishlist"> ♡ </a>
+          <a href="/wishlist" class="icon-link" aria-label="Wishlist">♡</a>
 
-          <!-- Cart -->
           <div class="cart-wrapper">
-            <button
+            <a
+              href="/shopping-cart"
               class="cart-icon"
-              type="button"
-              aria-label="Open cart preview"
+              aria-label="Shopping cart"
             >
               🛍
-
-              <span class="cart-count"> 0 </span>
-            </button>
-
-            <div class="cart-dropdown">
-              <h3>Your Cart</h3>
-
-              <div class="cart-items">
-                <p class="empty-cart-message">Your cart is empty.</p>
-              </div>
-
-              <a href="/cart" class="checkout-button"> Checkout </a>
-            </div>
+              <span class="cart-count">{{ cart_count }}</span>
+            </a>
           </div>
 
-          <!-- Profile -->
-          <a href="/profile" class="icon-link" aria-label="User Profile"> ♙ </a>
+          <a href="/profile" class="icon-link" aria-label="User Profile">♙</a>
         </div>
       </header>
-
-      <!-- ================= HERO ================= -->
 
       <section class="hero">
         <div class="diagonal-hero-bg"></div>
 
         <div class="hero-content">
-          <h1>SHOPPING CART</h1>
+          <h1>YOUR SHOPPING CART</h1>
 
           <p>
-            Review your items and proceed to checkout.
+            Review your selected hardware, check your totals, and continue
+            securely to checkout.
           </p>
         </div>
       </section>
 
-  <div class="checkout">
-    <h2>Shopping Bag</h2>
+      <main class="checkout-page">
+        <p class="checkout-label">Checkout</p>
 
-    <div class="cart-items">
-      <p>Your shopping bag is currently empty.</p>
+        <section class="checkout-container">
+          <div class="checkout-items">
+            <div class="checkout-line"></div>
+
+            <div class="checkout-products">
+              {% if cart_items %} {% for item in cart_items %}
+              <article class="checkout-product">
+                <img src="{{ item.img_sources[0] }}" alt="{{ item.title }}" />
+
+                <div class="checkout-product-info">
+                  <h3>{{ item.title }}</h3>
+
+                  <p>${{ "%.2f"|format(item.price) }}</p>
+
+                  <p>Quantity: {{ item.quantity }}</p>
+
+                  <form action="/remove-from-cart/{{ item.id }}" method="POST">
+                    <button class="remove-product" type="submit">Remove</button>
+                  </form>
+                </div>
+              </article>
+              {% endfor %} {% else %}
+
+              <p class="empty-checkout-message">
+                Your shopping cart is currently empty.
+              </p>
+
+              {% endif %}
+            </div>
+
+            <div class="checkout-line"></div>
+          </div>
+
+          <aside class="order-summary">
+            <h2>Order Summary</h2>
+
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <span class="subtotal-price">$0.00</span>
+            </div>
+
+            <div class="summary-row">
+              <span>Shipping</span>
+              <span class="shipping-price">$0.00</span>
+            </div>
+
+            <div class="summary-row total-row">
+              <span>TOTAL</span>
+              <span class="total-price">$0.00</span>
+            </div>
+
+            <label class="terms-row">
+              <input type="checkbox" />
+
+              <span>I agree to the Terms and Conditions</span>
+            </label>
+
+            <button class="continue-button">CONTINUE</button>
+          </aside>
+        </section>
+      </main>
     </div>
+  </body>
 
-    <a href="/products" class="continue-shopping">Continue Shopping</a> 
-    
-
-  </div>
+  <script src="../static/js/shoppingbag.js"></script>
 </html>
