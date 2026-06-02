@@ -8,14 +8,14 @@ body {
   display: flex;
   flex-direction: column;
   margin: 0;
-  justify-content: center;
+  justify-content: flex-start; /* Changed from center to flex-start */
   align-items: center;
   min-height: 100vh;
   background-color: #282828;
 }
 .login-box {
   display: flex;
-  justify-content: center;  
+  justify-content: center;
   flex-direction: column;
   width: 440px;
   height: 480px;
