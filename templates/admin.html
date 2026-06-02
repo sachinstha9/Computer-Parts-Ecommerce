@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin | Galact</title>
+  </head>
+  <body>
+    <h2>Add Products</h2>
+
+    <form action="/add_products" method="post">
+      <label for="title">Title</label>
+      <br />
+      <input type="text" name="title" id="title" />
+
+      <br />
+
+      <label for="description">Description</label>
+      <br />
+      <textarea name="description" id="description"></textarea>
+
+      <br />
+
+      <label for="image-uploader">Choose your images:</label>
+      <br />
+      <input
+        type="file"
+        id="image-uploader"
+        name="images[]"
+        accept="image/*"
+        multiple
+      />
+
+      <br />
+
+      <label for="tags">Tags (seperate using comma)</label>
+      <br />
+      <input type="text" name="tags" id="tags" />
+
+      <br />
+
+      <label for="price">Price</label>
+      <br />
+      <input type="text" name="price" id="price" />
+
+      <br />
+
+      <label for="specifications"
+        >Specifications (Enter in json format. example {'processor': 'Intel Core
+        i9-14900HX', 'ram': '32GB DDR5', 'storage': '1TB SSD', 'gpu': 'NVIDIA
+        RTX 4080', 'display': '16-inch QHD 240Hz', 'battery': '90Wh', 'os':
+        'Windows 11'})</label
+      >
+      <br />
+      <textarea name="specifications" id="specifications"></textarea>
+
+      <br />
+
+      <label for="availability">Availability (Must be 0 or 1)</label>
+      <br />
+      <input
+        type="text"
+        maxlength="1"
+        oninput="this.value = this.value.replace(/[^0-1]/g, '')"
+        placeholder="0 or 1"
+        name="availability"
+        id="availability"
+      />
+
+      <br />
+
+      <label for="in_banner">In Banner (Must be 0 or 1)</label>
+      <br />
+      <input
+        type="text"
+        maxlength="1"
+        oninput="this.value = this.value.replace(/[^0-1]/g, '')"
+        placeholder="0 or 1"
+        name="in_banner"
+        id="in_banner"
+      />
+
+      <br />
+
+      <label for="company">Company</label>
+      <br />
+      <input type="text" name="company" id="company" />
+
+      <br />
+
+      <input type="submit" value="submit" />
+    </form>
+  </body>
+</html>
