@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../static/css/login.css" />
+    <link rel="stylesheet" href="../static/css/products.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,6 +17,63 @@
     <title>Login | Galact</title>
   </head>
   <body>
+    <!-- ================= HEADER ================= -->
+
+    <header class="navbar">
+      <div class="nav-left">
+        <button class="menu-button" aria-label="Toggle mobile menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <a href="/" class="nav-link"> Home </a>
+
+        <a href="/products" class="nav-link"> Items </a>
+      </div>
+
+      <div class="nav-center">
+        <a href="/" class="logo-link">
+          <img
+            src="../static/images/galact.png"
+            alt="Galact Logo"
+            class="logo-image"
+          />
+        </a>
+      </div>
+
+      <div class="nav-right">
+        <!-- Wishlist -->
+        <a href="/wishlist" class="icon-link" aria-label="Wishlist"> ♡ </a>
+
+        <!-- Cart -->
+        <div class="cart-wrapper">
+          <button
+            class="cart-icon"
+            type="button"
+            aria-label="Open cart preview"
+          >
+            🛍
+
+            <span class="cart-count"> 0 </span>
+          </button>
+
+          <div class="cart-dropdown">
+            <h3>Your Cart</h3>
+
+            <div class="cart-items">
+              <p class="empty-cart-message">Your cart is empty.</p>
+            </div>
+
+            <a href="/shopping-cart" class="checkout-button"> Checkout </a>
+          </div>
+        </div>
+
+        <!-- Profile -->
+        <a href="/login" class="icon-link" aria-label="User Profile"> ♙ </a>
+      </div>
+    </header>
+
     <!-- ================= HERO ================= -->
 
     <section class="hero">
@@ -24,15 +82,12 @@
       <div class="hero-content">
         <h1>LOGIN</h1>
 
-        <p>
-          Login or create an account!
-        </p>
+        <p>Login or create an account!</p>
       </div>
     </section>
 
     <div class="login-box">
-      <div class="login-header">
-      </div>
+      <div class="login-header"></div>
       <div class="input-box">
         <input
           type="text"
