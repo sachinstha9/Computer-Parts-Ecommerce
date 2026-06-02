@@ -1,45 +1,52 @@
-header {
-  padding: 30px 50px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgb(48, 48, 48);
-  position: relative;
-}
-
-#header-container {
-  max-width: var(--max-width);
+.navbar {
   width: 100%;
+  height: auto;
+  padding: 30px 50px 0;
+  background: #1f1f1f;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  gap: 15px;
+  position: relative;
 }
 
 #first-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
 }
 
-#first-col-header {
+.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+}
+
+.nav-right {
+  justify-content: flex-end;
+}
+
+.nav-left {
   display: flex;
   gap: 30px;
   align-items: center;
 }
 
-#first-col-header img {
+.nav-left img {
   height: 30px;
 }
 
-#first-col-header span {
+.nav-left span {
   width: auto;
   height: 40px;
   display: inline-flex;
   background: white;
 }
 
-#first-col-header span div {
+.nav-left span div {
   width: 25px;
   height: 100%;
   display: flex;
@@ -48,14 +55,14 @@ header {
   padding: 0 10px 0 20px;
 }
 
-#first-col-header span div i {
+.nav-left span div i {
   font-size: 12px;
   opacity: 0.7;
   color: black;
 }
 
-#first-col-header span input {
-  width: 550px;
+.nav-left span input {
+  width: 650px;
   height: 100%;
   padding: 0 10px 0 5px;
   border: none;
@@ -63,33 +70,56 @@ header {
   background-color: transparent;
 }
 
-#second-col-header {
-  display: flex;
-  list-style: none;
-  column-gap: 20px;
+.logo {
+  font-size: 1.3rem;
+
+  letter-spacing: 6px;
+
+  font-style: italic;
 }
 
-#second-col-header li {
-  display: flex;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.2);
-  padding: 10px 15px;
-  border-radius: 5px;
+.nav-link {
+  font-size: 0.85rem;
+
+  font-style: italic;
+
+  letter-spacing: 3px;
+
+  transition: 0.25s;
 }
 
-#second-col-header li:hover {
-  background: rgba(255, 255, 255, 0.3);
-  cursor: pointer;
+.nav-link:hover {
+  color: #7b7cff;
 }
 
-#second-col-header li i {
-  font-size: 18px;
-  color: white;
+.icon-link {
+  font-size: 1.4rem;
+
+  transition: 0.25s;
 }
 
-#second-col-header li p {
-  color: white;
-  font-size: 14px;
+.icon-link:hover {
+  transform: scale(1.15);
+}
+
+.cart-icon {
+  width: 42px;
+  height: 42px;
+
+  border-radius: 50%;
+
+  background: white;
+
+  color: black;
+
+  display: grid;
+  place-items: center;
+
+  transition: 0.25s;
+}
+
+.cart-icon:hover {
+  transform: scale(1.08);
 }
 
 #second-row {
