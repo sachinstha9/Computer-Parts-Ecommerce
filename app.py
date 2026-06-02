@@ -232,6 +232,37 @@ def add_product():
 
             uploaded_urls.append(result["secure_url"])
 
+    conn = sqlite3.connect("computer-ecommerce.db")
+    c = conn.cursor()
+
+    c.execute("""
+        INSERT INTO products (
+            title,
+            description,
+            img_sources,
+            tags,
+            price,
+            specifications,
+            availability,
+            in_banner,
+            company
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        title,
+        description,
+        json.dumps(uploaded_urls),  # store list as JSON string
+        tags,
+        price,
+        specifications,            # JSON string if applicable
+        availability,
+        int(in_banner),
+        company
+    ))
+
+    conn.commit()
+    conn.close()
+
     return uploaded_urls
 
 if __name__ == "__main__":
