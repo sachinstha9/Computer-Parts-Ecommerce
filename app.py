@@ -1,8 +1,18 @@
 from flask import Flask, render_template, request, redirect
 import sqlite3
 import json
+import cloudinary
+import cloudinary.uploader
+import os
 
 app = Flask(__name__)
+
+# cloudinary setup
+cloudinary.config(
+    cloud_name=os.getenv("CLOUD_NAME"),
+    api_key=os.getenv("API_KEY"),
+    api_secret=os.getenv("API_SECRET")
+)
 
 
 def product_formatter(products):
@@ -19,8 +29,7 @@ def product_formatter(products):
             "specifications": json.loads(product[6]),
             "availability": product[7],
             "in_banner": product[8],
-            "company": product[9],
-            "main_category": product[10],
+            "company": product[9]
         })
 
     return formatted_products
@@ -202,6 +211,28 @@ def login():
 @app.route('/admin')
 def admin():
     return render_template("admin.html")
+
+@app.route("/add_product", methods=["POST", "GET"])
+def add_product():
+    title = request.form["title"]
+    description = request.form["description"]
+    images = request.files.getlist("images[]")
+    tags = request.form["tags"]
+    price = request.form["price"]
+    specifications = request.form["specifications"]
+    availability = request.form["availability"]
+    in_banner = request.form["in_banner"]
+    company = request.form["company"]
+
+    uploaded_urls = []
+
+    for image in images:
+        if image.filename:
+            result = cloudinary.uploader.upload(image)
+
+            uploaded_urls.append(result["secure_url"])
+
+    return uploaded_urls
 
 if __name__ == "__main__":
     app.run(debug=True)
