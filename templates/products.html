@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en">
   <!-- Start Head -->
-
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,7 +8,9 @@
     <link rel="stylesheet" type="text/css" href="../static/css/products.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <link
       href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap"
       rel="stylesheet"
@@ -19,11 +20,10 @@
   </head>
   <!-- End Head -->
 
-  <!-- Start Body -->
-
   <body>
     <div class="page">
-      <!-- Start Header -->
+      <!-- ================= HEADER ================= -->
+
       <header class="navbar">
         <div class="nav-left">
           <button class="menu-button" aria-label="Toggle mobile menu">
@@ -32,18 +32,67 @@
             <span></span>
           </button>
 
-          <a href="#" class="nav-link">Home</a>
-          <a href="#" class="nav-link">Items</a>
+          <a href="/" class="nav-link"> Home </a>
+
+          <a href="/products" class="nav-link"> Items </a>
+        </div>
+
+        <div class="nav-center">
+          <a href="/" class="logo-link">
+            <img
+              src="../static/images/galact.png"
+              alt="Galact Logo"
+              class="logo-image"
+            />
+          </a>
         </div>
 
         <div class="nav-right">
-          <a href="#" class="icon-link" aria-label="View Wishlist">♡</a>
-          <a href="#" class="nav-link">Cart</a>
-          <a href="#" class="cart-icon" aria-label="View Shopping Bag">🛍</a>
-          <a href="#" class="icon-link" aria-label="User Profile">♙</a>
+          <!-- Wishlist -->
+          <a href="/wishlist" class="icon-link" aria-label="Wishlist"> ♡ </a>
+
+          <!-- Cart -->
+          <div class="cart-wrapper">
+            <button
+              class="cart-icon"
+              type="button"
+              aria-label="Open cart preview"
+            >
+              🛍
+
+              <span class="cart-count"> 0 </span>
+            </button>
+
+            <div class="cart-dropdown">
+              <h3>Your Cart</h3>
+
+              <div class="cart-items">
+                <p class="empty-cart-message">Your cart is empty.</p>
+              </div>
+
+              <a href="/shopping-cart" class="checkout-button"> Checkout </a>
+            </div>
+          </div>
+
+          <!-- Profile -->
+          <a href="/login" class="icon-link" aria-label="User Profile"> ♙ </a>
         </div>
       </header>
-      <!-- End Header -->
+
+      <!-- ================= HERO ================= -->
+
+      <section class="hero">
+        <div class="diagonal-hero-bg"></div>
+
+        <div class="hero-content">
+          <h1>BUILD YOUR DREAM PC</h1>
+
+          <p>
+            Browse premium PC hardware, gaming peripherals, and high performance
+            components.
+          </p>
+        </div>
+      </section>
 
       <main class="products-layout">
         <!-- Products Sidebar -->
@@ -75,37 +124,31 @@
                 All Items <span>&gt;</span>
               </button>
             </li>
-
             <li>
               <button class="category-filter" data-filter="cpu-gpu">
                 CPU/GPU <span>&gt;</span>
               </button>
             </li>
-
             <li>
               <button class="category-filter" data-filter="ram">
                 RAM <span>&gt;</span>
               </button>
             </li>
-
             <li>
               <button class="category-filter" data-filter="cases">
                 Cases <span>&gt;</span>
               </button>
             </li>
-
             <li>
               <button class="category-filter" data-filter="powersupply">
                 Power Supply <span>&gt;</span>
               </button>
             </li>
-
             <li>
               <button class="category-filter" data-filter="mice-keyboards">
                 Peripherals <span>&gt;</span>
               </button>
             </li>
-
             <li>
               <button class="category-filter" data-filter="monitors">
                 Monitors <span>&gt;</span>
@@ -119,7 +162,6 @@
         <section class="products-main">
           <div class="search-bar">
             <span class="search-icon">⌕</span>
-
             <input
               class="product-search"
               type="text"
@@ -128,9 +170,8 @@
             />
           </div>
 
+          <!--                         *****                  PRODUCT CATEGORY          ****                             -->
           <div class="product-grid">
-            <!-- CPU/GPU CATEGORY -->
-
             {% for product in filtered_products %}
             <article
               class="product-card"
@@ -143,9 +184,9 @@
                   alt="RTX 4090 Graphics Card"
                 />
 
-                <button class="add-button" aria-label="Add RTX 4090 to cart">
-                  +
-                </button>
+                <form action="/add-to-cart/{{ product.id }}" method="POST">
+                  <button class="add-button" type="submit">+</button>
+                </form>
               </div>
 
               <div class="product-info">
@@ -154,15 +195,13 @@
               </div>
             </article>
             {% endfor %}
-
-            <!-- END MONITOR CATEGORY -->
           </div>
         </section>
       </main>
     </div>
-
+    <!-- End of products grid -->
     <!-- Products JS linkage -->
     <script src="../static/js/products.js"></script>
   </body>
-  <!-- End Body -->
+  <!-- End of body -->
 </html>

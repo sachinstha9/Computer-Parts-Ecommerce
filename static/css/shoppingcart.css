@@ -1,0 +1,188 @@
+.checkout,
+.checkout * {
+  box-sizing: border-box;
+}
+.checkout {
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.97);
+  border-width: 0.0625rem;
+  height: 45.5625rem;
+  position: relative;
+}
+.checkout-bgd {
+  background: rgba(0, 0, 0, 0);
+  width: 70.0625rem;
+  height: 45.5625rem;
+  position: absolute;
+  left: 0rem;
+  top: 0rem;
+}
+.order-summary-box {
+  background: rgba(217, 217, 217, 0);
+  border-style: solid;
+  border-color: #ffffff;
+  border-width: 0.0625rem;
+  width: 17.5625rem;
+  height: 20.1875rem;
+  position: absolute;
+  left: 48.25rem;
+  top: 12.25rem;
+}
+.shopping-bag-preview-line-break {
+  margin-top: -0.0625rem;
+  border-style: solid;
+  border-color: #ffffff;
+  border-width: 0.0625rem 0 0 0;
+  width: 34.8125rem;
+  height: 0rem;
+  position: absolute;
+  left: 3.5625rem;
+  top: 9.5rem;
+}
+.shopping-bag-preview-line-break2 {
+  margin-top: -0.0625rem;
+  border-style: solid;
+  border-color: #ffffff;
+  border-width: 0.0625rem 0 0 0;
+  width: 34.8125rem;
+  height: 0rem;
+  position: absolute;
+  left: 3.5625rem;
+  top: 34.125rem;
+}
+.products-boxes {
+  background: #d9d9d9;
+  width: 14.3125rem;
+  height: 14.3125rem;
+  position: absolute;
+  left: 4.625rem;
+  top: 14.6875rem;
+}
+.products-boxes2 {
+  background: #d9d9d9;
+  width: 14.3125rem;
+  height: 14.3125rem;
+  position: absolute;
+  left: 22.8125rem;
+  top: 14.6875rem;
+}
+.order-summary {
+  color: #ffffff;
+  text-align: left;
+  font-family: "FiraCode-Regular", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  position: absolute;
+  left: 53.125rem;
+  top: 13.375rem;
+}
+.subtotal {
+  color: #ffffff;
+  text-align: left;
+  font-family: "FiraCode-Regular", sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  position: absolute;
+  left: 51.125rem;
+  top: 15.9375rem;
+}
+.shipping {
+  color: #ffffff;
+  text-align: left;
+  font-family: "FiraCode-Regular", sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  position: absolute;
+  left: 51.125rem;
+  top: 17.75rem;
+}
+._0-00 {
+  color: #ffffff;
+  text-align: left;
+  font-family: "FiraCode-Regular", sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  position: absolute;
+  left: 59.6875rem;
+  top: 15.9375rem;
+}
+._0-002 {
+  color: #ffffff;
+  text-align: left;
+  font-family: "FiraCode-Regular", sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  position: absolute;
+  left: 59.6875rem;
+  top: 17.75rem;
+}
+._0-003 {
+  color: #ffffff;
+  text-align: left;
+  font-family: "FiraCode-Regular", sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  position: absolute;
+  left: 59.6875rem;
+  top: 22.875rem;
+}
+.line-1 {
+  margin-top: -0.0625rem;
+  border-style: solid;
+  border-color: #ffffff;
+  border-width: 0.0625rem 0 0 0;
+  width: 13.6875rem;
+  height: 0rem;
+  position: absolute;
+  left: 50.1875rem;
+  top: 19.875rem;
+}
+.total {
+  color: #ffffff;
+  text-align: left;
+  font-family: "FiraCode-Regular", sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  position: absolute;
+  left: 51.125rem;
+  top: 22.75rem;
+}
+.rectangle-1 {
+  background: rgba(217, 217, 217, 0);
+  border-style: solid;
+  border-color: #ffffff;
+  border-width: 0.0625rem;
+  width: 1.125rem;
+  height: 1.125rem;
+  position: absolute;
+  left: 49.625rem;
+  top: 26rem;
+}
+.i-agree-to-the-terms-and-conditions {
+  color: #ffffff;
+  text-align: left;
+  font-family: "FiraCode-Regular", sans-serif;
+  font-size: 0.625rem;
+  font-weight: 400;
+  position: absolute;
+  left: 51.125rem;
+  top: 26.125rem;
+}
+.rectangle-2 {
+  background: #d9d9d9;
+  width: 9.6875rem;
+  height: 2.5625rem;
+  position: absolute;
+  left: 52rem;
+  top: 28.25rem;
+}
+.continue {
+  color: #000000;
+  text-align: left;
+  font-family: "FiraCode-Regular", sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  position: absolute;
+  left: 55.0625rem;
+  top: 29rem;
+}

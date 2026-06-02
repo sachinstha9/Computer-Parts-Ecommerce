@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="../static/css/products.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Shopping Cart | Galact</title>
+  </head>
+
+  <body>
+    <div class="page">
+      <header class="navbar">
+        <div class="nav-left">
+          <button class="menu-button" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <a href="/" class="nav-link">Home</a>
+
+          <a href="/products" class="nav-link">Items</a>
+        </div>
+
+        <div class="nav-center">
+          <a href="/" class="logo-link">
+            <img
+              src="../static/images/galact.png"
+              alt="Galact Logo"
+              class="logo-image"
+            />
+          </a>
+        </div>
+
+        <div class="nav-right">
+          <a href="/wishlist" class="icon-link" aria-label="Wishlist">♡</a>
+
+          <div class="cart-wrapper">
+            <a
+              href="/shopping-cart"
+              class="cart-icon"
+              aria-label="Shopping cart"
+            >
+              🛍
+              <span class="cart-count">{{ cart_count }}</span>
+            </a>
+          </div>
+
+          <a href="/profile" class="icon-link" aria-label="User Profile">♙</a>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="diagonal-hero-bg"></div>
+
+        <div class="hero-content">
+          <h1>YOUR SHOPPING CART</h1>
+
+          <p>
+            Review your selected hardware, check your totals, and continue
+            securely to checkout.
+          </p>
+        </div>
+      </section>
+
+      <main class="checkout-page">
+        <p class="checkout-label">Checkout</p>
+
+        <section class="checkout-container">
+          <div class="checkout-items">
+            <div class="checkout-line"></div>
+
+            <div class="checkout-products">
+              {% if cart_items %} {% for item in cart_items %}
+              <article class="checkout-product">
+                <img src="{{ item.img_sources[0] }}" alt="{{ item.title }}" />
+
+                <div class="checkout-product-info">
+                  <h3>{{ item.title }}</h3>
+
+                  <p>${{ "%.2f"|format(item.price) }}</p>
+
+                  <p>Quantity: {{ item.quantity }}</p>
+
+                  <form action="/remove-from-cart/{{ item.id }}" method="POST">
+                    <button class="remove-product" type="submit">Remove</button>
+                  </form>
+                </div>
+              </article>
+              {% endfor %} {% else %}
+
+              <p class="empty-checkout-message">
+                Your shopping cart is currently empty.
+              </p>
+
+              {% endif %}
+            </div>
+
+            <div class="checkout-line"></div>
+          </div>
+
+          <aside class="order-summary">
+            <h2>Order Summary</h2>
+
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <span class="subtotal-price">$0.00</span>
+            </div>
+
+            <div class="summary-row">
+              <span>Shipping</span>
+              <span class="shipping-price">$0.00</span>
+            </div>
+
+            <div class="summary-row total-row">
+              <span>TOTAL</span>
+              <span class="total-price">$0.00</span>
+            </div>
+
+            <label class="terms-row">
+              <input type="checkbox" />
+
+              <span>I agree to the Terms and Conditions</span>
+            </label>
+
+            <button class="continue-button">CONTINUE</button>
+          </aside>
+        </section>
+      </main>
+    </div>
+  </body>
+
+  <script src="../static/js/shoppingbag.js"></script>
+</html>
