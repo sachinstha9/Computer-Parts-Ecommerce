@@ -263,7 +263,7 @@ def add_product():
     conn.commit()
     conn.close()
 
-    return uploaded_urls
+    return "product added successsfully."
 
 if __name__ == "__main__":
     app.run(debug=True)
