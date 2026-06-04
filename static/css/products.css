@@ -10,45 +10,9 @@ a {
   text-decoration: none;
 }
 
-
-
 .page {
   width: 100%;
   min-height: 100vh;
-}
-
-/**************** MENU BUTTON ****************/
-
-.menu-button {
-  width: 30px;
-  height: 22px;
-
-  border: none;
-  background: none;
-
-  cursor: pointer;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.menu-button span {
-  height: 2px;
-  background: white;
-  display: block;
-}
-
-.menu-button span:nth-child(1) {
-  width: 30px;
-}
-
-.menu-button span:nth-child(2) {
-  width: 22px;
-}
-
-.menu-button span:nth-child(3) {
-  width: 14px;
 }
 
 /**************** HERO ****************/
@@ -208,106 +172,6 @@ a {
   }
 }
 
-/**************** PRODUCTS LAYOUT ****************/
-
-.products-layout {
-  width: 100%;
-
-  display: grid;
-
-  grid-template-columns:
-    310px
-    minmax(0, 1fr);
-
-  gap: 40px;
-
-  padding: 45px 45px 0;
-}
-
-.sidebar {
-  width: 270px;
-}
-
-.sidebar-spacer {
-  height: 35px;
-}
-
-/**************** FILTER ****************/
-
-.filter-box {
-  border-top: 1px dotted #bbb;
-
-  border-bottom: 1px dotted #bbb;
-
-  padding: 22px 0;
-
-  margin-bottom: 4px;
-}
-
-.filter-header {
-  display: flex;
-
-  justify-content: space-between;
-
-  margin-bottom: 18px;
-}
-
-.checkbox-row {
-  display: flex;
-
-  gap: 10px;
-
-  align-items: center;
-
-  margin: 12px 0;
-
-  cursor: pointer;
-}
-
-.checkbox-row input {
-  width: 20px;
-  height: 20px;
-}
-
-.checkbox-row small {
-  color: #6679ff;
-}
-
-.category-menu {
-  list-style: none;
-}
-
-.category-menu li {
-  border-bottom: 1px dotted #bbb;
-}
-
-.category-filter {
-  width: 100%;
-
-  background: none;
-
-  border: none;
-
-  color: white;
-
-  padding: 15px 0;
-
-  display: flex;
-
-  justify-content: space-between;
-
-  cursor: pointer;
-
-  letter-spacing: 2px;
-
-  font-style: italic;
-}
-
-.category-filter:hover,
-.category-filter.active {
-  color: #7b7cff;
-}
-
 /**************** PRODUCTS ****************/
 
 .products-main {
@@ -316,15 +180,10 @@ a {
 
 .search-bar {
   width: 360px;
-
   height: 50px;
-
   background: #ddd;
-
   display: flex;
-
   align-items: center;
-
   margin-bottom: 35px;
 }
 
