@@ -251,10 +251,10 @@ def add_product():
     """, (
         title,
         description,
-        json.dumps(uploaded_urls),  # store list as JSON string
+        json.dumps(uploaded_urls),  
         tags,
         price,
-        specifications,            # JSON string if applicable
+        specifications, 
         availability,
         int(in_banner),
         company

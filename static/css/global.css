@@ -2,9 +2,23 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Fira Code", monospace;
 }
 
 :root {
   --max-width: 1440px;
+}
+
+body {
+  min-height: 100vh;
+  font-weight: 500;
+  color: white;
+
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), #282828;
+}
+
+button,
+input {
+  font-family: inherit;
 }
