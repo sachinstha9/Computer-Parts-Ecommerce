@@ -157,32 +157,6 @@ def products():
     )
 
 
-@app.route("/add-to-cart/<int:product_id>", methods=["POST"])
-def add_to_cart(product_id):
-    create_cart_table()
-
-    conn = sqlite3.connect("computer-ecommerce.db")
-    c = conn.cursor()
-
-    c.execute("SELECT * FROM cart WHERE product_id = ?", (product_id,))
-    existing_item = c.fetchone()
-
-    if existing_item:
-        c.execute(
-            "UPDATE cart SET quantity = quantity + 1 WHERE product_id = ?",
-            (product_id,)
-        )
-    else:
-        c.execute(
-            "INSERT INTO cart (product_id, quantity) VALUES (?, ?)",
-            (product_id, 1)
-        )
-
-    conn.commit()
-    conn.close()
-
-    return redirect("/products")
-
 
 @app.route("/remove-from-cart/<int:product_id>", methods=["POST"])
 def remove_from_cart(product_id):

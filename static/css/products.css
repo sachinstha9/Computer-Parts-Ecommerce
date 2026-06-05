@@ -178,35 +178,6 @@ a {
   width: 100%;
 }
 
-.search-bar {
-  width: 360px;
-  height: 50px;
-  background: #ddd;
-  display: flex;
-  align-items: center;
-  margin-bottom: 35px;
-}
-
-.search-icon {
-  width: 55px;
-
-  text-align: center;
-
-  color: black;
-
-  font-size: 1.6rem;
-}
-
-.search-bar input {
-  flex: 1;
-
-  border: none;
-
-  outline: none;
-
-  background: none;
-}
-
 .product-grid {
   display: grid;
 

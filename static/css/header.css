@@ -154,7 +154,7 @@
 
 .header-item-hover {
   position: absolute;
-  z-index: 10;
+  z-index: 1000;
   top: 100%;
   background-color: white;
   width: 100vw;

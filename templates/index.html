@@ -17,6 +17,7 @@
 
     <link rel="stylesheet" href="../static/css/global.css" />
     <link rel="stylesheet" href="../static/css/home.css" />
+    <link rel="stylesheet" href="../static/css/product-item.css" />
     <link rel="stylesheet" href="../static/css/header.css" />
     <link rel="stylesheet" href="../static/css/carousel.css" />
     <link rel="stylesheet" href="../static/css/footer.css" />
@@ -458,11 +459,14 @@
           <div class="product-section-items-container">
             {% for item in section.products %}
             <div class="product-section-item">
-              <img
-                src="{{ item.img_sources[0] }}"
-                alt=""
-                class="product-section-img"
-              />
+              <div class="product-image">
+                <div
+                    style="background-image: url('{{item.img_sources[0]}}');"
+                    class="product-section-img"
+                ></div>
+
+                <button class="product-add-button" type="submit">+</button>
+              </div>
               <p class="product-section-item-title">{{ item.title }}</p>
               <ul class="product-section-item-tags">
                 {% for tag in item.tags %}
