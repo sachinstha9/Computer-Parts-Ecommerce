@@ -167,96 +167,22 @@ a {
 
   to {
     opacity: 1;
-
-    transform: translateY(0);S
+    transform: translateY(0);
   }
 }
 
-/**************** PRODUCTS ****************/
-
 .products-main {
   width: 100%;
+  margin-top: 50px;
 }
 
 .product-grid {
   display: grid;
-
-  grid-template-columns: repeat(auto-fill, 260px);
-
+  grid-template-columns: repeat(auto-fill, 300px);
   gap: 22px;
-
   align-items: start;
-}
-
-.product-image {
-  width: 260px;
-
-  height: 315px;
-
-  overflow: hidden;
-
-  position: relative;
-
-  background: #111;
-
-  border: 1px solid #444;
-}
-
-.product-card {
-  width: 260px;
-}
-
-.product-image img {
-  width: 100%;
-
-  height: 100%;
-
-  object-fit: cover;
-
-  transition: 0.3s;
-}
-
-.product-card:hover img {
-  transform: scale(1.04);
-}
-
-.add-button {
-  position: absolute;
-
-  left: 50%;
-
-  bottom: 25px;
-
-  transform: translateX(-50%);
-
-  width: 70px;
-  height: 70px;
-
-  border: none;
-
-  border-radius: 10px;
-
-  background: rgba(255, 255, 255, 0.22);
-
-  color: white;
-
-  font-size: 2rem;
-
-  cursor: pointer;
-}
-
-.product-info {
-  display: flex;
-
-  justify-content: space-between;
-
-  padding-top: 8px;
-
-  font-style: italic;
-}
-
-.hidden {
-  display: none;
+  margin: auto;
+  max-width: var(--max-width);
 }
 
 /**************** MOBILE ****************/
@@ -308,8 +234,6 @@ a {
   }
 }
 
-
-
 .add-button {
   position: absolute;
 
@@ -352,8 +276,6 @@ a {
   background: #ffffff;
   color: #111;
 }
-
-
 
 /**************** CHECKOUT PAGE ****************/
 

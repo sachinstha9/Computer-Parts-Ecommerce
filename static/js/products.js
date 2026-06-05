@@ -42,7 +42,7 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 const cartCount = document.querySelector(".cart-count");
 
 // Add buttons
-const addButtons = document.querySelectorAll(".add-button");
+const addButtons = document.querySelectorAll(".product-add-button");
 
 // Cart dropdown
 const cartIcon = document.querySelector(".cart-icon");
@@ -125,10 +125,19 @@ cartIcon.addEventListener("click", () => {
 // Add product to cart
 addButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    const card = button.closest(".product-card");
-    const productName = card.querySelector(".product-info p").textContent;
-    const productPrice = card.querySelector(".product-info strong").textContent;
-    const productImage = card.querySelector("img").getAttribute("src");
+    const card = button.closest(".product-section-item");
+    const productName = card.querySelector(
+      ".product-section-item-title",
+    ).textContent;
+    const productPrice = card.querySelector(
+      ".product-section-item-price",
+    ).textContent;
+    const productImage = card.querySelector(".product-section-img");
+    const computedStyle = window.getComputedStyle(productImage);
+    const productImageSrc = computedStyle.backgroundImage.replace(
+      /^url\(['"]?|['"]?\)$/g,
+      "",
+    );
     const existingProduct = cart.find((item) => item.name === productName);
 
     if (existingProduct) {
@@ -137,7 +146,7 @@ addButtons.forEach((button) => {
       cart.push({
         name: productName,
         price: productPrice,
-        image: productImage,
+        image: productImageSrc,
         quantity: 1,
       });
     }
