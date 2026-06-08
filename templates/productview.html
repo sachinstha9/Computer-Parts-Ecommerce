@@ -1,0 +1,30 @@
+<!-- Product View - Will show the product details of the product that is clicked
+ to give customer proper information on the product of choice-->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product View</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/header.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/global.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../static/css/productview.css"
+    />
+  </head>
+  <body>
+    <div class="product-container">
+      <h1>{{ product.name }}</h1>
+      <img
+        src="{{ url_for('static', filename='images/' + product.image) }}"
+        alt="{{ product.name }}"
+      />
+      <p>{{ product.description }}</p>
+      <p>Price: ${{ product.price }}</p>
+      <button class="add-to-cart">Add to Cart</button>
+    </div>
+  </body>
+</html>
