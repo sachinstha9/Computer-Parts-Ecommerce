@@ -36,11 +36,11 @@ addButtons.forEach((button) => {
     updateCartCount();
     showCartPreview();
 
-    button.textContent = "Added ✓";
+    button.textContent = "✓";
     button.disabled = true;
 
     setTimeout(() => {
-      button.textContent = "Add to Cart";
+      button.textContent = "✓";
       button.disabled = false;
     }, 800);
   });

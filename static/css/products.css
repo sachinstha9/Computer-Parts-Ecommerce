@@ -234,38 +234,38 @@ a {
   }
 }
 
-.add-button {
+.product-image {
+  position: relative;
+}
+
+.product-add-button {
   position: absolute;
+  right: 12px;
+  bottom: 12px;
 
-  left: 50%;
-  bottom: 18px;
-
-  transform: translateX(-50%);
-
-  width: 75%;
-
-  height: 44px;
+  width: 36px;
+  height: 36px;
+  padding: 0;
 
   border: none;
-  border-radius: 6px;
+  border-radius: 50%;
 
-  background: #7b7cff;
+  background: #7667ff;
   color: white;
 
-  font-size: 0.85rem;
-  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  letter-spacing: 2px;
-  text-transform: uppercase;
-
+  font-size: 15px;
   cursor: pointer;
-
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-
-  opacity: 0;
-
-  transition: 0.25s;
 }
+
+.product-add-button:hover {
+    transform: scale(1.1);
+    background: #8a82ff;
+}
+
 
 .product-card:hover .add-button {
   opacity: 1;

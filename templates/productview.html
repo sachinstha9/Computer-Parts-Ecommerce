@@ -1,17 +1,15 @@
+<!-- Product View - Will show the product details of the product that is clicked
+ to give customer proper information on the product of choice-->
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <link rel="stylesheet" type="text/css" href="../static/css/global.css" />
-    <link rel="stylesheet" type="text/css" href="../static/css/header.css" />
-    <link rel="stylesheet" type="text/css" href="../static/css/products.css" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="../static/css/product-item.css"
-    />
+    <title>Product View</title>
+    <link rel="stylesheet" href="../static/css/global.css" />
+    <link rel="stylesheet" href="../static/css/header.css" />
+    <link rel="stylesheet" href="../static/css/productview.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -25,10 +23,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-
-    <title>Products | Galact</title>
   </head>
-
   <body>
     <div class="page">
       <!-- ================= HEADER ================= -->
@@ -139,63 +134,30 @@
         </div>
       </section>
 
-      <!-- ================= PRODUCTS ================= -->
+      <div class="product-container">
+        <h1>{{ product.title }}</h1>
 
-      <main class="products-layout">
-        <section class="products-main">
-          <div class="product-grid">
-            {% for item in filtered_products %}
+        <img src="{{ product.img_sources[0] }}" alt="{{ product.title }}" />
 
-            <a
-              href="{{ url_for('product_view', product_id=item.id) }}"
-              class="product-card-link"
-            >
-              <div class="product-section-item">
-                <div class="product-image">
-                  <div
-                    style="background-image: url('{{ item.img_sources[0] }}');"
-                    class="product-section-img"
-                  ></div>
+        <p>{{ product.description }}</p>
 
-                  <button class="product-add-button" type="button">
-                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                  </button>
-                </div>
-
-                <p class="product-section-item-title">{{ item.title }}</p>
-
-                <ul class="product-section-item-tags">
-                  {% for tag in item.tags %}
-                  <li>
-                    <button type="button">{{ tag }}</button>
-                  </li>
-                  {% endfor %}
-                </ul>
-
-                <div class="product-section-item-availabilty">
-                  {% if item.availability %}
-                  <i class="fa fa-check" aria-hidden="true"></i>
-                  <p>In Stock</p>
-                  {% else %}
-                  <i
-                    class="fa fa-times"
-                    style="color: red"
-                    aria-hidden="true"
-                  ></i>
-                  <p style="color: red">Out of Stock</p>
-                  {% endif %}
-                </div>
-
-                <p class="product-section-item-price">${{ item.price }}</p>
-              </div>
-            </a>
-
+        <p>Specifications:</p>
+        <table class="specs-table">
+          <tbody>
+            {% for spec, value in product.specifications.items() %}
+            <tr>
+              <th>{{ spec | title }}</th>
+              <td>{{ value }}</td>
+            </tr>
             {% endfor %}
-          </div>
-        </section>
-      </main>
-    </div>
+          </tbody>
+        </table>
 
+        <p>Price: ${{ product.price }}</p>
+
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
     <script type="module" src="../static/js/products.js"></script>
     <script type="module" src="../static/js/header.js"></script>
   </body>
