@@ -1,82 +1,81 @@
+<!-- Product View - Will show the product details of the product that is clicked
+ to give customer proper information on the product of choice-->
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
+    <title>Product View</title>
+    <link rel="stylesheet" href="../static/css/global.css" />
+    <link rel="stylesheet" href="../static/css/header.css" />
+    <link rel="stylesheet" href="../static/css/productview.css" />
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <link
       href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap"
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="../static/css/global.css" />
-    <link rel="stylesheet" href="../static/css/home.css" />
-    <link rel="stylesheet" href="../static/css/product-item.css" />
-    <link rel="stylesheet" href="../static/css/header.css" />
-    <link rel="stylesheet" href="../static/css/carousel.css" />
-    <link rel="stylesheet" href="../static/css/footer.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
   </head>
-
   <body>
+    <div class="page">
+      <!-- ================= HEADER ================= -->
 
-   <header class="navbar">
-      <div id="first-row">
-        <div class="nav-left">
-          <a href="/" class="logo-link">
-            <img
-              src="../static/images/galact.png"
-              alt="Galact Logo"
-              class="logo-image"
-            />
-          </a>
+      <header class="navbar">
+        <div id="first-row">
+          <div class="nav-left">
+            <a href="/" class="logo-link">
+              <img
+                src="../static/images/galact.png"
+                alt="Galact Logo"
+                class="logo-image"
+              />
+            </a>
 
-          <span>
-            <div>
-              <i class="fa fa-search" aria-hidden="true"></i>
-            </div>
-            <input type="text" placeholder="Search..." />
-          </span>
-        </div>
-
-        <div class="nav-right">
-          <!-- Wishlist -->
-          <a href="/wishlist" class="icon-link" aria-label="Wishlist"> ♡ </a>
-
-          <!-- Cart -->
-          <div class="cart-wrapper">
-            <button
-              class="cart-icon"
-              type="button"
-              aria-label="Open cart preview"
-            >
-              🛍
-
-              <span class="cart-count"> 0 </span>
-            </button>
-
-            <div class="cart-dropdown">
-              <h3>Your Cart</h3>
-
-              <div class="cart-items">
-                <p class="empty-cart-message">Your cart is empty.</p>
+            <span>
+              <div>
+                <i class="fa fa-search" aria-hidden="true"></i>
               </div>
-
-              <a href="/shopping-cart" class="checkout-button"> Checkout </a>
-            </div>
+              <input type="text" placeholder="Search..." />
+            </span>
           </div>
 
-          <!-- Profile -->
-          <a href="/login" class="icon-link" aria-label="User Profile"> ♙ </a>
-        </div>
-      </div>
+          <div class="nav-right">
+            <a href="/wishlist" class="icon-link" aria-label="Wishlist">♡</a>
 
-    <div id="second-row">
+            <div class="cart-wrapper">
+              <button
+                class="cart-icon"
+                type="button"
+                aria-label="Open cart preview"
+              >
+                🛍
+                <span class="cart-count">{{ cart_count }}</span>
+              </button>
+
+              <div class="cart-dropdown">
+                <h3>Your Cart</h3>
+
+                <div class="cart-items">
+                  <p class="empty-cart-message">Your cart is empty.</p>
+                </div>
+
+                <a href="/shopping-cart" class="checkout-button">Checkout</a>
+              </div>
+            </div>
+
+            <a href="/login" class="icon-link" aria-label="User Profile">♙</a>
+          </div>
+        </div>
+
+        <div id="second-row">
       <ul id="header-items-container">
         <li class="header-item">
           <p class="header-item-title">
@@ -423,91 +422,48 @@
           </p></li>
       </ul>
       </div>
-      </div>
-    </header>
+      </header>
 
+      <!-- ================= HERO ================= -->
 
-    <section id="carousel-wrapper">
-      <div id="carousel-container">
-        {% for item in in_banner_products %}
-        <div
-          class="carousel-item"
-          style="background-image: url({{item.img_sources[0]}});"
-        >
-          <div class="carousel-item-content-container">
-            <p class="carousel-eyebrow-text">{{ item.main_category }}</p>
-            <p class="carousel-title">{{ item.title }}</p>
-            <p class="carousel-description">{{ item.description }}</p>
-            <button class="carousel-shop">Shop Now</button>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
+      <section class="hero">
+        <div class="diagonal-hero-bg"></div>
 
-      <ul class="carousel-indicators">
-        {% for item in in_banner_products %}
-        <li></li>
-        {% endfor %}
-      </ul>
-    </section>
+        <div class="hero-content">
+          <h1>BUILD YOUR DREAM PC</h1>
 
-    <main>
-      {% for section in display_sections.values() %}
-      <section class="products-section">
-        <p class="products-section-title">{{ section.title}}</p>
-
-        <div class="products-section-items-wrapper">
-          <div class="product-section-items-container">
-            {% for item in section.products %}
-            <div class="product-section-item">
-              <div class="product-image">
-                <div
-                    style="background-image: url('{{item.img_sources[0]}}');"
-                    class="product-section-img"
-                ></div>
-
-                  <button class="product-add-button" type="button">
-                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                  </button>
-              </div>
-              <p class="product-section-item-title">{{ item.title }}</p>
-              <ul class="product-section-item-tags">
-                {% for tag in item.tags %}
-                <li>
-                  <button>{{ tag }}</button>
-                </li>
-                {% endfor %}
-              </ul>
-              <div class="product-section-item-availabilty">
-                {% if item.availability %}
-                <i class="fa fa-check" aria-hidden="true"></i>
-                <p>In Stock</p>
-                {% else %}
-                <i
-                  class="fa fa-times"
-                  style="color: red"
-                  aria-hidden="true"
-                ></i>
-                <p style="color: red">Out of Stock</p>
-                {% endif %}
-              </div>
-              <p class="product-section-item-price">${{ item.price }}</p>
-            </div>
-            {% endfor %}
-          </div>
-
-          <div class="products-section-slider">
-            <i class="fa fa-angle-left" aria-hidden="true"></i>
-
-            <i class="fa fa-angle-right" aria-hidden="true"></i>
-          </div>
+          <p>
+            Browse premium PC hardware, gaming peripherals, and high performance
+            components.
+          </p>
         </div>
       </section>
-      {% endfor %}
-    </main>
+
+      <div class="product-container">
+        <h1>{{ product.title }}</h1>
+
+        <img src="{{ product.img_sources[0] }}" alt="{{ product.title }}" />
+
+        <p>{{ product.description }}</p>
+
+        <p>Specifications:</p>
+        <table class="specs-table">
+          <tbody>
+            {% for spec, value in product.specifications.items() %}
+            <tr>
+              <th>{{ spec | title }}</th>
+              <td>{{ value }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <p>Price: ${{ product.price }}</p>
+
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+    <script type="module" src="../static/js/products.js"></script>
+    <script type="module" src="../static/js/header.js"></script>
   </body>
-  <script type="module" src="../static/js/carousel.js"></script>
-  <script type="module" src="../static/js/product-section.js"></script>
-  <script type="module" src="../static/js/header.js"></script>
-  <script type="module" src="../static/js/products.js"></script>
 </html>

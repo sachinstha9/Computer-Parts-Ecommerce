@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, abort
 import sqlite3
 import json
 import cloudinary
@@ -182,9 +182,34 @@ def shopping_cart():
 def login():
     return render_template("login.html")
 
+@app.route('/signup')
+def signup():
+    return render_template("signup.html")
+
 @app.route('/admin')
 def admin():
     return render_template("admin.html")
+
+@app.route('/productview/<int:product_id>')
+def product_view(product_id):
+    conn = sqlite3.connect("computer-ecommerce.db")
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM products WHERE id = ?", (product_id,))
+    product = c.fetchone()
+
+    conn.close()
+
+    if not product:
+        abort(404)
+
+    product = product_formatter([product])[0]
+
+    # Only convert if it is still a JSON string
+    if isinstance(product["specifications"], str):
+        product["specifications"] = json.loads(product["specifications"])
+
+    return render_template("productview.html", product=product)
 
 @app.route("/add_product", methods=["POST", "GET"])
 def add_product():

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/css/signup.css" />
+    <link rel="stylesheet" href="../static/css/header.css" />
+    <link rel="stylesheet" href="../static/css/global.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap"
+      rel="stylesheet">
+      <title>sign up | Galact</title>
+</head>
+<body>
+
+  <!-- ================= HEADER ================= -->
+
+      <header class="navbar">
+        <div class="nav-left">
+          <button class="menu-button" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <a href="/" class="nav-link"> Home </a>
+
+          <a href="/products" class="nav-link"> Items </a>
+        </div>
+
+        <div class="nav-center">
+          <a href="/" class="logo-link">
+            <img
+              src="../static/images/galact.png"
+              alt="Galact Logo"
+              class="logo-image"
+            />
+          </a>
+        </div>
+
+        <div class="nav-right">
+          <!-- Wishlist -->
+          <a href="/wishlist" class="icon-link" aria-label="Wishlist"> ♡ </a>
+
+          <!-- Cart -->
+          <div class="cart-wrapper">
+            <button
+              class="cart-icon"
+              type="button"
+              aria-label="Open cart preview"
+            >
+              🛍
+
+              <span class="cart-count"> 0 </span>
+            </button>
+
+            <div class="cart-dropdown">
+              <h3>Your Cart</h3>
+
+              <div class="cart-items">
+                <p class="empty-cart-message">Your cart is empty.</p>
+              </div>
+
+              <a href="/shopping-cart" class="checkout-button"> Checkout </a>
+            </div>
+          </div>
+
+          <!-- Profile -->
+          <a href="/profile" class="icon-link" aria-label="User Profile"> ♙ </a>
+        </div>
+      </header>
+
+  <div class="container">
+    
+    <div class="title">Sign Up</div>
+    <div class="content">
+     
+      <form action="#">
+        <div class="user-details">
+         
+          <div class="input-box">
+            <span class="details">Full Name</span>
+            <input type="text" placeholder="Enter your name" required>
+          </div>
+          
+          <div class="input-box">
+            <span class="details">Email</span>
+            <input type="text" placeholder="Enter your email" required>
+          </div>
+          
+          <div class="input-box">
+            <span class="details">Phone Number</span>
+            <input type="text" placeholder="Enter your number" required>
+          </div>
+          
+          <div class="input-box">
+            <span class="details">Password</span>
+            <input type="text" placeholder="Enter your password" required>
+          </div>
+         
+          <div class="input-box">
+            <span class="details">Confirm Password</span>
+            <input type="text" placeholder="Confirm your password" required>
+          </div>
+        </div>
+       
+        <div class="button">
+          <input type="submit" value="sign up">
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
