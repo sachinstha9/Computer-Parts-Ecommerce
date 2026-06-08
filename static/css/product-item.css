@@ -90,6 +90,11 @@
   cursor: pointer;
 }
 
+.product-section-item-tags li button a {
+  color: black;
+  text-decoration: none;
+}
+
 .product-section-item-availabilty {
   display: flex;
   align-items: center;
