@@ -141,6 +141,18 @@
 
         <p>{{ product.description }}</p>
 
+        <p>Specifications:</p>
+        <table class="specs-table">
+          <tbody>
+            {% for spec, value in product.specifications.items() %}
+            <tr>
+              <th>{{ spec | title }}</th>
+              <td>{{ value }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
         <p>Price: ${{ product.price }}</p>
 
         <button class="add-to-cart">Add to Cart</button>

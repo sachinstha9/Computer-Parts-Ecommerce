@@ -201,6 +201,10 @@ def product_view(product_id):
 
     product = product_formatter([product])[0]
 
+    # Only convert if it is still a JSON string
+    if isinstance(product["specifications"], str):
+        product["specifications"] = json.loads(product["specifications"])
+
     return render_template("productview.html", product=product)
 
 @app.route("/add_product", methods=["POST", "GET"])
