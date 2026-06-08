@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, abort
 import sqlite3
 import json
 import cloudinary
@@ -197,7 +197,7 @@ def product_view(product_id):
     conn.close()
 
     if not product:
-        os.abort(404)
+        abort(404)
 
     product = product_formatter([product])[0]
 
