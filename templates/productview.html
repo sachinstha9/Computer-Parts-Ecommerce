@@ -146,8 +146,8 @@
           <tbody>
             {% for spec, value in product.specifications.items() %}
             <tr>
-              <th>{{ spec | title }}</th>
-              <td>{{ value }}</td>
+              <td class="spec-name">{{ spec }}</td>
+              <td class="spec-value">{{ value }}</td>
             </tr>
             {% endfor %}
           </tbody>

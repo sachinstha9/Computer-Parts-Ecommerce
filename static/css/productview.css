@@ -274,3 +274,28 @@
   margin: auto;
   max-width: var(--max-width);
 }
+
+.specs-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.specs-table tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.specs-table td {
+  padding: 14px 16px;
+  vertical-align: top;
+}
+
+.spec-name {
+  width: 250px;
+  color: #bdbdbd;
+  font-weight: 600;
+}
+
+.spec-value {
+  color: white;
+}
