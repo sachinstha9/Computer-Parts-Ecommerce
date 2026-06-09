@@ -436,38 +436,42 @@
     <div class="container">
       <div class="title">Sign Up</div>
       <div class="content">
-        <form action="#">
-          <div class="user-details">
-            <div class="input-box">
-              <span class="details">Full Name</span>
-              <input type="text" placeholder="Enter your name" required />
-            </div>
+        <form method="POST" action="/signup">
+  {% if error %}
+    <p class="error-message">{{ error }}</p>
+  {% endif %}
 
-            <div class="input-box">
-              <span class="details">Email</span>
-              <input type="text" placeholder="Enter your email" required />
-            </div>
+  <div class="user-details">
+    <div class="input-box">
+      <span class="details">Username</span>
+      <input type="text" name="username" placeholder="Enter your name" required />
+    </div>
 
-            <div class="input-box">
-              <span class="details">Phone Number</span>
-              <input type="text" placeholder="Enter your number" required />
-            </div>
+    <div class="input-box">
+      <span class="details">Email</span>
+      <input type="email" name="email" placeholder="Enter your email" required />
+    </div>
 
-            <div class="input-box">
-              <span class="details">Password</span>
-              <input type="text" placeholder="Enter your password" required />
-            </div>
+    <div class="input-box">
+      <span class="details">Phone Number</span>
+      <input type="text" name="phone" placeholder="Enter your number" required />
+    </div>
 
-            <div class="input-box">
-              <span class="details">Confirm Password</span>
-              <input type="text" placeholder="Confirm your password" required />
-            </div>
-          </div>
+    <div class="input-box">
+      <span class="details">Password</span>
+      <input type="password" name="password" placeholder="Enter your password" required />
+    </div>
 
-          <div class="button">
-            <input type="submit" value="Sign up" />
-          </div>
-        </form>
+    <div class="input-box">
+      <span class="details">Confirm Password</span>
+      <input type="password" name="confirm_password" placeholder="Confirm your password" required />
+    </div>
+  </div>
+
+  <div class="button">
+    <input type="submit" value="Sign up" />
+  </div>
+</form>
       </div>
     </div>
     <script type="module" src="../static/js/products.js"></script>
