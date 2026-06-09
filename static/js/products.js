@@ -5,7 +5,6 @@ const addButtons = document.querySelectorAll(".product-add-button");
 // Add product to cart
 addButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    console.log("hey");
     const card = button.closest(".product-section-item");
     const productName = card.querySelector(
       ".product-section-item-title",

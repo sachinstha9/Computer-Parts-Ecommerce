@@ -3,7 +3,7 @@ let carousel_items = document.querySelectorAll(".carousel-item");
 let carousel_indicators = document.querySelectorAll(".carousel-indicators li");
 
 function update_carousel(index) {
-  current = index % carousel_items.length;
+  let current = index % carousel_items.length;
 
   carousel_container.style.transform = `translateX(-${current * 100}vw)`;
 
