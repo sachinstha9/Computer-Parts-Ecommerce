@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, abort
+from flask import Flask, render_template, request, redirect, abort, session
 import sqlite3
 import json
 import cloudinary
@@ -6,6 +6,7 @@ import cloudinary.uploader
 import os
 
 app = Flask(__name__)
+app.secret_key = "galact_secret_key"
 
 # cloudinary setup
 cloudinary.config(
@@ -178,13 +179,95 @@ def shopping_cart():
     return render_template("shoppingbag.html")
 
 
-@app.route('/login')
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template("login.html")
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
 
-@app.route('/signup')
+        conn = sqlite3.connect("computer-ecommerce.db")
+        c = conn.cursor()
+
+        c.execute(
+            "SELECT * FROM customers WHERE username = ? AND password = ?",
+            (username, password)
+        )
+
+        customer = c.fetchone()
+        conn.close()
+
+        if customer:
+            session["customer_id"] = customer[0]
+            session["username"] = customer[1]
+            return redirect("/")
+
+        return render_template(
+            "login.html",
+            error="Invalid username or password",
+            cart_count=get_cart_count()
+        )
+
+    return render_template("login.html", cart_count=get_cart_count())
+
+@app.route("/signup", methods=["GET", "POST"])
 def signup():
-    return render_template("signup.html")
+    if request.method == "POST":
+        username = request.form["username"]
+        email = request.form["email"]
+        password = request.form["password"]
+        confirm_password = request.form["confirm_password"]
+
+        if password != confirm_password:
+            return render_template(
+                "signup.html",
+                error="Passwords do not match",
+                cart_count=get_cart_count()
+            )
+
+        conn = sqlite3.connect("computer-ecommerce.db")
+        c = conn.cursor()
+
+        try:
+            c.execute("""
+                INSERT INTO customers (
+                    username,
+                    password,
+                    email,
+                    cart,
+                    wishlist,
+                    previous_orders,
+                    current_orders
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (
+                username,
+                password,
+                email,
+                "[]",
+                "[]",
+                "[]",
+                "[]"
+            ))
+
+            conn.commit()
+
+        except sqlite3.IntegrityError:
+            conn.close()
+            return render_template(
+                "signup.html",
+                error="Username or email already exists",
+                cart_count=get_cart_count()
+            )
+
+        conn.close()
+        return redirect("/login")
+
+    return render_template("signup.html", cart_count=get_cart_count())
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/login")
 
 @app.route('/admin')
 def admin():
