@@ -423,7 +423,6 @@
           </p></li>
       </ul>
       </div>
-      </div>
     </header>
 
 
@@ -460,39 +459,48 @@
           <div class="product-section-items-container">
             {% for item in section.products %}
             <div class="product-section-item">
-              <div class="product-image">
-                <div
-                    style="background-image: url('{{item.img_sources[0]}}');"
+                <div class="product-image">
+                  <a
+                    style="background-image: url('{{ item.img_sources[0] }}');"
                     class="product-section-img"
-                ></div>
+                    href={{ url_for('product_view', product_id=item.id) }}
+                  ></a>
 
                   <button class="product-add-button" type="button">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                   </button>
+                </div>
+
+                <p class="product-section-item-title">{{ item.title }}</p>
+
+                <ul class="product-section-item-tags">
+                  {% for tag in item.tags %}
+                  <li>
+                    <button type="button">
+                      <a href="{{ url_for('products', tags=[tag])}}">
+                      {{ tag }}
+                      </a>
+                    </button>
+                  </li>
+                  {% endfor %}
+                </ul>
+
+                <div class="product-section-item-availabilty">
+                  {% if item.availability %}
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                  <p>In Stock</p>
+                  {% else %}
+                  <i
+                    class="fa fa-times"
+                    style="color: red"
+                    aria-hidden="true"
+                  ></i>
+                  <p style="color: red">Out of Stock</p>
+                  {% endif %}
+                </div>
+
+                <p class="product-section-item-price">${{ item.price }}</p>
               </div>
-              <p class="product-section-item-title">{{ item.title }}</p>
-              <ul class="product-section-item-tags">
-                {% for tag in item.tags %}
-                <li>
-                  <button>{{ tag }}</button>
-                </li>
-                {% endfor %}
-              </ul>
-              <div class="product-section-item-availabilty">
-                {% if item.availability %}
-                <i class="fa fa-check" aria-hidden="true"></i>
-                <p>In Stock</p>
-                {% else %}
-                <i
-                  class="fa fa-times"
-                  style="color: red"
-                  aria-hidden="true"
-                ></i>
-                <p style="color: red">Out of Stock</p>
-                {% endif %}
-              </div>
-              <p class="product-section-item-price">${{ item.price }}</p>
-            </div>
             {% endfor %}
           </div>
 

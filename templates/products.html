@@ -451,16 +451,14 @@
           <div class="product-grid">
             {% for item in filtered_products %}
 
-            <a
-              href="{{ url_for('product_view', product_id=item.id) }}"
-              class="product-card-link"
-            >
+           
               <div class="product-section-item">
                 <div class="product-image">
-                  <div
+                  <a
                     style="background-image: url('{{ item.img_sources[0] }}');"
                     class="product-section-img"
-                  ></div>
+                    href={{ url_for('product_view', product_id=item.id) }}
+                  ></a>
 
                   <button class="product-add-button" type="button">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
@@ -472,7 +470,11 @@
                 <ul class="product-section-item-tags">
                   {% for tag in item.tags %}
                   <li>
-                    <button type="button">{{ tag }}</button>
+                    <button type="button">
+                      <a href="{{ url_for('products', tags=[tag])}}">
+                      {{ tag }}
+                      </a>
+                    </button>
                   </li>
                   {% endfor %}
                 </ul>
@@ -493,7 +495,6 @@
 
                 <p class="product-section-item-price">${{ item.price }}</p>
               </div>
-            </a>
 
             {% endfor %}
           </div>
