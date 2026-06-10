@@ -273,6 +273,30 @@ def logout():
 def admin():
     return render_template("admin.html")
 
+@app.route("/profile")
+def profile():
+
+    if "customer_id" not in session:
+        return redirect("/login")
+
+    conn = sqlite3.connect("computer-ecommerce.db")
+    c = conn.cursor()
+
+    c.execute(
+        "SELECT * FROM customers WHERE id = ?",
+        (session["customer_id"],)
+    )
+
+    customer = c.fetchone()
+
+    conn.close()
+
+    return render_template(
+        "profile.html",
+        customer=customer,
+        cart_count=get_cart_count()
+    )
+
 @app.route('/productview/<int:product_id>')
 def product_view(product_id):
     conn = sqlite3.connect("computer-ecommerce.db")
