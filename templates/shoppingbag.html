@@ -69,7 +69,11 @@
               </div>
             </div>
 
-            <a href="/login" class="icon-link" aria-label="User Profile">♙</a>
+          {% if session.get("customer_id") %}
+    <a href="/profile" class="icon-link" aria-label="User Profile">♙</a>
+{% else %}
+    <a href="/login" class="icon-link" aria-label="User Profile">♙</a>
+{% endif %}
           </div>
         </div>
 
