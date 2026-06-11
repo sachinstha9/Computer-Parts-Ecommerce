@@ -92,7 +92,7 @@
   border-radius: 12px;
 }
 .sidebar .sidebar-nav .nav-link .nav-label {
-  transition: opacity 0.3s ease;
+  transition: opacity 0.2s ease;
 }
 .sidebar.collapsed .sidebar-nav .nav-link .nav-label {
   opacity: 0;
@@ -131,7 +131,7 @@
 }
 .sidebar-nav .secondary-nav {
   margin-top: auto;
-  padding-bottom: 25px;
+  padding-bottom: 75px;
 }
 
 /* Responsive media query code for small screens */
