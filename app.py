@@ -4,6 +4,8 @@ import json
 import cloudinary
 import cloudinary.uploader
 import os
+from urllib.parse import unquote
+import re
 
 app = Flask(__name__)
 app.secret_key = "galact_secret_key"
@@ -30,7 +32,8 @@ def product_formatter(products):
             "specifications": json.loads(product[6]),
             "availability": product[7],
             "in_banner": product[8],
-            "company": product[9]
+            "company": product[9],
+            "choices": json.loads(product[10])
         })
 
     return formatted_products
@@ -299,6 +302,8 @@ def profile():
 
 @app.route('/productview/<int:product_id>')
 def product_view(product_id):
+    selected_choices = request.args.to_dict()
+
     conn = sqlite3.connect("computer-ecommerce.db")
     c = conn.cursor()
 
@@ -312,11 +317,34 @@ def product_view(product_id):
 
     product = product_formatter([product])[0]
 
+    compareStr = ""
+    for i, choice in enumerate(selected_choices):
+        compareStr += choice + "_" + selected_choices[choice]
+        if i < len(selected_choices.keys()) - 1:
+            compareStr += ","
+
+    productImg = product["img_sources"]
+    correctImage = ""
+    for img_src in productImg:
+        decoded = unquote(img_src)
+        match = re.search(r'\[(.*?)\]', decoded)
+        if not match:
+            continue
+
+        img_choices = match.group(1)
+
+        if img_choices == compareStr:
+            correctImage = img_src
+            break
+        
+    if correctImage == "":
+        correctImage = productImg[0]
+
     # Only convert if it is still a JSON string
     if isinstance(product["specifications"], str):
         product["specifications"] = json.loads(product["specifications"])
 
-    return render_template("productview.html", product=product)
+    return render_template("productview.html", product=product, selected_choices=selected_choices, correctImage=correctImage)
 
 @app.route("/add_product", methods=["POST", "GET"])
 def add_product():

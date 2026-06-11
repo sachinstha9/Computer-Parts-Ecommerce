@@ -18,7 +18,8 @@ const wishListAddButtonIcon = document.querySelector(
 
 const productName = document.querySelector("#product-view-title").textContent;
 const productPrice = document.querySelector("#product-view-price").textContent;
-const productImageSrc = document.querySelector("#product-view-img-src").src;
+const productImage = document.querySelector("#product-view-img-src");
+const productImageSrc = productImage.src;
 
 // Add to Cart
 btnAddToCart.addEventListener("click", () => {
@@ -94,4 +95,38 @@ wishListAddButton.addEventListener("click", () => {
 
     console.log("Removed:", productName);
   }
+});
+
+let productViewChoicesOptions = document.querySelectorAll(
+  ".product-view-choices-option label",
+);
+
+// productViewChoicesOptions.forEach((option) => {
+//   console.log()
+// })
+
+function getRadioValues() {
+  const selectedChoices = {};
+  document.querySelectorAll('input[type="radio"]:checked').forEach((input) => {
+    selectedChoices[input.name] = input.value;
+  });
+
+  return selectedChoices;
+}
+document.querySelectorAll('input[type="radio"]').forEach((radio) => {
+  radio.addEventListener("change", () => {
+    const selectedChoices = getRadioValues();
+
+    const params = new URLSearchParams();
+
+    for (const [key, value] of Object.entries(selectedChoices)) {
+      params.append(key, value);
+    }
+
+    const url = `${window.location.pathname}?${params.toString()}`;
+
+    console.log(url);
+
+    window.location.href = url;
+  });
 });

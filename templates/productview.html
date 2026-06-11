@@ -415,7 +415,7 @@
 
     <div class="product-container">
       <div id="product-container-col1">
-        <img src="{{ product.img_sources[0] }}" alt="{{ product.title }}" id="product-view-img-src"/>
+        <img src="{{ correctImage }}" alt="{{ product.title }}" id="product-view-img-src"/>
       </div>
 
       <div id="product-container-col2">
@@ -425,8 +425,35 @@
             <i class="fa fa-heart-o" aria-hidden="true"></i>
           </button>
         </div>
+
         <p id="product-view-descp">{{ product.description }}</p>
         <p id="product-view-price">Price: ${{ product.price }}</p>
+
+        {% for choice in product.choices %}
+          <div class="product-view-choices">
+            <p class="product-view-choices-title">{{ choice }}</p>
+
+            <ul class="product-view-choices-options-wrapper">
+              {% for item in product.choices[choice] %}
+              <li class="product-view-choices-option">
+                <label>
+                  <input
+                    type="radio"
+                    name="{{ choice }}"
+                    value="{{ item }}"
+                    {% if selected_choices.get(choice) == item %}
+                      checked
+                    {% elif loop.first and choice not in selected_choices %}
+                      checked
+                    {% endif %}
+                  >
+                  {{ item }}
+                </label>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endfor %}
 
         <div id="product-view-table-wrapper">
           <p>Specifications:</p>

@@ -57,7 +57,31 @@
 
 #product-view-price {
   font-size: 24px;
-  margin: 10px 0;
+}
+
+.product-view-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.product-view-choices-title {
+  text-transform: capitalize;
+}
+
+.product-view-choices-options-wrapper {
+  display: flex;
+  gap: 15px;
+}
+
+.product-view-choices-option {
+  list-style: none;
+}
+
+.product-view-choices-option label {
+  display: flex;
+  gap: 5px;
+  text-transform: capitalize;
 }
 
 #add-to-cart {
