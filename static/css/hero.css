@@ -1,4 +1,9 @@
-/**************** HERO ****************/
+/* ==================================================
+   Hero Banner
+   Main banner section displayed at the top of key
+   pages. Uses gradients and animated effects to
+   create a modern gaming-inspired appearance.
+   ================================================== */
 
 .hero {
   width: 100%;
@@ -20,7 +25,11 @@
   background: linear-gradient(135deg, #181818 0%, #242424 45%, #2f1268 100%);
 }
 
-/* animated stars */
+/* ==================================================
+   Animated Background Stars
+   Creates a subtle moving starfield effect behind
+   the hero content.
+   ================================================== */
 
 .hero::before {
   content: "";
@@ -42,7 +51,11 @@
   animation: starsMove 22s linear infinite;
 }
 
-/* glow */
+/* ==================================================
+   Animated Glow Effect
+   Adds a moving light sweep across the hero banner
+   to give the page more visual depth.
+   ================================================== */
 
 .hero::after {
   content: "";
@@ -61,6 +74,9 @@
   animation: glowMove 6s linear infinite;
 }
 
+/* Decorative diagonal gradient shape displayed on
+   the left side of the hero banner */
+
 .diagonal-hero-bg {
   position: absolute;
 
@@ -74,13 +90,18 @@
 
   background: linear-gradient(
     to right,
-
     rgba(70, 60, 255, 0.55),
     transparent
   );
 
   clip-path: polygon(0 0, 100% 0, 70% 100%, 0 100%);
 }
+
+/* ==================================================
+   Hero Content
+   Contains the heading and description displayed
+   within the banner.
+   ================================================== */
 
 .hero-content {
   position: relative;
@@ -97,6 +118,8 @@
   animation: heroFade 1s ease;
 }
 
+/* Main hero title */
+
 .hero-content h1 {
   font-size: 2.2rem;
 
@@ -106,6 +129,8 @@
 
   font-style: italic;
 }
+
+/* Supporting hero description */
 
 .hero-content p {
   font-size: 0.9rem;
@@ -119,7 +144,11 @@
   letter-spacing: 2px;
 }
 
-/**************** ANIMATIONS ****************/
+/* ==================================================
+   Hero Animations
+   Used to create movement and smooth page loading
+   effects within the hero section.
+   ================================================== */
 
 @keyframes starsMove {
   from {
@@ -154,10 +183,18 @@
   }
 }
 
+/* ==================================================
+   Products Page Layout
+   Controls the spacing and layout of product cards
+   displayed underneath the hero banner.
+   ================================================== */
+
 .products-main {
   width: 100%;
   margin-top: 50px;
 }
+
+/* Product grid used to display products in rows */
 
 .product-grid {
   display: grid;

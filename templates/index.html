@@ -1,20 +1,24 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Basic Page Setup -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home | Galact</title>
 
+    <!-- Font Awesome used for Icons across the page -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
 
+    <!-- Main font used - Fira Code -->
     <link
       href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap"
       rel="stylesheet"
     />
 
+    <!-- Stylesheet Linking -->
     <link rel="stylesheet" href="../static/css/global.css" />
     <link rel="stylesheet" href="../static/css/home.css" />
     <link rel="stylesheet" href="../static/css/product-item.css" />
@@ -22,16 +26,22 @@
     <link rel="stylesheet" href="../static/css/carousel.css" />
     <link rel="stylesheet" href="../static/css/footer.css" />
 
+    <!-- Favicon for site -->
     <link rel="icon" type="image/x-icon" href="../static/images/favicon-16x16.png">
   </head>
 
   <body>
 
-    <!-- ============= HEADER ============== -->
+    <!-- ========================================================= -->
+    <!-- HEADER SECTION -->
+    <!-- This contains the logo, search bar, cart, profile link, -->
+    <!-- and the main product navigation dropdowns. -->
+    <!-- ========================================================= -->
 
    <header class="navbar">
       <div id="first-row">
         <div class="nav-left">
+          <!-- Website logo linking back to the homepage -->
           <a href="/" class="logo-link">
             <img
               src="../static/images/galact.png"
@@ -39,7 +49,7 @@
               class="logo-image"
             />
           </a>
-
+          <!-- Search bar area -->
           <span>
             <div>
               <i class="fa fa-search" aria-hidden="true"></i>
@@ -49,10 +59,11 @@
         </div>
 
         <div class="nav-right">
-          <!-- Wishlist -->
+          <!-- Wishlist icon -->
           <a href="/wishlist" class="icon-link" aria-label="Wishlist"> ♡ </a>
 
-          <!-- Cart -->
+
+          <!-- Cart preview dropdown -->
           <div class="cart-wrapper">
             <button
               class="cart-icon"
@@ -60,10 +71,10 @@
               aria-label="Open cart preview"
             >
               🛍
-
+              <!-- Cart amount shown in the header -->
               <span class="cart-count"> 0 </span>
             </button>
-
+            <!-- Small dropdown preview for the user's cart -->
             <div class="cart-dropdown">
               <h3>Your Cart</h3>
 

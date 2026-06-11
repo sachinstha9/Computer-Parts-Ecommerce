@@ -1,4 +1,10 @@
-footer {
+/* ==================================================
+   Footer Container
+   Main footer section displayed at the bottom of
+   every page.
+   ================================================== */
+
+.footer {
   background: rgb(48, 48, 48);
   padding: 50px 50px;
   display: flex;
@@ -7,6 +13,12 @@ footer {
   gap: 70px;
   color: white;
 }
+
+/* ==================================================
+   Footer Layout
+   First row contains company information, links,
+   and newsletter signup sections.
+   ================================================== */
 
 #footer-row-1 {
   display: flex;
@@ -17,6 +29,7 @@ footer {
   max-width: var(--max-width);
 }
 
+/* Individual footer columns */
 #footer-col-1,
 #footer-col-2,
 #footer-col-3,
@@ -29,9 +42,15 @@ footer {
   flex: 1;
 }
 
+/* Company logo displayed in footer */
 #footer-col-1 img {
   width: 150px;
 }
+
+/* ==================================================
+   Social Media Links
+   Icons linking to the company's social platforms.
+   ================================================== */
 
 #footer-social-media-links {
   display: flex !important;
@@ -48,12 +67,14 @@ footer {
   font-size: 28px;
 }
 
+/* Secondary footer text styling */
 #footer-col-2,
 #footer-col-3,
 #footer-col-4 {
   color: rgba(255, 255, 255, 0.8);
 }
 
+/* Main heading within each footer column */
 #footer-col-2 li:nth-child(1),
 #footer-col-3 li:nth-child(1),
 #footer-col-4 p:nth-child(1) {
@@ -61,12 +82,18 @@ footer {
   font-weight: 600;
 }
 
+/* ==================================================
+   Newsletter Signup
+   Allows users to subscribe using their email address.
+   ================================================== */
+
 #footer-email-wrapper {
   display: flex;
   height: 40px;
   background-color: white;
 }
 
+/* Email input field */
 #footer-email-wrapper input {
   width: calc(100% - 60px);
   border: none;
@@ -76,6 +103,7 @@ footer {
   padding: 0 10px;
 }
 
+/* Newsletter submit button */
 #footer-email-wrapper button {
   width: 60px;
   height: 100%;
@@ -85,6 +113,11 @@ footer {
   border-left: 1px solid black;
   cursor: pointer;
 }
+
+/* ==================================================
+   Footer Copyright Section
+   Bottom row displaying copyright information.
+   ================================================== */
 
 #footer-row-2 {
   display: flex;

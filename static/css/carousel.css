@@ -1,14 +1,32 @@
+/* ==================================================
+   Carousel Wrapper
+   Holds the full carousel and hides any slides that
+   are outside the visible screen area.
+   ================================================== */
+
 #carousel-wrapper {
   position: relative;
   width: 100%;
   overflow: hidden;
 }
 
+/* ==================================================
+   Carousel Container
+   Uses flex so each carousel item sits side by side.
+   JavaScript can then move the container left/right.
+   ================================================== */
+
 #carousel-container {
   display: flex;
   width: 100vw;
   transition: 1s;
 }
+
+/* ==================================================
+   Carousel Slide
+   Each slide takes up the full screen width and uses
+   the product image as a background.
+   ================================================== */
 
 .carousel-item {
   min-width: 100vw;
@@ -26,6 +44,12 @@
   background-repeat: no-repeat;
 }
 
+/* ==================================================
+   Carousel Text Content
+   Keeps the title, description, and button aligned
+   inside the main banner area.
+   ================================================== */
+
 .carousel-item-content-container {
   display: flex;
   flex-direction: column;
@@ -35,12 +59,14 @@
   height: 100%;
 }
 
+/* Small text above the main carousel heading */
 .carousel-eyebrow-text {
   color: white;
   font-size: 16px;
   font-weight: 500;
 }
 
+/* Main product/banner title */
 .carousel-title {
   color: white;
   font-size: 64px;
@@ -48,6 +74,7 @@
   margin-bottom: 10px;
 }
 
+/* Short description shown under the carousel title */
 .carousel-description {
   color: white;
   font-size: 16px;
@@ -55,6 +82,12 @@
   max-width: 600px;
   margin-bottom: 50px;
 }
+
+/* ==================================================
+   Carousel Button
+   Button used to direct users toward the selected
+   product or shopping section.
+   ================================================== */
 
 .carousel-shop {
   background: white;
@@ -67,10 +100,17 @@
   font-weight: 600;
 }
 
+/* Adds a small hover effect so the button feels clickable */
 .carousel-shop:hover {
   background: rgb(243, 243, 243);
   cursor: pointer;
 }
+
+/* ==================================================
+   Carousel Indicators
+   Dots at the bottom of the banner showing how many
+   slides are in the carousel.
+   ================================================== */
 
 .carousel-indicators {
   position: absolute;
@@ -83,6 +123,7 @@
   justify-content: center;
 }
 
+/* Individual indicator dot */
 .carousel-indicators li {
   background-color: rgba(255, 255, 255, 0.5);
   width: 10px;

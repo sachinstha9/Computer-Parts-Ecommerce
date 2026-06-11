@@ -1,3 +1,4 @@
+# Imports
 from flask import Flask, render_template, request, redirect, abort, session
 import sqlite3
 import json
@@ -7,8 +8,9 @@ import os
 from urllib.parse import unquote
 import re
 
+# Application Setup
 app = Flask(__name__)
-app.secret_key = "galact_secret_key"
+app.secret_key = "galact_secret_key" # required for login
 
 # cloudinary setup
 cloudinary.config(
@@ -17,7 +19,7 @@ cloudinary.config(
     api_secret=os.getenv("API_SECRET")
 )
 
-
+# Product Formatting Function
 def product_formatter(products):
     formatted_products = []
 
@@ -38,7 +40,7 @@ def product_formatter(products):
 
     return formatted_products
 
-
+# Shopping Cart Database Functions
 def create_cart_table():
     conn = sqlite3.connect("computer-ecommerce.db")
     c = conn.cursor()
@@ -54,7 +56,9 @@ def create_cart_table():
     conn.commit()
     conn.close()
 
-
+# Calculates the total quantity of products currently stored
+# in the shopping cart.
+# The value returned is displayed in the website header.
 def get_cart_count():
     create_cart_table()
 
@@ -71,7 +75,7 @@ def get_cart_count():
 
     return cart_count
 
-
+# Home Page Route
 @app.route("/")
 def index():
     conn = sqlite3.connect("computer-ecommerce.db")
@@ -118,7 +122,7 @@ def index():
         cart_count=get_cart_count()
     )
 
-
+# Product Catalogue Route
 @app.route("/products")
 def products():
     tags = request.args.getlist("tags")
@@ -181,7 +185,7 @@ def remove_from_cart(product_id):
 def shopping_cart():
     return render_template("shoppingbag.html")
 
-
+# User Login Route
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -212,6 +216,7 @@ def login():
 
     return render_template("login.html", cart_count=get_cart_count())
 
+# User Registration Route
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
@@ -276,6 +281,7 @@ def logout():
 def admin():
     return render_template("admin.html")
 
+# Profile Route
 @app.route("/profile")
 def profile():
 
@@ -346,6 +352,8 @@ def product_view(product_id):
 
     return render_template("productview.html", product=product, selected_choices=selected_choices, correctImage=correctImage)
 
+
+# Product Upload Route
 @app.route("/add_product", methods=["POST", "GET"])
 def add_product():
     title = request.form["title"]

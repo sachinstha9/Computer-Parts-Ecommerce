@@ -1,7 +1,19 @@
-main {
+/* ==================================================
+   Main Content Area
+   Provides spacing and layout for all homepage
+   content displayed below the carousel.
+   ================================================== */
+
+.main {
   padding: 0 50px;
   width: 100%;
 }
+
+/* ==================================================
+   Product Sections
+   Each section represents a product category such
+   as Gaming Laptops, Headphones, or Gaming PCs.
+   ================================================== */
 
 .products-section {
   max-width: var(--max-width);
@@ -13,17 +25,29 @@ main {
   margin: auto;
 }
 
+/* Section heading displayed above each product row */
+
 .products-section-title {
   font-size: 24px;
   font-weight: 800;
   text-overflow: ellipsis;
 }
 
+/* ==================================================
+   Product Slider Container
+   Holds the product cards and hides any cards that
+   extend beyond the visible area.
+   ================================================== */
+
 .products-section-items-wrapper {
   width: 100%;
   position: relative;
   overflow-x: hidden;
 }
+
+/* Container that holds all product cards in a row.
+   JavaScript moves this container to create the
+   sliding carousel effect. */
 
 .product-section-items-container {
   display: flex;
@@ -33,6 +57,12 @@ main {
   gap: 10px;
   transition: 0.5s;
 }
+
+/* ==================================================
+   Product Navigation Controls
+   Arrow buttons used to scroll through products
+   within each section.
+   ================================================== */
 
 .products-section-slider {
   position: absolute;
@@ -45,6 +75,8 @@ main {
   justify-content: space-between;
   align-items: center;
 }
+
+/* Left and right navigation arrows */
 
 .products-section-slider i {
   background-color: rgba(0, 0, 0, 0.8);

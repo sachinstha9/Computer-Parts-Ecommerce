@@ -1,3 +1,9 @@
+/* ==================================================
+   Product Card
+   Individual product container displayed throughout
+   the homepage and product catalogue pages.
+   ================================================== */
+
 .product-section-item {
   width: 300px;
   height: 400px;
@@ -10,6 +16,12 @@
   z-index: 20;
 }
 
+/* ==================================================
+   Product Image Area
+   Displays the product image and contains the
+   add-to-cart button overlay.
+   ================================================== */
+
 .product-image {
   position: relative;
   height: 200px;
@@ -18,9 +30,14 @@
   justify-content: center;
 }
 
+/* Shows the add-to-cart button when hovering over
+   the product image */
+
 .product-image:hover .product-add-button {
   display: block;
 }
+
+/* Main product image */
 
 .product-section-img {
   height: 100%;
@@ -29,6 +46,12 @@
   background-position: center;
   width: 100%;
 }
+
+/* ==================================================
+   Add To Cart Button
+   Allows users to quickly add products to their cart
+   directly from the product card.
+   ================================================== */
 
 .product-add-button {
   position: absolute;
@@ -55,10 +78,18 @@
   cursor: pointer;
 }
 
+/* Visual feedback when hovering over the button */
+
 .product-add-button:hover {
   background-color: white;
   color: black;
 }
+
+/* ==================================================
+   Product Information
+   Displays the product title, tags, availability,
+   and price information.
+   ================================================== */
 
 .product-section-item-title {
   font-size: 16px;
@@ -69,6 +100,8 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* Product category and filter tags */
 
 .product-section-item-tags {
   list-style: none;
@@ -95,6 +128,8 @@
   text-decoration: none;
 }
 
+/* Product stock status indicator */
+
 .product-section-item-availabilty {
   display: flex;
   align-items: center;
@@ -102,6 +137,8 @@
   color: rgb(116, 189, 34);
   font-size: 14px;
 }
+
+/* Product price displayed at the bottom of the card */
 
 .product-section-item-price {
   font-size: 18px;
