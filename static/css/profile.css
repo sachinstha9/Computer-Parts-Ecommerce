@@ -159,8 +159,8 @@ body {
     padding: 8px 10px;
   }
   .sidebar-header .header-logo img {
-    width: 40px;
-    height: 40px;
+    width: 100px;
+    height: 100px;
   }
   .sidebar-header .sidebar-toggler,
   .sidebar-nav .nav-item:hover .nav-tooltip {
