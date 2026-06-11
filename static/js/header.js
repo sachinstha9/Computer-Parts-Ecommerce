@@ -1,4 +1,6 @@
 export let cart = JSON.parse(localStorage.getItem("cart")) || [];
+export let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
 const cartCount = document.querySelector(".cart-count");
 const cartIcon = document.querySelector(".cart-icon");
 const cartDropdown = document.querySelector(".cart-dropdown");
@@ -71,3 +73,10 @@ showCartPreview();
 cartIcon.addEventListener("click", () => {
   cartDropdown.classList.toggle("open");
 });
+
+// Wishlist
+export function saveWishlist() {
+  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+}
+
+saveWishlist();
