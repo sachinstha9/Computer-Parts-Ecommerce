@@ -41,7 +41,6 @@ function renderShoppingCart() {
     totalText.textContent = "$0.00";
 
     updateCartCount();
-
     return;
   }
 
@@ -62,7 +61,17 @@ function renderShoppingCart() {
 
         <p>${item.price}</p>
 
-        <p>Quantity: ${item.quantity}</p>
+        <div class="quantity-controls">
+          <button class="quantity-btn decrease" data-index="${index}">
+            -
+          </button>
+
+          <span class="quantity-value">${item.quantity}</span>
+
+          <button class="quantity-btn increase" data-index="${index}">
+            +
+          </button>
+        </div>
 
         <button class="remove-product" data-index="${index}">
           Remove
@@ -81,6 +90,8 @@ function renderShoppingCart() {
   totalText.textContent = "$" + total.toFixed(2);
 
   const removeButtons = document.querySelectorAll(".remove-product");
+  const increaseButtons = document.querySelectorAll(".increase");
+  const decreaseButtons = document.querySelectorAll(".decrease");
 
   removeButtons.forEach(button => {
     button.addEventListener("click", () => {
@@ -90,7 +101,32 @@ function renderShoppingCart() {
 
       saveCart();
       renderShoppingCart();
-      updateCartCount();
+    });
+  });
+
+  increaseButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      const itemIndex = button.dataset.index;
+
+      cart[itemIndex].quantity++;
+
+      saveCart();
+      renderShoppingCart();
+    });
+  });
+
+  decreaseButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      const itemIndex = button.dataset.index;
+
+      if (cart[itemIndex].quantity > 1) {
+        cart[itemIndex].quantity--;
+      } else {
+        cart.splice(itemIndex, 1);
+      }
+
+      saveCart();
+      renderShoppingCart();
     });
   });
 
