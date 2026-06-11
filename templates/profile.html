@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
+</head>
+
+    <link rel="stylesheet" href="../static/css/global.css" />
+    <link rel="stylesheet" href="../static/css/profile.css" />
+    <link rel="stylesheet" href="../static/css/product-item.css" />
+    <link rel="stylesheet" href="../static/css/header.css" />
+    <link rel="stylesheet" href="../static/css/carousel.css" />
+    <link rel="stylesheet" href="../static/css/footer.css" />
+
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="../static/images/favicon-16x16.png"
+    />
+  </head>
+
+  <body>
+        <!-- ================= HEADER ================= -->
+
+      <header class="navbar">
+        <div id="first-row">
+          <div class="nav-left">
+            <a href="/" class="logo-link">
+              <img
+                src="../static/images/galact.png"
+                alt="Galact Logo"
+                class="logo-image"
+              />
+            </a>
+
+            <span>
+              <div>
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </div>
+              <input type="text" placeholder="Search..." />
+            </span>
+          </div>
+
+          <div class="nav-right">
+            <a href="/wishlist" class="icon-link" aria-label="Wishlist">♡</a>
+
+            <div class="cart-wrapper">
+              <button
+                class="cart-icon"
+                type="button"
+                aria-label="Open cart preview"
+              >
+                🛍
+                <span class="cart-count">{{ cart_count }}</span>
+              </button>
+
+              <div class="cart-dropdown">
+                <h3>Your Cart</h3>
+
+                <div class="cart-items">
+                  <p class="empty-cart-message">Your cart is empty.</p>
+                </div>
+
+                <a href="/shopping-cart" class="checkout-button">Checkout</a>
+              </div>
+            </div>
+
+          {% if session.get("customer_id") %}
+    <a href="/profile" class="icon-link" aria-label="User Profile">♙</a>
+{% else %}
+    <a href="/login" class="icon-link" aria-label="User Profile">♙</a>
+{% endif %}
+          </div>
+        </div>
+
+        <div id="second-row">
+      <ul id="header-items-container">
+        <li class="header-item">
+          <p class="header-item-title">
+            Gaming PCs <i class="fa fa-angle-down" aria-hidden="true"></i>
+          </p>
+
+          <div class="header-item-hover">
+            <ul class="header-item-list">
+              <li>Ready to Ships PCs</li>
+              <li>Core Series Gaming PCs</li>
+              <li>Ultra Series Gaming PCs</li>
+              <li>Zen Series Gaming PCs</li>
+              <li>Ark Series Gaming PCs</li>
+            </ul>
+
+            <div class="header-item-with-image">
+              <p>Core Gaming PCs</p>
+              <img src="../static/images/core-series-gaming.webp" alt="Core Series Gaming PC" />
+            </div>
+
+            <div class="header-item-with-image">
+              <p>Ultra Gaming PCs</p>
+              <img src="../static/images/ultra-series-gaming.webp" alt="Ultra Series Gaming PC" />
+            </div>
+
+            <div class="header-item-with-image">
+              <p>Zen Gaming PCs</p>
+              <img src="../static/images/zen-series-gaming.webp" alt="Zen Series Gaming PC" />
+            </div>
+
+            <div class="header-item-with-image">
+              <p>Ark Gaming PCs</p>
+              <img src="../static/images/ark-series-gaming.webp" alt="Ark Series Gaming PC" />
+            </div>
+          </div>
+        </li>
+
+        <li class="header-item">
+          <p class="header-item-title">
+            Laptops <i class="fa fa-angle-down" aria-hidden="true"></i>
+          </p>
+
+          <div class="header-item-hover">
+            <ul class="header-item-list">
+              <li>By Series</li>
+              <li>
+                <a href="{{ url_for('products', tags=['laptop', 'business'])}}">Business</a>
+              </li>
+              <li>
+                <a href="{{ url_for('products', tags=['laptop', 'gaming'])}}">Gaming</a>
+              </li>
+              <li>
+                <a href="{{ url_for('products', tags=['laptop', 'mobile workstations'])}}">Mobile Workstations</a>
+              </li>
+              <li>
+                <a href="{{ url_for('products', tags=['laptop', 'home & study'])}}">Home & Study</a>
+              </li>
+              <li>
+                <a href="{{ url_for('products', tags=['laptop', '2 in 1/Flip'])}}">2 in 1/Flip</a>
+              </li>
+              <li>
+                <a href="{{ url_for('products', tags=['laptop', 'Thin & Light'])}}">Thin & Light</a>
+              </li>
+              <li>
+                <a href="{{ url_for('products', tags=['laptop', 'Copilot+'])}}">Copilot+</a>
+              </li>
+              <li>
+                <a href="{{ url_for('products', tags=['laptop', 'Chromebooks'])}}">Chromebooks</a>
+              </li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li>By Brand</li>
+              <li>
+                <a href="{{ url_for('products', tags=['laptop', 'asus'])}}">ASUS</a>
+              </li>
+              <li>
+                <a href="{{ url_for('products', tags=['laptop', 'msi'])}}">MSI</a>
+              </li>
+              <li>
+                <a href="{{ url_for('products', tags=['laptop', 'hp'])}}">HP</a>
+              </li>
+              <li>
+                <a href="{{ url_for('products', tags=['laptop', 'gigabyte'])}}">Gigabyte</a>
+              </li>
+              <li>
+                <a href="{{ url_for('products', tags=['laptop', 'lenovo'])}}">Lenovo</a>
+              </li>
+              <li>
+                <a href="{{ url_for('products', tags=['laptop', 'dell'])}}">Dell</a>
+              </li>
+              <li>
+                <a href="{{ url_for('products', tags=['laptop', 'acer'])}}">Acer</a>
+              </li>
+            </ul>
+
+            <div class="header-item-with-image">
+              <p>HP ZBook Power G11</p>
+              <img src="../static/images/HP-ZBook-Power-G11.webp" alt="" />
+            </div>
+
+            <div class="header-item-with-image">
+              <p>MSI Gaming Laptops</p>
+              <img src="../static/images/MSI-gaming-laptops.webp" alt="" />
+            </div>
+
+            <div class="header-item-with-image">
+              <p>HP EliteBooks</p>
+              <img src="../static/images/hp-elitebook.webp" alt="" />
+            </div>
+          </div>
+        </li>
+
+        <li class="header-item">
+          <p class="header-item-title">
+            PC Components
+            <i class="fa fa-angle-down" aria-hidden="true"></i>
+          </p>
+
+          <div class="header-item-hover">
+            <ul class="header-item-list">
+              <li><a href="{{url_for('products', tags=['graphics cards'])}}">Graphics Cards</a></li>
+              <li><a href="{{url_for('products', tags=['graphics cards', 'nvidia'])}}">Nvidia Geforce Graphics
+                  Card</a></li>
+              <li><a href="{{url_for('products', tags=['graphics cards', 'amd'])}}">AMD Radeon Graphics Card</a></li>
+              <li><a href="{{url_for('products', tags=['graphics cards', 'workstation'])}}">Workstation Graphics
+                  Card</a></li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li><a href="{{url_for('products', tags=['cpu'])}}">CPUs/Processors</a></li>
+              <li><a href="{{url_for('products', tags=['cpu', 'amd'])}}">AMD CPUs/Processors</a></li>
+              <li><a href="{{url_for('products', tags=['cpu', 'intel'])}}">Intel CPUs/Processors</a></li>
+              <li><a href="{{url_for('products', tags=['cpu', 'server'])}}">Server CPUs/Processors</a></li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li><a href="{{url_for('products', tags=['motherboard'])}}">Motherboards</a></li>
+              <li><a href="{{url_for('products', tags=['motherboard', 'amd'])}}">AMD Motherboards</a></li>
+              <li><a href="{{url_for('products', tags=['motherboard', 'intel'])}}">Intel Motherboards</a></li>
+              <li><a href="{{url_for('products', tags=['motherboard', 'server'])}}">Server Motherboards</a></li>
+              <li><a href="{{url_for('products', tags=['motherboard', 'workstation'])}}">Workstation Motherboards</a>
+              </li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li><a href="{{url_for('products', tags=['cases'])}}">Cases</a></li>
+              <li><a href="{{url_for('products', tags=['cases', 'pc'])}}">PC Cases</a></li>
+              <li><a href="{{url_for('products', tags=['cases', 'server'])}}">Server Cases</a></li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li><a href="{{url_for('products', or_tags=['memory', 'ram'])}}">Memory/RAM</a></li>
+              <li><a href="{{url_for('products', tags=['desktop'], or_tags=['memory', 'ram'])}}">Desktop Memory</a>
+              </li>
+              <li><a href="{{url_for('products', tags=['laptop'], or_tags=['memory', 'ram'])}}">Laptop Memory</a></li>
+              <li><a href="{{url_for('products', tags=['server'], or_tags=['memory', 'ram'])}}">Server Memory</a></li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li><a href="{{url_for('products', or_tags=['power supplies', 'psu'])}}">Power Supplies/PSU</a></li>
+              <li><a
+                  href="{{url_for('products', tags=['sleeved cables'], or_tags=['power supplies', 'psu'])}}">Sleeved
+                  Cables</a></li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li><a href="{{url_for('products', or_tags=['cooler, cooling'])}}">Cooling</a></li>
+              <li><a href="{{url_for('products', tags=['cpu air'], or_tags=['cooler', 'cooling'])}}">CPU Air
+                  Coolers</a></li>
+              <li><a href="{{url_for('products', tags=['cpu aio'], or_tags=['cooler', 'cooling'])}}">CPU AIO
+                  Watercoolers</a></li>
+              <li><a href="{{url_for('products', tags=['custom'], or_tags=['cooler', 'cooling'])}}">Custom
+                  Watercooling</a></li>
+              <li><a href="{{url_for('products', tags=['thermal compound'], or_tags=['cooler', 'cooling'])}}">Thermal
+                  Compund</a></li>
+              <li><a href="{{url_for('products', tags=['fans'], or_tags=['cooler', 'cooling'])}}">Case Fans</a></li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li><a href="{{url_for('products', tags=['storage'])}}">Storage</< /li>
+              <li><a href="{{url_for('products', tags=['storage'], or_tags=['ssd', 'solid state drive'])}}">Solid
+                  State Drives</a></li>
+              <li><a href="{{url_for('products', tags=['storage'], or_tags=['hd', 'hard drive'])}}">Hard Drives</a>
+              </li>
+              <li><a href="{{url_for('products', tags=['storage', 'optical drive'])}}">Optical Drives</a></li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="header-item">
+          <p class="header-item-title">
+            Peripherals <i class="fa fa-angle-down" aria-hidden="true"></i>
+          </p>
+
+          <div class="header-item-hover">
+            <ul class="header-item-list">
+              <li>Monitors</li>
+              <li>Gaming</li>
+              <li>Home & Office</li>
+              <li>Professional</li>
+              <li>Arms & Stands</li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li>Mice</li>
+              <li>Gaming</li>
+              <li>Office & Workflow</li>
+              <li>Mouse Pads</li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li>Keyboards</li>
+              <li>Gaming</li>
+              <li>Home & Office</li>
+              <li>Mechanical Keyboards</li>
+              <li>DIY Parts & accessories</li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li>Simulator & Controllers</li>
+              <li>Racing Controls</li>
+              <li>Flight Controls</li>
+              <li>Cockpits & Stands</li>
+              <li>Motion & Haptic</li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li>Audio & Streaming</li>
+              <li>Gaming Headsets</li>
+              <li>Microphones</li>
+              <li>Webcams</li>
+              <li>Conference Cams</li>
+              <li>Streaming Cams</li>
+              <li>Gaming Speakers</li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li>External Storage</li>
+              <li>Hard Drive & SSDs</li>
+              <li>Flash Drives</li>
+              <li>Memory Cards</li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li>Netwokings</li>
+              <li>Routers</li>
+              <li>Switches</li>
+              <li>NAS</li>
+              <li>Adapters & Access Points</li>
+              <li>Security Cameras & Softwares</li>
+              <li>Cables & Accessories</li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li>Furniture</li>
+              <li>Gaming Chairs</li>
+              <li>Home & Office Chairs</li>
+              <li>Desks</li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li>Power & Lighting</li>
+              <li>Cable & Adaptors</li>
+              <li>Power Banks & Charging</li>
+              <li>Surge Protectors</li>
+              <li>Smart/LED Lighting</li>
+              <li>UPS</li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li>Printers</li>
+              <li>Inkjet Printers</li>
+              <li>Laser Printers</li>
+              <li>Ink & Toner</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="header-item">
+          <p class="header-item-title">
+            Audio <i class="fa fa-angle-down" aria-hidden="true"></i>
+          </p>
+
+          <div class="header-item-hover">
+            <ul class="header-item-list">
+              <li>Headphones</li>
+              <li>In-Ear Monitors (IEMs)</li>
+              <li>True Wireless & Bluetooth</li>
+              <li>AudioPhile</li>
+              <li>Gaming Headsets</li>
+              <li>Office Headsets</li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li>Interfaces</li>
+              <li>Headphones Amplifiers</li>
+              <li>Speaker Amplifiers</li>
+              <li>Sound Cards</li>
+              <li>Recording Interfaces</li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li>Audio Devices</li>
+              <li>Digital Audio Players (DAPs)</li>
+              <li>Receivers</li>
+              <li>Turntables</li>
+              <li>Streaming</li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li>Microphones</li>
+              <li>Wired Microphones</li>
+              <li>Wireless Microphones</li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li>Speakers & Subwoofers</li>
+              <li>Subwoofers</li>
+              <li>Soundbards</li>
+              <li>Speaker Systems</li>
+              <li>Portable</li>
+              <li>Studio Monitors</li>
+            </ul>
+
+            <ul class="header-item-list">
+              <li>Accessories</li>
+              <li>Cables & Adaptors</li>
+              <li>Headphones & Earphones Accessories</li>
+              <li>Speaker Accessories</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="header-item">
+          <p class="header-item-title">
+            New Arrival
+          </p>
+        </li>
+
+        <li class="header-item">
+          <p class="header-item-title">
+            Specials
+          </p></li>
+      </ul>
+      </div>
+      </header>
+
+  <aside class="sidebar">
+    <!-- Sidebar header -->
+    <header class="sidebar-header">
+      <a href="#" class="header-logo">
+        <img src="../static/images/galact.png" alt="Galact Logo">
+      </a>
+      <button class="toggler sidebar-toggler">
+        <span class="material-symbols-rounded">chevron_left</span>
+      </button>
+      <button class="toggler menu-toggler">
+        <span class="material-symbols-rounded">menu</span>
+      </button>
+    </header>
+    <nav class="sidebar-nav">
+      <!-- Primary top nav -->
+      <ul class="nav-list primary-nav">
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <span class="nav-icon material-symbols-rounded">dashboard</span>
+            <span class="nav-label">Dashboard</span>
+          </a>
+          <span class="nav-tooltip">Dashboard</span>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <span class="nav-icon material-symbols-rounded">calendar_today</span>
+            <span class="nav-label">Orders</span>
+          </a>
+          <span class="nav-tooltip">Calendar</span>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <span class="nav-icon material-symbols-rounded">group</span>
+            <span class="nav-label">Profile</span>
+          </a>
+          <span class="nav-tooltip">Team</span>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <span class="nav-icon material-symbols-rounded">star</span>
+            <span class="nav-label">Wishlist</span>
+          </a>
+          <span class="nav-tooltip">Bookmarks</span>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <span class="nav-icon material-symbols-rounded">settings</span>
+            <span class="nav-label">Settings</span>
+          </a>
+          <span class="nav-tooltip">Settings</span>
+        </li>
+      </ul>
+      <!-- Secondary bottom nav -->
+      <ul class="nav-list secondary-nav">
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <span class="nav-icon material-symbols-rounded">account_circle</span>
+            <span class="nav-label">Profile</span>
+          </a>
+          <span class="nav-tooltip">Profile</span>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <span class="nav-icon material-symbols-rounded">logout</span>
+            <span class="nav-label">Logout</span>
+          </a>
+          <span class="nav-tooltip">Logout</span>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+
+    <script type="module" src="../static/js/products.js"></script>
+    <script type="module" src="../static/js/header.js"></script>
+    <script type="module" src="../static/js/profile.js"></script>
+
+</body>
+</html>
