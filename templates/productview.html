@@ -1,13 +1,10 @@
-<!-- Product View - Will show the product details of the product that is clicked
- to give customer proper information on the product of choice-->
-
 <!doctype html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Product View</title>
+  <title>View Product | Galact</title>
   <link rel="stylesheet" href="../static/css/global.css" />
   <link rel="stylesheet" href="../static/css/header.css" />
   <link rel="stylesheet" href="../static/css/productview.css" />
@@ -413,6 +410,10 @@
       </div>
     </header>
 
+      <!-- ============= END OF HEADER ============== -->
+
+      <!-- ============= START PRODUCT-VIEW ============== -->
+
     <div class="product-container">
       <div id="product-container-col1">
         <img src="{{ correctImage }}" alt="{{ product.title }}" id="product-view-img-src"/>
@@ -473,8 +474,11 @@
       </div>
     </div>
   </div>
+
+      <!-- ============= END OF PRODUCT-VIEW ============== -->
+
+      <script type="module" src="../static/js/productView.js"></script>
+      <script type="module" src="../static/js/header.js"></script>
 </body>
-<script type="module" src="../static/js/productView.js"></script>
-<script type="module" src="../static/js/header.js"></script>
 
 </html>

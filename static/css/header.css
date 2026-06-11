@@ -124,6 +124,34 @@
   transform: scale(1.08);
 }
 
+.cart-preview-bottom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mini-quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mini-quantity-controls button {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: #7667ff;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.mini-quantity-controls span {
+  font-size: 12px;
+  color: white;
+}
+
 #second-row {
   width: 100%;
   height: auto;
