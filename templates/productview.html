@@ -18,8 +18,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-
-      <link rel="icon" type="image/x-icon" href="../static/images/favicon-16x16.png">
 </head>
 
 <body>
@@ -61,11 +59,7 @@
             </div>
           </div>
 
-          {% if session.get("customer_id") %}
-    <a href="/profile" class="icon-link" aria-label="User Profile">♙</a>
-{% else %}
-    <a href="/login" class="icon-link" aria-label="User Profile">♙</a>
-{% endif %}
+          <a href="/login" class="icon-link" aria-label="User Profile">♙</a>
         </div>
       </div>
 
@@ -448,35 +442,7 @@
           </table>
         </div>
 
-<<<<<<< HEAD
         <button id="add-to-cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart</button>
-=======
-        <img src="{{ product.img_sources[0] }}" alt="{{ product.title }}" />
-
-        <p>{{ product.description }}</p>
-
-        <p>Specifications:</p>
-        <table class="specs-table">
-          <tbody>
-            {% for spec, value in product.specifications.items() %}
-            <tr>
-              <td class="spec-name">{{ spec }}</td>
-              <td class="spec-value">{{ value }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-
-        <p>Price: ${{ product.price }}</p>
-
-<button
-  class="product-add-button"
-  type="button"
-  data-product-id="{{ product.id }}"
->
-  <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-</button>
->>>>>>> 76c07ad392edeeac3d7537c492f62e0775e22c85
       </div>
     </div>
   </div>
