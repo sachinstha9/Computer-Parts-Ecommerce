@@ -3,7 +3,7 @@
   width: 270px;
   margin: 16px;
   border-radius: 16px;
-  background: #151a2d;
+  background: #0f1322;
   height: 590px; /* or whatever fits nicely */
   transition: all 0.4s ease;
 
@@ -35,7 +35,7 @@
 .sidebar-header .toggler {
   height: 35px;
   width: 35px;
-  color: #151a2d;
+  color: #111527;
   border: none;
   cursor: pointer;
   display: flex;
