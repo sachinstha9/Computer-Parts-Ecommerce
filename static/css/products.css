@@ -1,9 +1,7 @@
-/* Logo image styling */
-.logo-image {
-  height: 30px; /* adjust size if needed */
-  width: auto;
-  display: block;
-}
+/* ==================================================
+   Products Page Base
+   General page-level styling for the products page.
+   ================================================== */
 
 a {
   color: white;
@@ -15,166 +13,18 @@ a {
   min-height: 100vh;
 }
 
-/**************** HERO ****************/
-
-.hero {
-  width: 100%;
-  height: 220px;
-
-  position: relative;
-
-  overflow: hidden;
-
-  display: flex;
-
-  justify-content: center;
-  align-items: center;
-
-  text-align: center;
-
-  padding: 0 30px;
-
-  background: linear-gradient(135deg, #181818 0%, #242424 45%, #2f1268 100%);
-}
-
-/* animated stars */
-
-.hero::before {
-  content: "";
-
-  position: absolute;
-
-  inset: 0;
-
-  background-image:
-    radial-gradient(white 1px, transparent 1px),
-    radial-gradient(rgba(120, 120, 255, 0.8) 1px, transparent 1px);
-
-  background-size:
-    90px 90px,
-    140px 140px;
-
-  opacity: 0.35;
-
-  animation: starsMove 22s linear infinite;
-}
-
-/* glow */
-
-.hero::after {
-  content: "";
-
-  position: absolute;
-
-  inset: 0;
-
-  background: linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(120, 120, 255, 0.18) 50%,
-    transparent 100%
-  );
-
-  animation: glowMove 6s linear infinite;
-}
-
-.diagonal-hero-bg {
-  position: absolute;
-
-  left: 0;
-
-  top: 0;
-
-  width: 500px;
-
-  height: 100%;
-
-  background: linear-gradient(
-    to right,
-
-    rgba(70, 60, 255, 0.55),
-    transparent
-  );
-
-  clip-path: polygon(0 0, 100% 0, 70% 100%, 0 100%);
-}
-
-.hero-content {
-  position: relative;
-
-  z-index: 5;
-
-  max-width: 700px;
-
-  display: flex;
-  flex-direction: column;
-
-  align-items: center;
-
-  animation: heroFade 1s ease;
-}
-
-.hero-content h1 {
-  font-size: 2.2rem;
-
-  letter-spacing: 6px;
-
-  margin-bottom: 14px;
-
-  font-style: italic;
-}
-
-.hero-content p {
-  font-size: 0.9rem;
-
-  color: #ddd;
-
-  max-width: 550px;
-
-  line-height: 1.7;
-
-  letter-spacing: 2px;
-}
-
-/**************** ANIMATIONS ****************/
-
-@keyframes starsMove {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(-140px);
-  }
-}
-
-@keyframes glowMove {
-  from {
-    transform: translateX(-100%);
-  }
-
-  to {
-    transform: translateX(200%);
-  }
-}
-
-@keyframes heroFade {
-  from {
-    opacity: 0;
-
-    transform: translateY(15px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* ==================================================
+   Products Layout
+   Controls the main product grid displayed on the
+   products catalogue page.
+   ================================================== */
 
 .products-main {
   width: 100%;
   margin-top: 50px;
 }
+
+/* Grid layout for displaying product cards */
 
 .product-grid {
   display: grid;
@@ -185,19 +35,13 @@ a {
   max-width: var(--max-width);
 }
 
-/**************** MOBILE ****************/
+/* ==================================================
+   Mobile Layout
+   Adjusts the products page so it fits smaller
+   screen sizes more comfortably.
+   ================================================== */
 
 @media (max-width: 900px) {
-  .hero {
-    height: 190px;
-
-    padding: 0 30px;
-  }
-
-  .hero-content h1 {
-    font-size: 1.7rem;
-  }
-
   .products-layout {
     grid-template-columns: 1fr;
   }
@@ -212,265 +56,7 @@ a {
 }
 
 @media (max-width: 600px) {
-  .navbar {
-    padding: 0 20px;
-  }
-
-  .nav-left,
-  .nav-right {
-    gap: 15px;
-  }
-
-  .hero {
-    height: 170px;
-  }
-
-  .hero-content h1 {
-    font-size: 1.4rem;
-  }
-
   .product-grid {
     grid-template-columns: 1fr;
-  }
-}
-
-.product-image {
-  position: relative;
-}
-
-.product-add-button {
-  position: absolute;
-  right: 12px;
-  bottom: 12px;
-
-  width: 36px;
-  height: 36px;
-  padding: 0;
-
-  border: none;
-  border-radius: 50%;
-
-  background: #7667ff;
-  color: white;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 15px;
-  cursor: pointer;
-}
-
-.product-add-button:hover {
-    transform: scale(1.1);
-    background: #8a82ff;
-}
-
-
-.product-card:hover .add-button {
-  opacity: 1;
-  bottom: 24px;
-}
-
-.add-button:hover {
-  background: #ffffff;
-  color: #111;
-}
-
-/**************** CHECKOUT PAGE ****************/
-
-.checkout-page {
-  padding: 20px 40px 40px;
-}
-
-.checkout-label {
-  font-size: 0.7rem;
-  color: #777;
-  margin-bottom: 12px;
-  letter-spacing: 1px;
-}
-
-.checkout-container {
-  width: 100%;
-  min-height: 720px;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  padding: 90px 60px;
-
-  display: flex;
-  justify-content: space-between;
-  gap: 70px;
-}
-
-/**************** CHECKOUT PRODUCTS ****************/
-
-.checkout-items {
-  flex: 1;
-  max-width: 700px;
-}
-
-.checkout-line {
-  width: 100%;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.8);
-}
-
-.checkout-products {
-  padding: 60px 0;
-
-  display: flex;
-  gap: 40px;
-  flex-wrap: wrap;
-}
-
-.checkout-product {
-  width: 260px;
-}
-
-.checkout-product img {
-  width: 260px;
-  height: 260px;
-  object-fit: cover;
-  background: #dcdcdc;
-  border: 1px solid #444;
-}
-
-.checkout-product-info {
-  padding-top: 15px;
-}
-
-.checkout-product-info h3 {
-  font-size: 0.9rem;
-  margin-bottom: 8px;
-  letter-spacing: 2px;
-}
-
-.checkout-product-info p {
-  color: #7b7cff;
-  margin-bottom: 12px;
-}
-
-.remove-product {
-  border: none;
-  background: none;
-  color: #ff7070;
-  cursor: pointer;
-  font-size: 0.75rem;
-  letter-spacing: 1px;
-}
-
-.remove-product:hover {
-  color: white;
-}
-
-/**************** ORDER SUMMARY ****************/
-
-.order-summary {
-  width: 300px;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  padding: 28px;
-  align-self: flex-start;
-}
-
-.order-summary h2 {
-  text-align: center;
-  font-size: 1rem;
-  margin-bottom: 30px;
-  letter-spacing: 2px;
-  font-weight: 400;
-}
-
-.summary-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 18px;
-  font-size: 0.8rem;
-}
-
-.summary-divider {
-  width: 100%;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.8);
-  margin: 28px 0;
-}
-
-.total-row {
-  margin-bottom: 30px;
-  font-size: 1rem;
-}
-
-.terms-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
-  margin-bottom: 22px;
-
-  font-size: 0.65rem;
-  cursor: pointer;
-}
-
-.terms-row input {
-  width: 18px;
-  height: 18px;
-  accent-color: #7b7cff;
-}
-
-.continue-button {
-  width: 100%;
-  height: 46px;
-
-  border: none;
-  background: #7b7cff;
-  color: white;
-
-  font-weight: 700;
-  letter-spacing: 2px;
-
-  cursor: pointer;
-  transition: 0.25s;
-}
-
-.continue-button:hover {
-  background: white;
-  color: black;
-}
-
-/**************** CHECKOUT MOBILE ****************/
-
-@media (max-width: 1000px) {
-  .checkout-container {
-    flex-direction: column;
-    padding: 50px 30px;
-  }
-
-  .checkout-items {
-    max-width: 100%;
-  }
-
-  .order-summary {
-    width: 100%;
-  }
-}
-
-@media (max-width: 700px) {
-  .checkout-page {
-    padding: 20px;
-  }
-
-  .checkout-container {
-    padding: 35px 20px;
-  }
-
-  .checkout-products {
-    justify-content: center;
-  }
-
-  .checkout-product,
-  .checkout-product img {
-    width: 100%;
-  }
-
-  .checkout-product img {
-    height: 260px;
   }
 }

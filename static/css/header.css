@@ -1,3 +1,10 @@
+/* ==================================================
+   Navigation Bar
+   Main site header used across the website. Contains
+   the logo, search bar, navigation menu, cart, and
+   user account controls.
+   ================================================== */
+
 .navbar {
   width: 100%;
   height: auto;
@@ -9,6 +16,12 @@
   gap: 15px;
   position: relative;
 }
+
+/* ==================================================
+   Header Top Row
+   Contains the logo, search functionality, cart,
+   wishlist, and profile links.
+   ================================================== */
 
 #first-row {
   display: flex;
@@ -38,6 +51,12 @@
 .nav-left img {
   height: 30px;
 }
+
+/* ==================================================
+   Search Bar
+   Allows users to search for products throughout
+   the website.
+   ================================================== */
 
 .nav-left span {
   width: auto;
@@ -71,27 +90,32 @@
   background-color: transparent;
 }
 
+/* ==================================================
+   Logo & Navigation Links
+   ================================================== */
+
 .logo {
   font-size: 1.3rem;
-
   letter-spacing: 6px;
-
   font-style: italic;
 }
 
 .nav-link {
   font-size: 0.85rem;
-
   font-style: italic;
-
   letter-spacing: 3px;
-
   transition: 0.25s;
 }
 
 .nav-link:hover {
   color: #7b7cff;
 }
+
+/* ==================================================
+   Header Icons
+   Includes wishlist, shopping cart, and user profile
+   actions located in the top-right corner.
+   ================================================== */
 
 .icon-link {
   font-size: 1.4rem;
@@ -107,22 +131,57 @@
 .cart-icon {
   width: 42px;
   height: 42px;
-
   border-radius: 50%;
-
   background: white;
-
   color: black;
-
   display: grid;
   place-items: center;
-
   transition: 0.25s;
 }
 
 .cart-icon:hover {
   transform: scale(1.08);
 }
+
+/* ==================================================
+   Mini Cart Controls
+   Quantity controls displayed inside the cart preview
+   dropdown for quick cart management.
+   ================================================== */
+
+.cart-preview-bottom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mini-quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mini-quantity-controls button {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: #7667ff;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.mini-quantity-controls span {
+  font-size: 12px;
+  color: white;
+}
+
+/* ==================================================
+   Navigation Categories
+   Second row of the header containing category
+   dropdown menus used for product browsing.
+   ================================================== */
 
 #second-row {
   width: 100%;
@@ -152,6 +211,12 @@
   gap: 10px;
   margin: 0;
 }
+
+/* ==================================================
+   Dropdown Menus
+   Large expandable menus displayed when hovering
+   over navigation categories.
+   ================================================== */
 
 .header-item-hover {
   position: absolute;
@@ -194,6 +259,7 @@
   text-decoration: none;
 }
 
+/* Category heading within each dropdown column */
 .header-item-list li:nth-child(1) {
   padding: 0 0 10px 0;
   margin: 0 0 5px 0;
@@ -203,6 +269,7 @@
   font-size: 18px;
 }
 
+/* Featured products shown inside dropdown menus */
 .header-item-with-image {
   width: 250px;
   align-items: center;
@@ -216,11 +283,17 @@
   width: 100%;
 }
 
-/* ***************** */
+/* ==================================================
+   Shopping Cart Dropdown
+   Displays a quick preview of products currently
+   stored in the user's cart.
+   ================================================== */
+
 .cart-icon {
   position: relative;
 }
 
+/* Cart item count badge */
 .cart-count {
   position: absolute;
   top: -6px;
@@ -270,6 +343,7 @@
   display: none;
 }
 
+/* Displayed when JavaScript adds the open class */
 .cart-dropdown.open {
   display: block;
 }
@@ -280,11 +354,13 @@
   margin-bottom: 14px;
 }
 
+/* Container holding products currently in the cart */
 .cart-items {
   max-height: 260px;
   overflow-y: auto;
 }
 
+/* Individual product preview */
 .cart-preview-item {
   display: flex;
   gap: 12px;
@@ -309,12 +385,14 @@
   color: #7b7cff;
 }
 
+/* Message shown when no items are in the cart */
 .empty-cart-message {
   font-size: 0.8rem;
   color: #ccc;
   margin-bottom: 14px;
 }
 
+/* Checkout button leading to the shopping cart page */
 .checkout-button {
   display: block;
   margin-top: 16px;
@@ -341,6 +419,7 @@
   position: relative;
 }
 
+/* Remove product button from cart preview */
 .remove-cart-item {
   margin-left: auto;
 

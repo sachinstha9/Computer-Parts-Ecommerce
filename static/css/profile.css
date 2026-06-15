@@ -3,12 +3,20 @@
   width: 270px;
   margin: 16px;
   border-radius: 16px;
-  background: #151a2d;
-  height: calc(100vh - 32px);
+  background: #0f1322;
+  height: 590px; /* or whatever fits nicely */
   transition: all 0.4s ease;
+
+  display: flex;
+  flex-direction: column;
 }
 .sidebar.collapsed {
   width: 85px;
+}
+.sidebar-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 .sidebar .sidebar-header {
   display: flex;
@@ -27,7 +35,7 @@
 .sidebar-header .toggler {
   height: 35px;
   width: 35px;
-  color: #151a2d;
+  color: #111527;
   border: none;
   cursor: pointer;
   display: flex;
@@ -84,7 +92,7 @@
   border-radius: 12px;
 }
 .sidebar .sidebar-nav .nav-link .nav-label {
-  transition: opacity 0.3s ease;
+  transition: opacity 0.2s ease;
 }
 .sidebar.collapsed .sidebar-nav .nav-link .nav-label {
   opacity: 0;
@@ -122,10 +130,10 @@
   transition: all 0.4s ease;
 }
 .sidebar-nav .secondary-nav {
-  position: absolute;
-  bottom: 30px;
-  width: 100%;
+  margin-top: auto;
+  padding-bottom: 75px;
 }
+
 /* Responsive media query code for small screens */
 @media (max-width: 1024px) {
   .sidebar {
