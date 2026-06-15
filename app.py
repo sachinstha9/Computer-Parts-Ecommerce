@@ -306,6 +306,10 @@ def profile():
         cart_count=get_cart_count()
     )
 
+@app.route("/profile/<name>")
+def profile_page(name):
+    return render_template(f"profile-pages/{name}.html")
+
 @app.route('/productview/<int:product_id>')
 def product_view(product_id):
     selected_choices = request.args.to_dict()

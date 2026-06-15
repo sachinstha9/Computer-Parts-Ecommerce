@@ -1,91 +1,75 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile | Galact</title>
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile | Galact</title>
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap"
-      rel="stylesheet"
-    />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
 </head>
 
-    <link rel="stylesheet" href="../static/css/global.css" />
-    <link rel="stylesheet" href="../static/css/profile.css" />
-    <link rel="stylesheet" href="../static/css/header.css" />
-    <link rel="stylesheet" href="../static/css/hero.css" />
-    <link rel="stylesheet" href="../static/css/footer.css" />
+<link rel="stylesheet" href="../static/css/global.css" />
+<link rel="stylesheet" href="../static/css/profile.css" />
+<link rel="stylesheet" href="../static/css/header.css" />
+<link rel="stylesheet" href="../static/css/hero.css" />
+<link rel="stylesheet" href="../static/css/footer.css" />
 
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="../static/images/favicon-16x16.png"
-    />
-  </head>
+<link rel="icon" type="image/x-icon" href="../static/images/favicon-16x16.png" />
+</head>
 
-  <body>
-        <!-- ================= HEADER ================= -->
+<body>
+  <!-- ================= HEADER ================= -->
 
-      <header class="navbar">
-        <div id="first-row">
-          <div class="nav-left">
-            <a href="/" class="logo-link">
-              <img
-                src="../static/images/galact.png"
-                alt="Galact Logo"
-                class="logo-image"
-              />
-            </a>
+  <header class="navbar">
+    <div id="first-row">
+      <div class="nav-left">
+        <a href="/" class="logo-link">
+          <img src="../static/images/galact.png" alt="Galact Logo" class="logo-image" />
+        </a>
 
-            <span>
-              <div>
-                <i class="fa fa-search" aria-hidden="true"></i>
-              </div>
-              <input type="text" placeholder="Search..." />
-            </span>
+        <span>
+          <div>
+            <i class="fa fa-search" aria-hidden="true"></i>
           </div>
+          <input type="text" placeholder="Search..." />
+        </span>
+      </div>
 
-          <div class="nav-right">
-            <a href="/wishlist" class="icon-link" aria-label="Wishlist">♡</a>
+      <div class="nav-right">
+        <a href="/wishlist" class="icon-link" aria-label="Wishlist">♡</a>
 
-            <div class="cart-wrapper">
-              <button
-                class="cart-icon"
-                type="button"
-                aria-label="Open cart preview"
-              >
-                🛍
-                <span class="cart-count">{{ cart_count }}</span>
-              </button>
+        <div class="cart-wrapper">
+          <button class="cart-icon" type="button" aria-label="Open cart preview">
+            🛍
+            <span class="cart-count">{{ cart_count }}</span>
+          </button>
 
-              <div class="cart-dropdown">
-                <h3>Your Cart</h3>
+          <div class="cart-dropdown">
+            <h3>Your Cart</h3>
 
-                <div class="cart-items">
-                  <p class="empty-cart-message">Your cart is empty.</p>
-                </div>
-
-                <a href="/shopping-cart" class="checkout-button">Checkout</a>
-              </div>
+            <div class="cart-items">
+              <p class="empty-cart-message">Your cart is empty.</p>
             </div>
 
-          {% if session.get("customer_id") %}
-    <a href="/profile" class="icon-link" aria-label="User Profile">♙</a>
-{% else %}
-    <a href="/login" class="icon-link" aria-label="User Profile">♙</a>
-{% endif %}
+            <a href="/shopping-cart" class="checkout-button">Checkout</a>
           </div>
         </div>
 
-        <div id="second-row">
+        {% if session.get("customer_id") %}
+        <a href="/profile" class="icon-link" aria-label="User Profile">♙</a>
+        {% else %}
+        <a href="/login" class="icon-link" aria-label="User Profile">♙</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div id="second-row">
       <ul id="header-items-container">
         <li class="header-item">
           <p class="header-item-title">
@@ -247,8 +231,7 @@
 
             <ul class="header-item-list">
               <li><a href="{{url_for('products', or_tags=['power supplies', 'psu'])}}">Power Supplies/PSU</a></li>
-              <li><a
-                  href="{{url_for('products', tags=['sleeved cables'], or_tags=['power supplies', 'psu'])}}">Sleeved
+              <li><a href="{{url_for('products', tags=['sleeved cables'], or_tags=['power supplies', 'psu'])}}">Sleeved
                   Cables</a></li>
             </ul>
 
@@ -429,27 +412,29 @@
         <li class="header-item">
           <p class="header-item-title">
             Specials
-          </p></li>
-      </ul>
-      </div>
-      </header>
-
-    <!-- ================= HERO ================= -->
-
-      <section class="hero">
-        <div class="diagonal-hero-bg"></div>
-
-        <div class="hero-content">
-          <h1>PROFILES</h1>
-
-          <p>
-            Check your orders, change your profile information or edit your wishlist!
           </p>
-        </div>
-      </section>
+        </li>
+      </ul>
+    </div>
+  </header>
 
-    <!-- ============= END OF HERO ============== -->
+  <!-- ================= HERO ================= -->
 
+  <section class="hero">
+    <div class="diagonal-hero-bg"></div>
+
+    <div class="hero-content">
+      <h1>PROFILES</h1>
+
+      <p>
+        Check your orders, change your profile information or edit your wishlist!
+      </p>
+    </div>
+  </section>
+
+  <!-- ============= END OF HERO ============== -->
+
+  <main id="profile-content">
   <aside class="sidebar">
     <!-- Sidebar header -->
     <header class="sidebar-header">
@@ -463,61 +448,68 @@
         <span class="material-symbols-rounded">menu</span>
       </button>
     </header>
-    <nav class="sidebar-nav">
-      <!-- Primary top nav -->
-      <ul class="nav-list primary-nav">
+
+      <nav class="sidebar-nav">
+        <!-- Primary top nav -->
+        <ul class="nav-list primary-nav">
+          <li class="nav-item">
+            <a class="nav-link" id="dashboard-btn">
+              <span class="nav-icon material-symbols-rounded">dashboard</span>
+              <span class="nav-label">Dashboard</span>
+            </a>
+            <span class="nav-tooltip">Dashboard</span>
+          </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="nav-icon material-symbols-rounded">dashboard</span>
-            <span class="nav-label">Dashboard</span>
-          </a>
-          <span class="nav-tooltip">Dashboard</span>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a class="nav-link" id="orders-btn">
             <span class="nav-icon material-symbols-rounded">shopping_cart_checkout</span>
             <span class="nav-label">Orders</span>
           </a>
           <span class="nav-tooltip">Orders</span>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a class="nav-link" id="profile-btn">
             <span class="nav-icon material-symbols-rounded">group</span>
             <span class="nav-label">Profile</span>
           </a>
           <span class="nav-tooltip">Profile</span>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a class="nav-link" id="wishlist-btn">
             <span class="nav-icon material-symbols-rounded">favorite</span>
             <span class="nav-label">Wishlist</span>
           </a>
           <span class="nav-tooltip">Wishlist</span>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a class="nav-link" id="settings-btn">
             <span class="nav-icon material-symbols-rounded">settings</span>
             <span class="nav-label">Settings</span>
           </a>
           <span class="nav-tooltip">Settings</span>
         </li>
-      </ul>   
-<!-- Secondary bottom nav -->
-<ul class="nav-list secondary-nav">
-  <li class="nav-item">
-    <a href="/logout" class="nav-link">
-      <span class="nav-icon material-symbols-rounded">logout</span>
-      <span class="nav-label">Logout</span>
-    </a>
-    <span class="nav-tooltip">Logout</span>
-  </li>
-</ul>
+      </ul>
+      <!-- Secondary bottom nav -->
+      <ul class="nav-list secondary-nav">
+        <li class="nav-item">
+          <a href="/logout" class="nav-link">
+            <span class="nav-icon material-symbols-rounded">logout</span>
+            <span class="nav-label">Logout</span>
+          </a>
+          <span class="nav-tooltip">Logout</span>
+        </li>
+      </ul>
+    </nav>
+
   </aside>
 
 
-    <script type="module" src="../static/js/products.js"></script>
-    <script type="module" src="../static/js/header.js"></script>
-    <script type="module" src="../static/js/profile.js"></script>
+  <div id="content"></div>
+  </main>
+
 
 </body>
+<script type="module" src="../static/js/products.js"></script>
+<script type="module" src="../static/js/header.js"></script>
+<script type="module" src="../static/js/profile.js"></script>
+
 </html>

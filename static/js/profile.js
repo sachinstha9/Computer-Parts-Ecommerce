@@ -10,9 +10,11 @@ sidebarToggler.addEventListener("click", () => {
 });
 // Update sidebar height and menu toggle text
 const toggleMenu = (isMenuActive) => {
-  sidebar.style.height = isMenuActive ? `${sidebar.scrollHeight}px` : collapsedSidebarHeight;
+  sidebar.style.height = isMenuActive
+    ? `${sidebar.scrollHeight}px`
+    : collapsedSidebarHeight;
   menuToggler.querySelector("span").innerText = isMenuActive ? "close" : "menu";
-}
+};
 // Toggle menu-active class and adjust height
 menuToggler.addEventListener("click", () => {
   toggleMenu(sidebar.classList.toggle("menu-active"));
@@ -26,4 +28,32 @@ window.addEventListener("resize", () => {
     sidebar.style.height = "auto";
     toggleMenu(sidebar.classList.contains("menu-active"));
   }
+});
+
+function loadPage(page) {
+  fetch(`/profile/${page}`)
+    .then((response) => response.text())
+    .then((html) => {
+      document.getElementById("content").innerHTML = html;
+    });
+}
+
+document.querySelector("#dashboard-btn").addEventListener("click", () => {
+  loadPage("dashboard");
+});
+
+document.querySelector("#orders-btn").addEventListener("click", () => {
+  loadPage("orders");
+});
+
+document.querySelector("#profile-btn").addEventListener("click", () => {
+  loadPage("profile");
+});
+
+document.querySelector("#wishlist-btn").addEventListener("click", () => {
+  loadPage("wishlist");
+});
+
+document.querySelector("#settings-btn").addEventListener("click", () => {
+  loadPage("settings");
 });

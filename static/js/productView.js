@@ -125,8 +125,6 @@ document.querySelectorAll('input[type="radio"]').forEach((radio) => {
 
     const url = `${window.location.pathname}?${params.toString()}`;
 
-    console.log(url);
-
     window.location.href = url;
   });
 });
