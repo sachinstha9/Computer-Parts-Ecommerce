@@ -140,3 +140,8 @@
   max-width: var(--max-width);
   margin: 0 auto;
 }
+
+hr.rounded {
+  border-top: 3px solid rgb(49, 49, 49);
+  border-radius: 5px;
+}
