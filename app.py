@@ -284,7 +284,6 @@ def admin():
 # Profile Route
 @app.route("/profile")
 def profile():
-
     if "customer_id" not in session:
         return redirect("/login")
 
@@ -292,12 +291,11 @@ def profile():
     c = conn.cursor()
 
     c.execute(
-        "SELECT * FROM customers WHERE id = ?",
-        (session["customer_id"],)
-    )
+    "SELECT username, email FROM customers WHERE id = ?",
+    (session["customer_id"],)
+)
 
     customer = c.fetchone()
-
     conn.close()
 
     return render_template(
@@ -308,7 +306,26 @@ def profile():
 
 @app.route("/profile/<name>")
 def profile_page(name):
-    return render_template(f"profile-pages/{name}.html")
+
+    if "customer_id" not in session:
+        return redirect("/login")
+
+    conn = sqlite3.connect("computer-ecommerce.db")
+    c = conn.cursor()
+
+    c.execute(
+        "SELECT username, email FROM customers WHERE id = ?",
+        (session["customer_id"],)
+    )
+
+    customer = c.fetchone()
+
+    conn.close()
+
+    return render_template(
+        f"profile-pages/{name}.html",
+        customer=customer
+    )
 
 @app.route('/productview/<int:product_id>')
 def product_view(product_id):
