@@ -5,7 +5,7 @@
    ================================================== */
 
 .footer {
-  background: rgb(48, 48, 48);
+  background: rgb(24, 24, 24); /* Matches your image background color */
   padding: 50px 50px;
   display: flex;
   flex-direction: column;
@@ -23,10 +23,11 @@
 #footer-row-1 {
   display: flex;
   align-items: start;
-  justify-content: center;
-  gap: 50px;
+  justify-content: center; /* Centers the content block globally */
+  gap: 80px; /* Controls the horizontal spacing between columns */
   width: 100%;
   max-width: var(--max-width);
+  margin: 0 auto;
 }
 
 /* Individual footer columns */
@@ -39,12 +40,18 @@
   gap: 20px;
   list-style: none;
   padding: 0;
-  flex: 1;
+}
+
+/* Fixes the logo column container from blowing up */
+#footer-col-1 {
+  flex: 0 0 250px;
 }
 
 /* Company logo displayed in footer */
 #footer-col-1 img {
   width: 150px;
+  height: auto; /* Forces proper aspect ratio scaling */
+  display: block;
 }
 
 /* ==================================================
@@ -56,6 +63,7 @@
   display: flex !important;
   gap: 20px;
   list-style: none;
+  padding: 0;
 }
 
 #footer-social-media-links a {
@@ -87,10 +95,15 @@
    Allows users to subscribe using their email address.
    ================================================== */
 
+#footer-col-4 {
+  flex: 0 0 320px; /* Gives the newsletter section a stable width */
+}
+
 #footer-email-wrapper {
   display: flex;
   height: 40px;
   background-color: white;
+  width: 100%;
 }
 
 /* Email input field */
@@ -125,4 +138,10 @@
   justify-content: center;
   width: 100%;
   max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+hr.rounded {
+  border-top: 3px solid rgb(49, 49, 49);
+  border-radius: 5px;
 }
