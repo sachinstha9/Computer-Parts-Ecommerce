@@ -7,6 +7,8 @@ import cloudinary.uploader
 import os
 from urllib.parse import unquote
 import re
+import datetime
+from datetime import datetime, timedelta
 
 # Application Setup
 app = Flask(__name__)
@@ -35,7 +37,8 @@ def product_formatter(products):
             "availability": product[7],
             "in_banner": product[8],
             "company": product[9],
-            "choices": json.loads(product[10])
+            "choices": json.loads(product[10]),
+            "arrival_date": product[11]
         })
 
     return formatted_products
@@ -131,8 +134,26 @@ def products():
     conn = sqlite3.connect("computer-ecommerce.db")
     c = conn.cursor()
 
+    target_date = datetime.now() - timedelta(days=30)
+
     if not tags and not or_tags:
         c.execute("SELECT * FROM products")
+        filtered_products = [
+            product 
+            for product in c.fetchall() 
+            if datetime.strptime(product[11], "%Y-%m-%d") >= target_date
+            ]
+    elif tags == ["new_arrival"]:
+        c.execute("SELECT * FROM products")
+        f_products = []
+        for product in c.fetchall():
+            if product[11] == "":
+                continue
+            arrival_date = datetime.strptime(product[11], "%Y-%m-%d")
+
+            f_products.append(product) if arrival_date >= target_date else None
+
+        filtered_products = f_products
     else:
         sql_parts = []
         sql_values = []
@@ -153,7 +174,6 @@ def products():
         sql_query = "SELECT * FROM products WHERE " + " AND ".join(sql_parts)
         c.execute(sql_query, sql_values)
 
-    filtered_products = c.fetchall()
     conn.close()
 
     filtered_products = product_formatter(filtered_products)
