@@ -147,7 +147,7 @@ def products():
         c.execute("SELECT * FROM products")
         f_products = []
         for product in c.fetchall():
-            if product[11] == "":
+            if product[11] == "" or product[11] is None:
                 continue
             arrival_date = datetime.strptime(product[11], "%Y-%m-%d")
 
