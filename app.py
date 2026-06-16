@@ -146,30 +146,31 @@ def products():
             if datetime.strptime(product[11], "%Y-%m-%d") >= target_date
             ]
     elif tags == ["special"]:
-        c.execute("SELECT * FROM products")
-        f_products = []
-        for product in c.fetchall():
-            if product[11] == "" or product[11] is None:
-                continue
+        pass
+        # c.execute("SELECT * FROM products")
+        # f_products = []
+        # for product in c.fetchall():
+        #     if product[11] == "" or product[11] is None:
+        #         continue
 
-            itemPrice = float(product[5])
-            discount = float(product[11])
+        #     itemPrice = float(product[5])
+        #     discount = float(product[11])
 
-            discountedPrice = itemPrice - (itemPrice * (discount / 100))
+        #     discountedPrice = itemPrice - (itemPrice * (discount / 100))
 
-            product["discountPrice"] = discountedPrice
+        #     product["discountPrice"] = discountedPrice
 
-            f_products.append(product)
+        #     f_products.append(product)
 
-        filtered_products = f_products
+        # filtered_products = f_products
 
     elif tags == ["new_arrival"]:
         c.execute("SELECT * FROM products")
         f_products = []
         for product in c.fetchall():
-            if product[11] == "" or product[11] is None:
+            if product[12] == "" or product[12] is None:
                 continue
-            arrival_date = datetime.strptime(product[11], "%Y-%m-%d")
+            arrival_date = datetime.strptime(product[12], "%Y-%m-%d")
 
             f_products.append(product) if arrival_date >= target_date else None
 
