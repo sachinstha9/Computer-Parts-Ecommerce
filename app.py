@@ -38,7 +38,8 @@ def product_formatter(products):
             "in_banner": product[8],
             "company": product[9],
             "choices": json.loads(product[10]),
-            "arrival_date": product[11]
+            "discount": product[11],
+            "arrival_date": product[12]
         })
 
     return formatted_products
@@ -143,11 +144,20 @@ def products():
             for product in c.fetchall() 
             if datetime.strptime(product[11], "%Y-%m-%d") >= target_date
             ]
+    elif tags == ["special"]:
+        c.execute("SELECT * FROM products")
+        f_products = []
+        for product in c.fetchall():
+            if product[11] == "" or product[11] is None:
+                continue
+             
+            f_products.append(product)
+        filtered_products = f_products
     elif tags == ["new_arrival"]:
         c.execute("SELECT * FROM products")
         f_products = []
         for product in c.fetchall():
-            if product[11] == "":
+            if product[11] == "" or product[11] is None:
                 continue
             arrival_date = datetime.strptime(product[11], "%Y-%m-%d")
 
