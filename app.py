@@ -39,7 +39,8 @@ def product_formatter(products):
             "company": product[9],
             "choices": json.loads(product[10]),
             "discount": product[11],
-            "arrival_date": product[12]
+            "arrival_date": product[12],
+            "discountPrice": None
         })
 
     return formatted_products
@@ -150,9 +151,18 @@ def products():
         for product in c.fetchall():
             if product[11] == "" or product[11] is None:
                 continue
-             
+
+            itemPrice = float(product[5])
+            discount = float(product[11])
+
+            discountedPrice = itemPrice - (itemPrice * (discount / 100))
+
+            product["discountPrice"] = discountedPrice
+
             f_products.append(product)
+
         filtered_products = f_products
+
     elif tags == ["new_arrival"]:
         c.execute("SELECT * FROM products")
         f_products = []
