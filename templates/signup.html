@@ -27,57 +27,63 @@
       <!-- ================= HEADER ================= -->
 
       <header class="navbar">
-        <div id="first-row">
-          <div class="nav-left">
-            <a href="/" class="logo-link">
-              <img
-                src="../static/images/galact.png"
-                alt="Galact Logo"
-                class="logo-image"
-              />
-            </a>
+      <div id="first-row">
+        <div class="nav-left">
+          <!-- Website logo linking back to the homepage -->
+          <a href="/" class="logo-link">
+            <img
+              src="../static/images/galact.png"
+              alt="Galact Logo"
+              class="logo-image"
+            />
+          </a>
+          <!-- Search bar area -->
+          <span>
+            <div>
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </div>
+            <input type="text" placeholder="Search..." />
+          </span>
+        </div>
 
-            <span>
-              <div>
-                <i class="fa fa-search" aria-hidden="true"></i>
+        <div class="nav-right">
+          <!-- Wishlist icon -->
+          <a href="/wishlist" class="icon-link" aria-label="Wishlist"> ♡ </a>
+
+
+          <!-- Cart preview dropdown -->
+          <div class="cart-wrapper">
+            <button
+              class="cart-icon"
+              type="button"
+              aria-label="Open cart preview"
+            >
+              🛍
+              <!-- Cart amount shown in the header -->
+              <span class="cart-count"> 0 </span>
+            </button>
+            <!-- Small dropdown preview for the user's cart -->
+            <div class="cart-dropdown">
+              <h3>Your Cart</h3>
+
+              <div class="cart-items">
+                <p class="empty-cart-message">Your cart is empty.</p>
               </div>
-              <input type="text" placeholder="Search..." />
-            </span>
+
+              <a href="/shopping-cart" class="checkout-button"> Checkout </a>
+            </div>
           </div>
 
-          <div class="nav-right">
-            <a href="/wishlist" class="icon-link" aria-label="Wishlist">♡</a>
-
-            <div class="cart-wrapper">
-              <button
-                class="cart-icon"
-                type="button"
-                aria-label="Open cart preview"
-              >
-                🛍
-                <span class="cart-count">{{ cart_count }}</span>
-              </button>
-
-              <div class="cart-dropdown">
-                <h3>Your Cart</h3>
-
-                <div class="cart-items">
-                  <p class="empty-cart-message">Your cart is empty.</p>
-                </div>
-
-                <a href="/shopping-cart" class="checkout-button">Checkout</a>
-              </div>
-            </div>
-
+          <!-- Profile -->
           {% if session.get("customer_id") %}
     <a href="/profile" class="icon-link" aria-label="User Profile">♙</a>
 {% else %}
     <a href="/login" class="icon-link" aria-label="User Profile">♙</a>
 {% endif %}
-          </div>
         </div>
+      </div>
 
-        <div id="second-row">
+    <div id="second-row">
       <ul id="header-items-container">
         <li class="header-item">
           <p class="header-item-title">
@@ -413,18 +419,18 @@
         </li>
 
         <li class="header-item">
-          <p class="header-item-title">
+          <a class="header-item-title" href="{{ url_for('products', tags=['new_arrival'])}}">
             New Arrival
-          </p>
+          </a>
         </li>
 
         <li class="header-item">
-          <p class="header-item-title">
+          <a class="header-item-title" href="{{ url_for('products', tags=['special'])}}">
             Specials
-          </p></li>
+          </a></li>
       </ul>
       </div>
-      </header>
+    </header>
 
 
       <!-- ================= HERO ================= -->

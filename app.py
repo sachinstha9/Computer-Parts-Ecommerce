@@ -195,6 +195,8 @@ def products():
         sql_query = "SELECT * FROM products WHERE " + " AND ".join(sql_parts)
         c.execute(sql_query, sql_values)
 
+        filtered_products = c.fetchall()
+
     conn.close()
 
     filtered_products = product_formatter(filtered_products)
