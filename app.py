@@ -314,7 +314,7 @@ def profile_page(name):
     c = conn.cursor()
 
     c.execute(
-        "SELECT username, email FROM customers WHERE id = ?",
+        "SELECT username, email, cart, wishlist, orders FROM customers WHERE id = ?",
         (session["customer_id"],)
     )
 
