@@ -5,6 +5,8 @@
 }
 
 .profile {
+  /* Profile class is the main blue content on the dashboard. 
+  Creates the Big blue box for the content ot go in */
   flex: 1;
   width: 100%;
   min-height: 590px;
@@ -16,10 +18,24 @@
 }
 
 .profile h1 {
+  /* Align the H1 tag items in the profile class to the center */
+  margin: 0;
+  text-align: center;
+}
+
+.profile h3 {
+  /* Align the H3 tag items in the profile class to the left */
+  margin: 0;
+  text-align: left;
+}
+
+.profile p {
+  /* Align the P tag items in the profile class to the center */
   margin: 0;
   text-align: center;
 }
 
 hr.solid {
+  /* Creates a solid line divider to go under the header text for the content */
   border-top: 3px solid #bbb;
 }

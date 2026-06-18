@@ -20,6 +20,11 @@
   text-align: center;
 }
 
+.dashboard p {
+  margin: 0;
+  text-align: center;
+}
+
 hr.solid {
   border-top: 3px solid #bbb;
 }
