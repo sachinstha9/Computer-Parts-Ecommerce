@@ -15,34 +15,47 @@
 <!-- ======== START MAIN CONTENT ======== -->
 
 <div class="main-content-layout">
-  <div 
-  <div class="profile">
-    <h1>Profile</h1>
-    <hr class="solid" />
-    <br />
-    <br />
+    <div class="profile">
+      <h1>Profile</h1>
+      <hr class="solid" />
+      <br />
+      <br />
 
-    <p>
-      Please find your profile details below. If you'd like to edit them, please
-      see the 'Settings' tab. <!-- Text under the Profile header text to inform users -->
-    </p>
+      <p>
+        Please find your profile details below. If you'd like to edit them,
+        please see the 'Settings' tab.
+        <!-- Text under the Profile header text to inform users -->
+      </p>
 
-    <br />
+      <br />
 
-    <h3>Username: {{customer[0] }}</h3>
-    <!-- Will display users Username from DB 
+      <h2>User Details</h2>
+      <h3>Username: {{customer[0] }}</h3>
+      <!-- Will display users Username from DB 
      [0] is the username in the DB -->
-    <br />
-    <h3>Email: {{customer[1] }}</h3>
-    <!-- Will display users Email from DB 
+      <h3>Email: {{customer[1] }}</h3>
+      <!-- Will display users Email from DB 
      [1] is the users Email in the DB -->
-    <br />
+      <br />
 
-    <!-- Show user Shipping Details -->
+      <h2>Shipping Details</h2>
+      <!-- Show user Shipping Details -->
+        <h3 class="shipping-details">
+          Address:
+          <!--PLACEHOLDER FOR ADDRESS -->
+        </h3>
+        <h3 class="shipping-details">
+          Suburb:
+          <!--PLACEHOLDER FOR SUBURB -->
+        </h3>
+        <h3 class="shipping-details">
+          City:
+          <!--PLACEHOLDER FOR CITY -->
+        </h3>
+      </div>
 
+      <!-- Show User Contact Details -->
+    </div>
 
-    <!-- Show User Contact Details -->
-  </div>
+  <!-- ======== END MAIN CONTENT ======== -->
 </div>
-
-<!-- ======== END MAIN CONTENT ======== -->

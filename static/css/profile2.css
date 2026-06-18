@@ -39,3 +39,8 @@ hr.solid {
   /* Creates a solid line divider to go under the header text for the content */
   border-top: 3px solid #bbb;
 }
+
+.shipping-details h3 {
+  margin: 0;
+  align-items: center;
+}
