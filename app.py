@@ -491,9 +491,15 @@ def add_product():
 
     return "product added successsfully."
 
-@app.route("/get-user", methods="POST")
+@app.route("/get-user", methods=["POST"])
 def get_user():
+    if "customer_id" not in session:
+        return jsonify({
+            "loggedIn": False
+        })
+
     return jsonify({
+        "loggedIn": True,
         "id": session["customer_id"],
         "username": session["username"]
     })

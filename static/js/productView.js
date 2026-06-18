@@ -8,6 +8,8 @@ import {
 } from "./header.js";
 import getUser from "./get-user.js";
 
+const user = (await getUser()) || {};
+
 const btnAddToCart = document.querySelector("#add-to-cart");
 
 const wishListAddButton = document.querySelector(
@@ -56,7 +58,6 @@ btnAddToCart.addEventListener("click", () => {
 });
 
 // Add / Remove Wishlist
-const existingProduct = wishlist.find((item) => item.name === productName);
 
 wishListAddButton.addEventListener("click", () => {
   if (wishListAddButtonIcon.classList.contains("fa-heart-o")) {
@@ -67,24 +68,31 @@ wishListAddButton.addEventListener("click", () => {
 
     let currentUrl = window.location.href;
     let productId = currentUrl.split("/");
-    if (!existingProduct) {
-      wishlist.push({
-        id: productId[productId.length - 1],
-        name: productName,
-        price: productPrice,
-        image: productImageSrc,
-      });
-    }
 
-    fetch("/add_wishlist", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: productId[productId.length - 1],
-      }),
-    }).then((response) => response.text());
+    if (!user["loggedIn"]) {
+      const existingProduct = wishlist.find(
+        (item) => item.name === productName,
+      );
+
+      if (!existingProduct) {
+        wishlist.push({
+          id: productId[productId.length - 1],
+          name: productName,
+          price: productPrice,
+          image: productImageSrc,
+        });
+      }
+    } else {
+      fetch("/add_wishlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: productId[productId.length - 1],
+        }),
+      }).then((response) => response.text());
+    }
 
     saveWishlist();
   } else {
@@ -106,10 +114,6 @@ wishListAddButton.addEventListener("click", () => {
 let productViewChoicesOptions = document.querySelectorAll(
   ".product-view-choices-option label",
 );
-
-// productViewChoicesOptions.forEach((option) => {
-//   console.log()
-// })
 
 function getRadioValues() {
   const selectedChoices = {};

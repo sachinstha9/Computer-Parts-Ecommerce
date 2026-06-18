@@ -1,9 +1,9 @@
-export default function getUser() {
-  let data = {};
+export default async function getUser() {
+  const response = await fetch("/get-user", {
+    method: "POST",
+  });
 
-  fetch("/get-user")
-    .then((response) => response.json())
-    .then((e) => (data = e));
+  const data = await response.json();
 
   return data;
 }
