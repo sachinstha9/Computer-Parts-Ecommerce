@@ -6,6 +6,7 @@ import {
   wishlist,
   saveWishlist,
 } from "./header.js";
+import getUser from "./get-user.js";
 
 const btnAddToCart = document.querySelector("#add-to-cart");
 
@@ -57,13 +58,6 @@ btnAddToCart.addEventListener("click", () => {
 // Add / Remove Wishlist
 const existingProduct = wishlist.find((item) => item.name === productName);
 
-if (existingProduct) {
-  if (wishListAddButtonIcon.classList.contains("fa-heart-o")) {
-    wishListAddButtonIcon.classList.remove("fa-heart-o");
-    wishListAddButtonIcon.classList.add("fa-heart");
-    wishListAddButtonIcon.classList.add("add-red");
-  }
-}
 wishListAddButton.addEventListener("click", () => {
   if (wishListAddButtonIcon.classList.contains("fa-heart-o")) {
     // Add to wishlist
@@ -89,9 +83,6 @@ wishListAddButton.addEventListener("click", () => {
       },
       body: JSON.stringify({
         id: productId[productId.length - 1],
-        name: productName,
-        price: productPrice,
-        image: productImageSrc,
       }),
     }).then((response) => response.text());
 

@@ -1,5 +1,5 @@
 # Imports
-from flask import Flask, render_template, request, redirect, abort, session
+from flask import Flask, render_template, request, redirect, abort, session, jsonify
 import sqlite3
 import json
 import cloudinary
@@ -490,6 +490,13 @@ def add_product():
     conn.close()
 
     return "product added successsfully."
+
+@app.route("/get-user", methods="POST")
+def get_user():
+    return jsonify({
+        "id": session["customer_id"],
+        "username": session["username"]
+    })
 
 if __name__ == "__main__":
     app.run(debug=True)
