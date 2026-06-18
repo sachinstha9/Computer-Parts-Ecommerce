@@ -71,10 +71,9 @@ wishListAddButton.addEventListener("click", () => {
     wishListAddButtonIcon.classList.add("fa-heart");
     wishListAddButtonIcon.classList.add("add-red");
 
+    let currentUrl = window.location.href;
+    let productId = currentUrl.split("/");
     if (!existingProduct) {
-      let currentUrl = window.location.href;
-      let productId = currentUrl.split("/");
-
       wishlist.push({
         id: productId[productId.length - 1],
         name: productName,
@@ -82,6 +81,19 @@ wishListAddButton.addEventListener("click", () => {
         image: productImageSrc,
       });
     }
+
+    fetch("/add_wishlist", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: productId[productId.length - 1],
+        name: productName,
+        price: productPrice,
+        image: productImageSrc,
+      }),
+    }).then((response) => response.text());
 
     saveWishlist();
   } else {

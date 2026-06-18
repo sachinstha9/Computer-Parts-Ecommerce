@@ -413,6 +413,29 @@ def product_view(product_id):
 
     return render_template("productview.html", product=product, selected_choices=selected_choices, correctImage=correctImage)
 
+@app.route("/add_wishlist", methods=["POST"])
+def add_wishlist():
+    data = request.get_json()
+
+    conn = sqlite3.connect("computer-ecommerce.db")
+    c = conn.cursor()
+
+    c.execute("SELECT wishlist FROM customers WHERE id = ?", (session["customer_id"],))
+    wishlistArr = c.fetchone()[0]
+    wishlistArr = json.loads(wishlistArr)
+    wishlistArr.append(data["id"])
+    wishlistArrFinal = json.dumps(wishlistArr)
+
+    query = "UPDATE customers SET wishlist = ? WHERE id = ?"
+    new_data = (wishlistArrFinal, session["customer_id"])
+
+    c.execute(query, new_data)
+
+    conn.commit()
+    conn.close()
+
+    return {"success": True}
+
 
 # Product Upload Route
 @app.route("/add_product", methods=["POST", "GET"])
