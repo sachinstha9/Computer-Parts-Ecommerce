@@ -69,7 +69,11 @@ wishListAddButton.addEventListener("click", () => {
     wishListAddButtonIcon.classList.add("add-red");
 
     if (!existingProduct) {
+      let currentUrl = window.location.href;
+      let productId = currentUrl.split("/");
+
       wishlist.push({
+        id: productId[productId.length - 1],
         name: productName,
         price: productPrice,
         image: productImageSrc,
@@ -77,8 +81,6 @@ wishListAddButton.addEventListener("click", () => {
     }
 
     saveWishlist();
-
-    console.log("Added:", productName);
   } else {
     // Remove from wishlist
     wishListAddButtonIcon.classList.remove("fa-heart");
@@ -92,8 +94,6 @@ wishListAddButton.addEventListener("click", () => {
     }
 
     saveWishlist();
-
-    console.log("Removed:", productName);
   }
 });
 

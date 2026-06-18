@@ -175,7 +175,9 @@ export function showWishlistPreview() {
     wishlistItem.classList.add("wishlist-preview-item");
 
     wishlistItem.innerHTML = `
-      <img src="${item.image}" alt="${item.name}">
+      <a href="/productview/${item.id}">
+        <img src="${item.image}" alt="${item.name}">
+      </a>
 
       <div class="wishlist-preview-info">
         <p>${item.name}</p>
