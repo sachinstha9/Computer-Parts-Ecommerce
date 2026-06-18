@@ -57,16 +57,15 @@ btnAddToCart.addEventListener("click", () => {
 
 // Add / Remove Wishlist
 wishListAddButton.addEventListener("click", async () => {
+  let user = (await getUser()) || {};
+  let currentUrl = window.location.href;
+  let productId = currentUrl.split("/");
+
   if (wishListAddButtonIcon.classList.contains("fa-heart-o")) {
     // Add to wishlist
     wishListAddButtonIcon.classList.remove("fa-heart-o");
     wishListAddButtonIcon.classList.add("fa-heart");
     wishListAddButtonIcon.classList.add("add-red");
-
-    let currentUrl = window.location.href;
-    let productId = currentUrl.split("/");
-
-    let user = (await getUser()) || {};
 
     if (!user["loggedIn"]) {
       const existingProduct = wishlist.find(
@@ -84,7 +83,7 @@ wishListAddButton.addEventListener("click", async () => {
     } else {
       let userWishlist = user["wishlist"];
 
-      if (userWishlist.includes(productId[productId.length - 1]))
+      if (!userWishlist.includes(productId[productId.length - 1]))
         fetch("/add_wishlist", {
           method: "POST",
           headers: {
@@ -102,11 +101,27 @@ wishListAddButton.addEventListener("click", async () => {
     wishListAddButtonIcon.classList.remove("fa-heart");
     wishListAddButtonIcon.classList.remove("add-red");
     wishListAddButtonIcon.classList.add("fa-heart-o");
+    if (!user["loggedIn"]) {
+      const index = wishlist.findIndex(
+        (product) => product.name === productName,
+      );
 
-    const index = wishlist.findIndex((product) => product.name === productName);
+      if (index !== -1) {
+        wishlist.splice(index, 1);
+      }
+    } else {
+      let userWishlist = user["wishlist"];
 
-    if (index !== -1) {
-      wishlist.splice(index, 1);
+      if (userWishlist.includes(productId[productId.length - 1]))
+        fetch("/remove_wishlist", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: productId[productId.length - 1],
+          }),
+        }).then((response) => response.text());
     }
 
     saveWishlist();

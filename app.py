@@ -435,6 +435,28 @@ def add_wishlist():
 
     return {"success": True}
 
+@app.route("/remove_wishlist", methods=["POST"])
+def remove_wishlist():
+    data = request.get_json()
+
+    conn = sqlite3.connect("computer-ecommerce.db")
+    c = conn.cursor()
+
+    c.execute("SELECT wishlist FROM customers WHERE id = ?", (session["customer_id"],))
+    wishlistArr = c.fetchone()[0]
+    wishlistArr = json.loads(wishlistArr)
+    wishlistArr.remove(data["id"])
+    wishlistArrFinal = json.dumps(wishlistArr)
+
+    query = "UPDATE customers SET wishlist = ? WHERE id = ?"
+    new_data = (wishlistArrFinal, session["customer_id"])
+
+    c.execute(query, new_data)
+
+    conn.commit()
+    conn.close()
+
+    return {"success": True}
 
 # Product Upload Route
 @app.route("/add_product", methods=["POST", "GET"])
