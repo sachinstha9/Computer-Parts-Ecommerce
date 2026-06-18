@@ -285,15 +285,13 @@ def signup():
                     email,
                     cart,
                     wishlist,
-                    previous_orders,
-                    current_orders
+                    orders
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?)
             """, (
                 username,
                 password,
                 email,
-                "[]",
                 "[]",
                 "[]",
                 "[]"

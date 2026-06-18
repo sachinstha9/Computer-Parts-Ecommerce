@@ -12,6 +12,15 @@
 
 #profile-content {
   display: flex;
+  width: 100%;
+  align-items: stretch;
+  box-sizing: border-box;
+}
+
+#content {
+  flex: 1;
+  display: flex;
+  min-width: 0;
 }
 
 .sidebar.collapsed {

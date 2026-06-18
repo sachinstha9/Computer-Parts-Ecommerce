@@ -1,19 +1,48 @@
-<!-- If clicked on the Profiles Sidebar, Profile will show -->
+<!-- If clicked on the Profiles Sidebar, Profile will show, connected to profile.js
+ which checks what button is clicked on the sidebar -->
+
+<!-- ======== START HEAD ======== -->
 <head>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../static/css/global.css" />
   <link rel="stylesheet" href="../static/css/profile2.css" />
 </head>
+<!-- ======== END HEAD ======== -->
+
+<!-- ======== START MAIN CONTENT ======== -->
 
 <div class="main-content-layout">
+  <div 
   <div class="profile">
     <h1>Profile</h1>
     <hr class="solid" />
     <br />
     <br />
+
+    <p>
+      Please find your profile details below. If you'd like to edit them, please
+      see the 'Settings' tab. <!-- Text under the Profile header text to inform users -->
+    </p>
+
+    <br />
+
     <h3>Username: {{customer[0] }}</h3>
-    <!-- Will display users Username from DB -->
+    <!-- Will display users Username from DB 
+     [0] is the username in the DB -->
     <br />
     <h3>Email: {{customer[1] }}</h3>
-    <!-- Will display users Email from DB -->
+    <!-- Will display users Email from DB 
+     [1] is the users Email in the DB -->
     <br />
+
+    <!-- Show user Shipping Details -->
+
+
+    <!-- Show User Contact Details -->
   </div>
 </div>
+
+<!-- ======== END MAIN CONTENT ======== -->

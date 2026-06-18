@@ -1,18 +1,41 @@
 .main-content-layout {
+  flex: 1;
   display: flex;
   width: 100%;
 }
 
 .profile {
-  margin: 16px;
-  border-radius: 16px;
-  background: #0f1322;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
+  /* Profile class is the main blue content on the dashboard. 
+  Creates the Big blue box for the content ot go in */
   flex: 1;
+  width: 100%;
+  min-height: 590px;
+  margin: 16px 16px 16px 0;
+  padding: 20px;
+  background: #0f1322;
+  border-radius: 16px;
+  box-sizing: border-box;
+}
+
+.profile h1 {
+  /* Align the H1 tag items in the profile class to the center */
+  margin: 0;
+  text-align: center;
+}
+
+.profile h3 {
+  /* Align the H3 tag items in the profile class to the left */
+  margin: 0;
+  text-align: left;
+}
+
+.profile p {
+  /* Align the P tag items in the profile class to the center */
+  margin: 0;
+  text-align: center;
 }
 
 hr.solid {
+  /* Creates a solid line divider to go under the header text for the content */
   border-top: 3px solid #bbb;
 }

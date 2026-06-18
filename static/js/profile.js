@@ -30,6 +30,10 @@ window.addEventListener("resize", () => {
   }
 });
 
+
+// Function to load the pages onto profile.html from
+// The 'profile-pages' folder in templates.
+
 function loadPage(page) {
   fetch(`/profile/${page}`)
     .then((response) => response.text())
@@ -38,22 +42,28 @@ function loadPage(page) {
     });
 }
 
-document.querySelector("#dashboard-btn").addEventListener("click", () => {
+
+// Checks what button is clicked, and what it should display
+// These 'pages' will be viewed as a part of the initial 'profile' page
+// and will be displayed in the remaining space in the middle of the screen
+// leaving the sidenav at the side where it belongs.
+
+document.querySelector("#dashboard-btn").addEventListener("click", () => {    // Display Dashboard
   loadPage("dashboard");
 });
 
-document.querySelector("#orders-btn").addEventListener("click", () => {
+document.querySelector("#orders-btn").addEventListener("click", () => {       // Display Orders
   loadPage("orders");
 });
 
-document.querySelector("#profile-btn").addEventListener("click", () => {
+document.querySelector("#profile-btn").addEventListener("click", () => {      // Display Profile
   loadPage("profile");
 });
 
-document.querySelector("#wishlist-btn").addEventListener("click", () => {
+document.querySelector("#wishlist-btn").addEventListener("click", () => {     // Display Wishlist
   loadPage("wishlist");
 });
 
-document.querySelector("#settings-btn").addEventListener("click", () => {
+document.querySelector("#settings-btn").addEventListener("click", () => {     // Display Settings
   loadPage("settings");
 });
