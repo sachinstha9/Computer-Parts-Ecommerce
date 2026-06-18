@@ -47,7 +47,9 @@ export function showCartPreview() {
     cartItem.classList.add("cart-preview-item");
 
     cartItem.innerHTML = `
-      <img src="${item.image}" alt="${item.name}">
+      <a href="/productview/${item.id}">
+        <img src="${item.image}" alt="${item.name}">
+      </a>
 
       <div class="cart-preview-info">
         <p>${item.name}</p>

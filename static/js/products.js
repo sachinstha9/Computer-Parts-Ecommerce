@@ -23,7 +23,12 @@ addButtons.forEach((button) => {
     if (existingProduct) {
       existingProduct.quantity++;
     } else {
+      let productUrl = productImage.href;
+      let productId = productUrl.split("/");
+      productId = productId[productId.length - 1];
+
       cart.push({
+        id: productId,
         name: productName,
         price: productPrice,
         image: productImageSrc,

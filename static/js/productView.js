@@ -24,11 +24,14 @@ const productImageSrc = productImage.src;
 // Add to Cart
 btnAddToCart.addEventListener("click", () => {
   const existingProduct = cart.find((item) => item.name === productName);
+  let currentUrl = window.location.href;
+  let productId = currentUrl.split("/");
 
   if (existingProduct) {
     existingProduct.quantity++;
   } else {
     cart.push({
+      id: productId[productId.length - 1],
       name: productName,
       price: productPrice,
       image: productImageSrc,
