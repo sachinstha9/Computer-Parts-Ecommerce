@@ -6,11 +6,16 @@ const cartIcon = document.querySelector(".cart-icon");
 const cartDropdown = document.querySelector(".cart-dropdown");
 const cartItemsBox = document.querySelector(".cart-items");
 
+const wishlistCount = document.querySelector(".wishlist-count");
+const wishlistIcon = document.querySelector(".wishlist-icon");
+const wishlistDropdown = document.querySelector(".wishlist-dropdown");
+const wishlistItemsBox = document.querySelector(".wishlist-items");
+
 export function updateCartCount() {
   if (cartCount) {
     let totalItems = 0;
 
-    cart.forEach(item => {
+    cart.forEach((item) => {
       totalItems += item.quantity;
     });
 
@@ -76,8 +81,8 @@ export function showCartPreview() {
   const increaseButtons = document.querySelectorAll(".mini-increase");
   const decreaseButtons = document.querySelectorAll(".mini-decrease");
 
-  removeButtons.forEach(button => {
-    button.addEventListener("click", event => {
+  removeButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
       event.stopPropagation();
 
       const itemIndex = button.dataset.index;
@@ -90,8 +95,8 @@ export function showCartPreview() {
     });
   });
 
-  increaseButtons.forEach(button => {
-    button.addEventListener("click", event => {
+  increaseButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
       event.stopPropagation();
 
       const itemIndex = button.dataset.index;
@@ -104,8 +109,8 @@ export function showCartPreview() {
     });
   });
 
-  decreaseButtons.forEach(button => {
-    button.addEventListener("click", event => {
+  decreaseButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
       event.stopPropagation();
 
       const itemIndex = button.dataset.index;
@@ -133,9 +138,85 @@ if (cartIcon && cartDropdown) {
   });
 }
 
+export function updateWishlistCount() {
+  if (wishlistCount) {
+    let totalItems = 0;
+
+    wishlist.forEach((item) => {
+      totalItems += 1;
+    });
+
+    wishlistCount.textContent = totalItems;
+  }
+}
+
 // Wishlist
 export function saveWishlist() {
   localStorage.setItem("wishlist", JSON.stringify(wishlist));
 }
 
-saveWishlist();
+export function showWishlistPreview() {
+  if (!wishlistItemsBox) return;
+
+  wishlistItemsBox.innerHTML = "";
+
+  if (wishlist.length === 0) {
+    wishlistItemsBox.innerHTML = `
+      <p class="empty-wishlist-message">
+        Your wishlist is empty.
+      </p>
+    `;
+
+    return;
+  }
+
+  wishlist.forEach((item, index) => {
+    const wishlistItem = document.createElement("div");
+    wishlistItem.classList.add("wishlist-preview-item");
+
+    wishlistItem.innerHTML = `
+      <a href="/productview/${item.id}">
+        <img src="${item.image}" alt="${item.name}">
+      </a>
+
+      <div class="wishlist-preview-info">
+        <p>${item.name}</p>
+
+        <div class="wishlist-preview-bottom">
+          <strong>${item.price}</strong>
+        </div>
+      </div>
+
+      <button class="remove-wishlist-item" data-index="${index}">
+        ×
+      </button>
+    `;
+
+    wishlistItemsBox.appendChild(wishlistItem);
+  });
+
+  const removeButtons = document.querySelectorAll(".remove-wishlist-item");
+
+  removeButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.stopPropagation();
+
+      const itemIndex = button.dataset.index;
+
+      wishlist.splice(itemIndex, 1);
+
+      saveWishlist();
+      updateWishlistCount();
+      showWishlistPreview();
+    });
+  });
+}
+
+updateWishlistCount();
+showWishlistPreview();
+
+if (wishlistIcon && wishlistDropdown) {
+  wishlistIcon.addEventListener("click", () => {
+    wishlistDropdown.classList.toggle("open");
+  });
+}
