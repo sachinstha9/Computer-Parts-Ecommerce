@@ -196,7 +196,6 @@ def products():
 
         filtered_products = c.fetchall()
 
-    conn.close()
 
     filtered_products = product_formatter(filtered_products)
 

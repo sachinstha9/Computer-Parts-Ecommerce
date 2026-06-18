@@ -17,6 +17,15 @@
   left: 0rem;
   top: 0rem;
 }
+.checkout-product{
+  img {
+    width: 20%;
+    height: 20%;
+    Height: auto;
+    object-fit: cover;
+    POSITION: DEFAULT;
+  }
+}
 .order-summary-box {
   background: rgba(217, 217, 217, 0);
   border-style: solid;
@@ -24,9 +33,7 @@
   border-width: 0.0625rem;
   width: 17.5625rem;
   height: 20.1875rem;
-  position: absolute;
-  left: 48.25rem;
-  top: 12.25rem;
+
 }
 .shopping-bag-preview-line-break {
   margin-top: -0.0625rem;
@@ -54,17 +61,13 @@
   background: #d9d9d9;
   width: 14.3125rem;
   height: 14.3125rem;
-  position: absolute;
-  left: 4.625rem;
-  top: 14.6875rem;
+
 }
 .products-boxes2 {
   background: #d9d9d9;
   width: 14.3125rem;
   height: 14.3125rem;
-  position: absolute;
-  left: 22.8125rem;
-  top: 14.6875rem;
+
 }
 .order-summary {
   color: #ffffff;
@@ -72,9 +75,6 @@
   font-family: "FiraCode-Regular", sans-serif;
   font-size: 1rem;
   font-weight: 400;
-  position: absolute;
-  left: 53.125rem;
-  top: 13.375rem;
 }
 .subtotal {
   color: #ffffff;
