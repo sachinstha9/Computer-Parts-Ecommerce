@@ -497,11 +497,25 @@ def get_user():
         return jsonify({
             "loggedIn": False
         })
+    
+    conn = sqlite3.connect("computer-ecommerce.db")
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM customers WHERE id = ?", (session["customer_id"],))
+    user = c.fetchone()
+    print(user)
+
+    conn.commit()
+    conn.close()
 
     return jsonify({
         "loggedIn": True,
-        "id": session["customer_id"],
-        "username": session["username"]
+        "id": user[0],
+        "username": user[1],
+        "mail": user[3],
+        "cart": json.loads(user[4]),
+        "wishlist": json.loads(user[5]),
+        "orders": json.loads(user[6])
     })
 
 if __name__ == "__main__":

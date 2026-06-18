@@ -8,8 +8,6 @@ import {
 } from "./header.js";
 import getUser from "./get-user.js";
 
-const user = (await getUser()) || {};
-
 const btnAddToCart = document.querySelector("#add-to-cart");
 
 const wishListAddButton = document.querySelector(
@@ -58,8 +56,7 @@ btnAddToCart.addEventListener("click", () => {
 });
 
 // Add / Remove Wishlist
-
-wishListAddButton.addEventListener("click", () => {
+wishListAddButton.addEventListener("click", async () => {
   if (wishListAddButtonIcon.classList.contains("fa-heart-o")) {
     // Add to wishlist
     wishListAddButtonIcon.classList.remove("fa-heart-o");
@@ -68,6 +65,8 @@ wishListAddButton.addEventListener("click", () => {
 
     let currentUrl = window.location.href;
     let productId = currentUrl.split("/");
+
+    let user = (await getUser()) || {};
 
     if (!user["loggedIn"]) {
       const existingProduct = wishlist.find(
@@ -83,15 +82,18 @@ wishListAddButton.addEventListener("click", () => {
         });
       }
     } else {
-      fetch("/add_wishlist", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: productId[productId.length - 1],
-        }),
-      }).then((response) => response.text());
+      let userWishlist = user["wishlist"];
+
+      if (userWishlist.includes(productId[productId.length - 1]))
+        fetch("/add_wishlist", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: productId[productId.length - 1],
+          }),
+        }).then((response) => response.text());
     }
 
     saveWishlist();
