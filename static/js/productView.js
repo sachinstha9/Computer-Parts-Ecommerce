@@ -8,6 +8,9 @@ import {
 } from "./header.js";
 import getUser from "./get-user.js";
 
+let user = (await getUser()) || {};
+let currentUrl = window.location.href;
+let productId = currentUrl.split("/");
 const btnAddToCart = document.querySelector("#add-to-cart");
 
 const wishListAddButton = document.querySelector(
@@ -55,11 +58,27 @@ btnAddToCart.addEventListener("click", () => {
   }, 800);
 });
 
+if (!user["loggedIn"]) {
+  const existingProduct = wishlist.find((item) => item.name === productName);
+
+  if (existingProduct) {
+    wishListAddButtonIcon.classList.remove("fa-heart-o");
+    wishListAddButtonIcon.classList.add("fa-heart");
+    wishListAddButtonIcon.classList.add("add-red");
+  }
+} else {
+  let userWishlist = user["wishlist"];
+
+  if (userWishlist.includes(productId[productId.length - 1])) {
+    wishListAddButtonIcon.classList.remove("fa-heart-o");
+    wishListAddButtonIcon.classList.add("fa-heart");
+    wishListAddButtonIcon.classList.add("add-red");
+  }
+}
+
 // Add / Remove Wishlist
 wishListAddButton.addEventListener("click", async () => {
-  let user = (await getUser()) || {};
-  let currentUrl = window.location.href;
-  let productId = currentUrl.split("/");
+  user = (await getUser()) || {};
 
   if (wishListAddButtonIcon.classList.contains("fa-heart-o")) {
     // Add to wishlist
