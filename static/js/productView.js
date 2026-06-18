@@ -6,6 +6,9 @@ import {
   wishlist,
   saveWishlist,
 } from "./header.js";
+import getUser from "./get-user.js";
+
+const user = (await getUser()) || {};
 
 const btnAddToCart = document.querySelector("#add-to-cart");
 
@@ -24,11 +27,14 @@ const productImageSrc = productImage.src;
 // Add to Cart
 btnAddToCart.addEventListener("click", () => {
   const existingProduct = cart.find((item) => item.name === productName);
+  let currentUrl = window.location.href;
+  let productId = currentUrl.split("/");
 
   if (existingProduct) {
     existingProduct.quantity++;
   } else {
     cart.push({
+      id: productId[productId.length - 1],
       name: productName,
       price: productPrice,
       image: productImageSrc,
@@ -52,15 +58,7 @@ btnAddToCart.addEventListener("click", () => {
 });
 
 // Add / Remove Wishlist
-const existingProduct = wishlist.find((item) => item.name === productName);
 
-if (existingProduct) {
-  if (wishListAddButtonIcon.classList.contains("fa-heart-o")) {
-    wishListAddButtonIcon.classList.remove("fa-heart-o");
-    wishListAddButtonIcon.classList.add("fa-heart");
-    wishListAddButtonIcon.classList.add("add-red");
-  }
-}
 wishListAddButton.addEventListener("click", () => {
   if (wishListAddButtonIcon.classList.contains("fa-heart-o")) {
     // Add to wishlist
@@ -68,17 +66,35 @@ wishListAddButton.addEventListener("click", () => {
     wishListAddButtonIcon.classList.add("fa-heart");
     wishListAddButtonIcon.classList.add("add-red");
 
-    if (!existingProduct) {
-      wishlist.push({
-        name: productName,
-        price: productPrice,
-        image: productImageSrc,
-      });
+    let currentUrl = window.location.href;
+    let productId = currentUrl.split("/");
+
+    if (!user["loggedIn"]) {
+      const existingProduct = wishlist.find(
+        (item) => item.name === productName,
+      );
+
+      if (!existingProduct) {
+        wishlist.push({
+          id: productId[productId.length - 1],
+          name: productName,
+          price: productPrice,
+          image: productImageSrc,
+        });
+      }
+    } else {
+      fetch("/add_wishlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: productId[productId.length - 1],
+        }),
+      }).then((response) => response.text());
     }
 
     saveWishlist();
-
-    console.log("Added:", productName);
   } else {
     // Remove from wishlist
     wishListAddButtonIcon.classList.remove("fa-heart");
@@ -92,18 +108,12 @@ wishListAddButton.addEventListener("click", () => {
     }
 
     saveWishlist();
-
-    console.log("Removed:", productName);
   }
 });
 
 let productViewChoicesOptions = document.querySelectorAll(
   ".product-view-choices-option label",
 );
-
-// productViewChoicesOptions.forEach((option) => {
-//   console.log()
-// })
 
 function getRadioValues() {
   const selectedChoices = {};

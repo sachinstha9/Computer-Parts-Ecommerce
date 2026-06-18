@@ -1,5 +1,5 @@
 # Imports
-from flask import Flask, render_template, request, redirect, abort, session
+from flask import Flask, render_template, request, redirect, abort, session, jsonify
 import sqlite3
 import json
 import cloudinary
@@ -39,8 +39,7 @@ def product_formatter(products):
             "company": product[9],
             "choices": json.loads(product[10]),
             "discount": product[11],
-            "arrival_date": product[12],
-            "discountPrice": None
+            "arrival_date": product[12]
         })
 
     return formatted_products
@@ -285,15 +284,13 @@ def signup():
                     email,
                     cart,
                     wishlist,
-                    previous_orders,
-                    current_orders
+                    orders
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?)
             """, (
                 username,
                 password,
                 email,
-                "[]",
                 "[]",
                 "[]",
                 "[]"
@@ -415,6 +412,29 @@ def product_view(product_id):
 
     return render_template("productview.html", product=product, selected_choices=selected_choices, correctImage=correctImage)
 
+@app.route("/add_wishlist", methods=["POST"])
+def add_wishlist():
+    data = request.get_json()
+
+    conn = sqlite3.connect("computer-ecommerce.db")
+    c = conn.cursor()
+
+    c.execute("SELECT wishlist FROM customers WHERE id = ?", (session["customer_id"],))
+    wishlistArr = c.fetchone()[0]
+    wishlistArr = json.loads(wishlistArr)
+    wishlistArr.append(data["id"])
+    wishlistArrFinal = json.dumps(wishlistArr)
+
+    query = "UPDATE customers SET wishlist = ? WHERE id = ?"
+    new_data = (wishlistArrFinal, session["customer_id"])
+
+    c.execute(query, new_data)
+
+    conn.commit()
+    conn.close()
+
+    return {"success": True}
+
 
 # Product Upload Route
 @app.route("/add_product", methods=["POST", "GET"])
@@ -469,6 +489,19 @@ def add_product():
     conn.close()
 
     return "product added successsfully."
+
+@app.route("/get-user", methods=["POST"])
+def get_user():
+    if "customer_id" not in session:
+        return jsonify({
+            "loggedIn": False
+        })
+
+    return jsonify({
+        "loggedIn": True,
+        "id": session["customer_id"],
+        "username": session["username"]
+    })
 
 if __name__ == "__main__":
     app.run(debug=True)
