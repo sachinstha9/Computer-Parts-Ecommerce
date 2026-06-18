@@ -39,8 +39,7 @@ def product_formatter(products):
             "company": product[9],
             "choices": json.loads(product[10]),
             "discount": product[11],
-            "arrival_date": product[12],
-            "discountPrice": None
+            "arrival_date": product[12]
         })
 
     return formatted_products
