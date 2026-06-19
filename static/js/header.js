@@ -1,4 +1,5 @@
 import getUser from "./get-user.js";
+import getProductDetails from "./get-product-details.js";
 
 let user = (await getUser()) || {};
 
@@ -186,6 +187,8 @@ export function showWishlistPreview() {
   wishlist.forEach((item, index) => {
     const wishlistItem = document.createElement("div");
     wishlistItem.classList.add("wishlist-preview-item");
+
+    let productDetails = getProductDetails();
 
     wishlistItem.innerHTML = `
       <a href="/productview/${item.id}">

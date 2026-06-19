@@ -538,7 +538,10 @@ def get_user():
     })
 
 @app.route("/get-product-details", methods=["POST"])
-def get_item_details(productId):
+def get_product_details():
+    data = request.get_json()
+    productId = data.get("productId")
+
     conn = sqlite3.connect("computer-ecommerce.db")
     c = conn.cursor()
 
