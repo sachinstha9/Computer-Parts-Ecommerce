@@ -1,4 +1,4 @@
-export default async function getProductDetails() {
+export default async function getProductDetails(productId) {
   const response = await fetch("/get-product-details", {
     method: "POST",
     headers: {

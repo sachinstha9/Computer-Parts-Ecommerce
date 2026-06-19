@@ -96,7 +96,7 @@ wishListAddButton.addEventListener("click", async () => {
           id: productId[productId.length - 1],
           title: productName,
           price: productPrice,
-          image: productImageSrc,
+          image: [productImageSrc],
         });
       }
     } else {

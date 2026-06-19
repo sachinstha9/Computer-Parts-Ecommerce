@@ -184,22 +184,24 @@ export function showWishlistPreview() {
     return;
   }
 
-  wishlist.forEach((item, index) => {
+  wishlist.forEach(async (item, index) => {
     const wishlistItem = document.createElement("div");
     wishlistItem.classList.add("wishlist-preview-item");
 
-    let productDetails = getProductDetails();
+    let productDetails = item;
+
+    if (user["loggedIn"]) productDetails = await getProductDetails(item);
 
     wishlistItem.innerHTML = `
-      <a href="/productview/${item.id}">
-        <img src="${item.image}" alt="${item.title}">
+      <a href="/productview/${productDetails.id}" class="wishlist-image-wrapper">
+        <img src="${productDetails.image[0]}" alt="${productDetails.title}">
       </a>
 
       <div class="wishlist-preview-info">
-        <p>${item.title}</p>
+        <p>${productDetails.title}</p>
 
         <div class="wishlist-preview-bottom">
-          <strong>${item.price}</strong>
+          <strong>$${productDetails.price}</strong>
         </div>
       </div>
 
@@ -212,14 +214,35 @@ export function showWishlistPreview() {
   });
 
   const removeButtons = document.querySelectorAll(".remove-wishlist-item");
+  const imageWrapper = document.querySelectorAll(".wishlist-image-wrapper");
 
   removeButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
-      event.stopPropagation();
+      // event.stopPropagation();
 
-      const itemIndex = button.dataset.index;
+      console.log(user["loggedIn"], "hgewgvew");
 
-      wishlist.splice(itemIndex, 1);
+      if (!user["loggedIn"]) {
+        const itemIndex = button.dataset.index;
+        wishlist.splice(itemIndex, 1);
+      } else {
+        let productId = imageWrapper[index].href;
+        productId = productId.split("/");
+        let userWishlist = user["wishlist"];
+
+        console.log(productId);
+
+        if (userWishlist.includes(productId[productId.length - 1]))
+          fetch("/remove_wishlist", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              id: productId[productId.length - 1],
+            }),
+          }).then((response) => response.text());
+      }
 
       saveWishlist();
       updateWishlistCount();

@@ -552,14 +552,14 @@ def get_product_details():
     conn.close()
 
     if product is None:
-        return None
+        return jsonify({}), 404
 
     return jsonify({
         "id": product[0],
         "title": product[1],
         "description": product[2],
         "image": json.loads(product[3]),
-        "tags": json.loads(product[4]),
+        "tags": product[4],
         "price": product[5],
         "specifications": json.loads(product[6]),
         "availability": product[7],
