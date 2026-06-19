@@ -524,8 +524,6 @@ def get_user():
 
     c.execute("SELECT * FROM customers WHERE id = ?", (session["customer_id"],))
     user = c.fetchone()
-    print(user)
-
     conn.commit()
     conn.close()
 
@@ -537,6 +535,36 @@ def get_user():
         "cart": json.loads(user[4]),
         "wishlist": json.loads(user[5]),
         "orders": json.loads(user[6])
+    })
+
+@app.route("/get-product-details", methods=["POST"])
+def get_item_details(productId):
+    conn = sqlite3.connect("computer-ecommerce.db")
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM products WHERE id = ?", (productId,))
+    product = c.fetchone()
+
+    conn.commit()
+    conn.close()
+
+    if product is None:
+        return None
+
+    return jsonify({
+        "id": product[0],
+        "title": product[1],
+        "description": product[2],
+        "image": json.loads(product[3]),
+        "tags": json.loads(product[4]),
+        "price": product[5],
+        "specifications": json.loads(product[6]),
+        "availability": product[7],
+        "in_banner": product[8],
+        "company": product[9],
+        "choices": json.loads(product[10]),
+        "discount": product[11],
+        "arrival_date": product[12]
     })
 
 if __name__ == "__main__":

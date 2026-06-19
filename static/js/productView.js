@@ -94,7 +94,7 @@ wishListAddButton.addEventListener("click", async () => {
       if (!existingProduct) {
         wishlist.push({
           id: productId[productId.length - 1],
-          name: productName,
+          title: productName,
           price: productPrice,
           image: productImageSrc,
         });

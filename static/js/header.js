@@ -1,5 +1,16 @@
+import getUser from "./get-user.js";
+
+let user = (await getUser()) || {};
+
 export let cart = JSON.parse(localStorage.getItem("cart")) || [];
-export let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+export let wishlist;
+
+if (!user["loggedIn"]) {
+  wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+} else {
+  wishlist = user["wishlist"];
+}
 
 const cartCount = document.querySelector(".cart-count");
 const cartIcon = document.querySelector(".cart-icon");
@@ -178,11 +189,11 @@ export function showWishlistPreview() {
 
     wishlistItem.innerHTML = `
       <a href="/productview/${item.id}">
-        <img src="${item.image}" alt="${item.name}">
+        <img src="${item.image}" alt="${item.title}">
       </a>
 
       <div class="wishlist-preview-info">
-        <p>${item.name}</p>
+        <p>${item.title}</p>
 
         <div class="wishlist-preview-bottom">
           <strong>${item.price}</strong>
