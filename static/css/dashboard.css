@@ -13,18 +13,147 @@
   background: #0f1322;
   border-radius: 16px;
   box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .dashboard h1 {
   margin: 0;
   text-align: center;
+  color: white;
 }
 
 .dashboard p {
   margin: 0;
-  text-align: center;
 }
 
 hr.solid {
+  border: none;
   border-top: 3px solid #bbb;
+  margin: 10px 0 25px;
+}
+
+/* =========================
+   DASHBOARD GRID LAYOUT
+   ========================= */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* =========================
+   DASHBOARD CARDS
+   ========================= */
+
+.dash-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+  color: white;
+  transition: 0.2s ease;
+}
+
+.dash-card:hover {
+  border-color: rgba(88, 101, 242, 0.5);
+  transform: translateY(-2px);
+}
+
+.dash-card h2 {
+  margin: 0 0 15px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.dash-card p {
+  margin: 8px 0;
+  text-align: left;
+  font-size: 0.95rem;
+  color: #d0d5e3;
+}
+
+.wide-card {
+  grid-column: span 2;
+}
+
+/* =========================
+   ORDERS
+   ========================= */
+
+.order-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 20px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.order-row:last-child {
+  border-bottom: none;
+}
+
+/* =========================
+   LINKS / BUTTONS
+   ========================= */
+
+.dash-link {
+  display: inline-block;
+  margin-top: 15px;
+  color: #8ea6ff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.dash-link:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   QUICK STATS
+   ========================= */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.stat-box {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+}
+
+.stat-box h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.stat-box span {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.85rem;
+  color: #b5bdd1;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 1000px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wide-card {
+    grid-column: span 1;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
 }
