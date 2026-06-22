@@ -92,8 +92,8 @@ function dashboardViewAllOrders() {
   });
 }
 
-function profileViewOrders() {
+function profileViewAllOrders() {
   document.getElementById("test-btn").addEventListener("click", () => {
-    document.querySelector("#orders-btn").click();
+    loadPage("orders");
   });
 }
