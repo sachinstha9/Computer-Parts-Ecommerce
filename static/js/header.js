@@ -24,7 +24,7 @@ try {
     wishlist = safeParse("wishlist");
   } else {
     // Type checking handles strings from SQLite/Python or pre-parsed arrays
-    let dbCart = user["orders"] || [];
+    let dbCart = user["cart"] || [];
     cart = typeof dbCart === "string" ? JSON.parse(dbCart || "[]") : dbCart;
 
     let dbWishlist = user["wishlist"] || [];

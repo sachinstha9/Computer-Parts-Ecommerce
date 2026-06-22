@@ -485,7 +485,7 @@ def add_cart():
     conn = sqlite3.connect("computer-ecommerce.db")
     c = conn.cursor()
 
-    c.execute("SELECT orders FROM customers WHERE id = ?", (session["customer_id"],))
+    c.execute("SELECT cart FROM customers WHERE id = ?", (session["customer_id"],))
     cartArr = c.fetchone()[0]
     
     if cartArr:
@@ -513,7 +513,7 @@ def add_cart():
 
     cartArrFinal = json.dumps(cartArr)
 
-    query = "UPDATE customers SET orders = ? WHERE id = ?"
+    query = "UPDATE customers SET cart = ? WHERE id = ?"
     new_data = (cartArrFinal, session["customer_id"])
 
     c.execute(query, new_data)
@@ -531,7 +531,7 @@ def remove_cart():
     c = conn.cursor()
 
     c.execute(
-        "SELECT orders FROM customers WHERE id = ?",
+        "SELECT cart FROM customers WHERE id = ?",
         (session["customer_id"],)
     )
 
