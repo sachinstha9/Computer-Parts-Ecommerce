@@ -1,65 +1,84 @@
-<!-- If clicked on the Profiles Sidebar, Profile will show, connected to profile.js
- which checks what button is clicked on the sidebar -->
-
-<!-- ======== START HEAD ======== -->
 <head>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../static/css/global.css" />
   <link rel="stylesheet" href="../static/css/profile2.css" />
 </head>
-<!-- ======== END HEAD ======== -->
-
-<!-- ======== START MAIN CONTENT ======== -->
-
 <div class="main-content-layout">
-    <div class="profile">
-      <h1>Profile</h1>
-      <hr class="solid" />
-      <br />
-      <br />
+  <div class="profile">
+    <h1>Profile Settings</h1>
+    <hr class="solid" />
+    <p class="profile-intro">Modify your account credentials, password security, and shipping coordinates below.</p>
 
-      <p>
-        Please find your profile details below. If you'd like to edit them,
-        please see the 'Settings' tab.
-        <!-- Text under the Profile header text to inform users -->
-      </p>
+    <form id="editable-profile-form">
+      <div class="profile-grid">
+        
+        <section class="profile-form-section">
+          <h2>User Details</h2>
+          
+          <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" value="{{ customer[0] }}" required />
+          </div>
 
-      <br />
+          <div class="input-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" value="{{ customer[1] }}" required />
+          </div>
+        </section>
 
-      <h2>User Details</h2>
-      <h3>Username: {{customer[0] }}</h3>
-      <!-- Will display users Username from DB 
-     [0] is the username in the DB -->
-      <h3>Email: {{customer[1] }}</h3>
-      <!-- Will display users Email from DB 
-     [1] is the users Email in the DB -->
-      <br />
+        <section class="profile-form-section">
+          <h2>Shipping Details</h2>
+          
+          <div class="input-group">
+            <label for="shipping_name">Full Name</label>
+            <input type="text" id="shipping_name" name="shipping_name" value="{{ customer[5] }}" placeholder="Receiver Name" />
+          </div>
 
-      <h2>Shipping Details</h2>
-      <!-- Show user Shipping Details -->
-        <h3 class="shipping-details">
-          Name: {{customer[5] }} <!-- Displays Users Name from DB -->
-        </h3>
+          <div class="input-group">
+            <label for="shipping_address">Street Address</label>
+            <input type="text" id="shipping_address" name="shipping_address" value="{{ customer[6] }}" placeholder="123 Cyber St" />
+          </div>
 
-        <h3 class="shipping-details">
-          Address: {{customer[6] }} <!-- Displays Users Address from DB -->
+          <div class="input-group-row">
+            <div class="input-group">
+              <label for="shipping_city">City</label>
+              <input type="text" id="shipping_city" name="shipping_city" value="{{ customer[7] }}" placeholder="Neo City" />
+            </div>
+            
+            <div class="input-group">
+              <label for="shipping_postcode">Postcode</label>
+              <input type="text" id="shipping_postcode" name="shipping_postcode" value="{{ customer[8] }}" placeholder="00000" />
+            </div>
+          </div>
+        </section>
 
-        </h3>
-        <h3 class="shipping-details">
-          City: {{customer[7] }} <!-- Displays Users City from DB -->
+        <section class="profile-form-section full-width">
+          <h2>Security & Password</h2>
+          
+          <div class="input-group">
+            <label for="current_password">Current Password</label>
+            <input type="password" id="current_password" name="current_password" placeholder="Required only if changing password below" />
+          </div>
 
-        </h3>
-        <h3 class="shipping-details">
-          Postcode: {{customer[8] }} <!-- Displays Postcode Name from DB -->
-
-        </h3>
+          <div class="input-group-row">
+            <div class="input-group">
+              <label for="new_password">New Password</label>
+              <input type="password" id="new_password" name="new_password" placeholder="••••••••" />
+            </div>
+            
+            <div class="input-group">
+              <label for="confirm_password">Confirm New Password</label>
+              <input type="password" id="confirm_password" name="confirm_password" placeholder="••••••••" />
+            </div>
+          </div>
+        </section>
+        
       </div>
 
-      <!-- Show User Contact Details -->
-    </div>
-
-  <!-- ======== END MAIN CONTENT ======== -->
+      <div class="profile-form-footer">
+        <span id="form-feedback-msg"></span>
+        <button type="submit" class="profile-save-btn">Save Changes</button>
+      </div>
+    </form>
+  </div>
 </div>
