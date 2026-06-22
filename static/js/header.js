@@ -218,10 +218,8 @@ export function showWishlistPreview() {
 
   removeButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
-      // event.stopPropagation();
-
+      event.stopPropagation();
       console.log(user["loggedIn"], "hgewgvew");
-
       if (!user["loggedIn"]) {
         const itemIndex = button.dataset.index;
         wishlist.splice(itemIndex, 1);

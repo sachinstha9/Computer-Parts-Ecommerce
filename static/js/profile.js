@@ -30,7 +30,6 @@ window.addEventListener("resize", () => {
   }
 });
 
-
 // Function to load the pages onto profile.html from
 // The 'profile-pages' folder in templates.
 
@@ -39,31 +38,62 @@ function loadPage(page) {
     .then((response) => response.text())
     .then((html) => {
       document.getElementById("content").innerHTML = html;
+
+      if (page == "dashboard") {
+        clickProfile();
+        dashboardViewAllOrders();
+      } else if (page == "profile") {
+        clickOrders();
+      }
     });
 }
-
 
 // Checks what button is clicked, and what it should display
 // These 'pages' will be viewed as a part of the initial 'profile' page
 // and will be displayed in the remaining space in the middle of the screen
 // leaving the sidenav at the side where it belongs.
 
-document.querySelector("#dashboard-btn").addEventListener("click", () => {    // Display Dashboard
+loadPage("dashboard");
+
+document.querySelector("#dashboard-btn").addEventListener("click", () => {
+  // Display Dashboard
   loadPage("dashboard");
 });
 
-document.querySelector("#orders-btn").addEventListener("click", () => {       // Display Orders
+document.querySelector("#orders-btn").addEventListener("click", () => {
+  // Display Orders
   loadPage("orders");
 });
 
-document.querySelector("#profile-btn").addEventListener("click", () => {      // Display Profile
+document.querySelector("#profile-btn").addEventListener("click", () => {
+  // Display Profile
   loadPage("profile");
 });
 
-document.querySelector("#wishlist-btn").addEventListener("click", () => {     // Display Wishlist
+document.querySelector("#wishlist-btn").addEventListener("click", () => {
+  // Display Wishlist
   loadPage("wishlist");
 });
 
-document.querySelector("#settings-btn").addEventListener("click", () => {     // Display Settings
+document.querySelector("#settings-btn").addEventListener("click", () => {
+  // Display Settings
   loadPage("settings");
 });
+
+function clickProfile() {
+  document.getElementById("view_profile").addEventListener("click", () => {
+    loadPage("profile");
+  });
+}
+
+function dashboardViewAllOrders() {
+  document.getElementById("view-all-orders").addEventListener("click", () => {
+    loadPage("orders");
+  });
+}
+
+function clickOrders() {
+  document.getElementById("test-btn").addEventListener("click", () => {
+    document.querySelector("#orders-btn").click();
+  });
+}

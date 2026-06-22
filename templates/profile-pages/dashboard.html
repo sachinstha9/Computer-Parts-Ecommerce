@@ -15,60 +15,57 @@
 <!-- ======== START MAIN CONTENT ======== -->
 
 <div class="main-content-layout">
+  <div id="content-2"></div>
   <div class="dashboard">
     <h1>Dashboard</h1>
-<hr class="solid" />
+    <hr class="solid" />
 
-<div class="dashboard-grid">
+    <div class="dashboard-grid">
+      <section class="dash-card profile-card">
+        <h2>Profile Details</h2>
+        <p><strong>Username:</strong> placeholder</p>
+        <p><strong>Email:</strong> placeholder</p>
+        <p><strong>Phone:</strong> placeholder</p>
+        <a href="#" class="dash-link" id="view_profile">View Profile</a>
+      </section>
 
-  <section class="dash-card profile-card">
-    <h2>Profile Details</h2>
-    <p><strong>Username:</strong> placeholder </p>
-    <p><strong>Email:</strong> placeholder </p>
-    <p><strong>Phone:</strong> placeholder </p>
-    <a href="#" class="dash-link">View Profile</a>
-  </section>
+      <section class="dash-card">
+        <h2>Shipping Details</h2>
+        <p><strong>Name:</strong> placeholder</p>
+        <p><strong>Address:</strong> placeholder</p>
+        <p><strong>City:</strong> placeholder</p>
+        <p><strong>Postcode:</strong> placeholder</p>
+        <a href="#" class="dash-link">Edit Shipping</a>
+      </section>
 
-  <section class="dash-card">
-    <h2>Shipping Details</h2>
-    <p><strong>Name:</strong> placeholder</p>
-    <p><strong>Address:</strong> placeholder </p>
-    <p><strong>City:</strong>  placeholder </p>
-    <p><strong>Postcode:</strong> placeholder </p>
-    <a href="#" class="dash-link">Edit Shipping</a>
-  </section>
+      <section class="dash-card wide-card">
+        <h2>Recent Orders</h2>
 
-  <section class="dash-card wide-card">
-    <h2>Recent Orders</h2>
-
-    {% if orders %}
-      {% for order in orders[:3] %}
+        {% if orders %} {% for order in orders[:3] %}
         <div class="order-row">
           <span>Order #{{ order.id }}</span>
           <span>{{ order.date }}</span>
           <span>${{ order.total }}</span>
         </div>
-      {% endfor %}
-    {% else %}
-      <p>No previous orders yet.</p>
-    {% endif %}
+        {% endfor %} {% else %}
+        <p>No previous orders yet.</p>
+        {% endif %}
 
-    <a href="#" class="dash-link">View All Orders</a>
-  </section>
+        <a href="#" class="dash-link" id="view-all-orders">View All Orders</a>
+      </section>
 
-  <section class="dash-card">
-    <h2>Wishlist</h2>
-    <p>You currently have {{ wishlist_count }} item(s) saved.</p>
-    <a href="#" class="dash-link">View Wishlist</a>
-  </section>
+      <section class="dash-card">
+        <h2>Wishlist</h2>
+        <p>You currently have {{ wishlist_count }} item(s) saved.</p>
+        <a href="#" class="dash-link">View Wishlist</a>
+      </section>
 
-  <section class="dash-card">
-    <h2>Settings</h2>
-    <p>Manage your account, password and preferences.</p>
-    <a href="#" class="dash-link">Account Settings</a>
-  </section>
-
-</div>
+      <section class="dash-card">
+        <h2>Settings</h2>
+        <p>Manage your account, password and preferences.</p>
+        <a href="#" class="dash-link">Account Settings</a>
+      </section>
+    </div>
   </div>
 </div>
 
