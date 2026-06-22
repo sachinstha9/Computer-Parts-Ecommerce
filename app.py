@@ -332,7 +332,7 @@ def profile():
     c.execute(
     "SELECT username, email FROM customers WHERE id = ?",
     (session["customer_id"],)
-)
+    )
 
     customer = c.fetchone()
     conn.close()
@@ -340,11 +340,14 @@ def profile():
     return render_template(
         "profile.html",
         customer=customer,
-        cart_count=get_cart_count()
+        cart_count=get_cart_count(),
     )
 
 @app.route("/profile/<name>")
 def profile_page(name):
+
+    if name == "wishlist":
+        print(name)
 
     if "customer_id" not in session:
         return redirect("/login")
