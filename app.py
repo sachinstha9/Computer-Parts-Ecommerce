@@ -284,13 +284,21 @@ def signup():
                     email,
                     cart,
                     wishlist,
-                    orders
+                    orders,
+                    name,
+                    address,
+                    city,
+                    postcode
                 )
-                VALUES (?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 username,
                 password,
                 email,
+                "[]",
+                "[]",
+                "[]",
+                "[]",
                 "[]",
                 "[]",
                 "[]"
@@ -356,7 +364,7 @@ def profile_page(name):
     c = conn.cursor()
 
     c.execute(
-        "SELECT username, email, cart, wishlist, orders FROM customers WHERE id = ?",
+        "SELECT username, email, cart, wishlist, orders, name, address, city, postcode FROM customers WHERE id = ?",
         (session["customer_id"],)
     )
 
