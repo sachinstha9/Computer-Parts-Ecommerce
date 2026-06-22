@@ -478,6 +478,87 @@ def remove_wishlist():
 
     return {"success": True}
 
+@app.route("/add_cart", methods=["POST"])
+def add_cart():
+    data = request.get_json()
+
+    conn = sqlite3.connect("computer-ecommerce.db")
+    c = conn.cursor()
+
+    c.execute("SELECT orders FROM customers WHERE id = ?", (session["customer_id"],))
+    cartArr = c.fetchone()[0]
+    
+    if cartArr:
+        cartArr = json.loads(cartArr)
+    else:
+        cartArr = []
+
+    product_id = str(data["id"])
+    quantity = int(data["quantity"])
+
+    # Look for the product in the cart to update its quantity
+    item_found = False
+    for item in cartArr:
+        if str(item["id"]) == product_id:
+            item["quantity"] = quantity
+            item_found = True
+            break
+
+    # If it's a new product, append it as a dictionary configuration
+    if not item_found:
+        cartArr.append({
+            "id": product_id,
+            "quantity": quantity
+        })
+
+    cartArrFinal = json.dumps(cartArr)
+
+    query = "UPDATE customers SET orders = ? WHERE id = ?"
+    new_data = (cartArrFinal, session["customer_id"])
+
+    c.execute(query, new_data)
+
+    conn.commit()
+    conn.close()
+
+    return {"success": True}
+
+@app.route("/remove_cart", methods=["POST"])
+def remove_cart():
+    data = request.get_json()
+
+    conn = sqlite3.connect("computer-ecommerce.db")
+    c = conn.cursor()
+
+    c.execute(
+        "SELECT orders FROM customers WHERE id = ?",
+        (session["customer_id"],)
+    )
+
+    cartArr = c.fetchone()[0]
+    if cartArr:
+        cartArr = json.loads(cartArr)
+    else:
+        cartArr = []
+
+    product_id = str(data["id"])
+
+    # Rebuild list excluding the target item dictionary
+    cartArr = [item for item in cartArr if str(item["id"]) != product_id]
+
+    c.execute(
+        "UPDATE customers SET cart = ? WHERE id = ?",
+        (
+            json.dumps(cartArr),
+            session["customer_id"]
+        )
+    )
+
+    conn.commit()
+    conn.close()
+
+    return {"success": True}
+
 # Product Upload Route
 @app.route("/add_product", methods=["POST", "GET"])
 def add_product():

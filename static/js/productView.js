@@ -28,24 +28,56 @@ const productImage = document.querySelector("#product-view-img-src");
 const productImageSrc = productImage.src;
 
 // Add to Cart
+// Add to Cart
 btnAddToCart.addEventListener("click", () => {
-  const existingProduct = cart.find((item) => item.name === productName);
-  let currentUrl = window.location.href;
-  let productId = currentUrl.split("/");
+  const prodId = productId[productId.length - 1];
+  const existingProduct = cart.find((item) => item.id === prodId);
 
   if (existingProduct) {
     existingProduct.quantity++;
+    
+    if (user["loggedIn"]) {
+      fetch("/add_cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: prodId,
+          quantity: existingProduct.quantity,
+        }),
+      }).then((response) => response.text());
+    }
   } else {
-    cart.push({
-      id: productId[productId.length - 1],
+    const newProduct = {
+      id: prodId,
       name: productName,
       price: productPrice,
       image: productImageSrc,
       quantity: 1,
-    });
+    };
+    
+    cart.push(newProduct);
+
+    if (user["loggedIn"]) {
+      fetch("/add_cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: prodId,
+          quantity: 1,
+        }),
+      }).then((response) => response.text());
+    }
   }
 
-  saveCart();
+  // Only write to localStorage if user is a guest
+  if (!user["loggedIn"]) {
+    saveCart();
+  }
+  
   updateCartCount();
   showCartPreview();
 
