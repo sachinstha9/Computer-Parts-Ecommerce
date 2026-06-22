@@ -442,16 +442,25 @@ def remove_wishlist():
     conn = sqlite3.connect("computer-ecommerce.db")
     c = conn.cursor()
 
-    c.execute("SELECT wishlist FROM customers WHERE id = ?", (session["customer_id"],))
-    wishlistArr = c.fetchone()[0]
-    wishlistArr = json.loads(wishlistArr)
-    wishlistArr.remove(data["id"])
-    wishlistArrFinal = json.dumps(wishlistArr)
+    c.execute(
+        "SELECT wishlist FROM customers WHERE id = ?",
+        (session["customer_id"],)
+    )
 
-    query = "UPDATE customers SET wishlist = ? WHERE id = ?"
-    new_data = (wishlistArrFinal, session["customer_id"])
+    wishlistArr = json.loads(c.fetchone()[0])
 
-    c.execute(query, new_data)
+    product_id = str(data["id"])
+
+    if product_id in wishlistArr:
+        wishlistArr.remove(product_id)
+
+    c.execute(
+        "UPDATE customers SET wishlist = ? WHERE id = ?",
+        (
+            json.dumps(wishlistArr),
+            session["customer_id"]
+        )
+    )
 
     conn.commit()
     conn.close()
