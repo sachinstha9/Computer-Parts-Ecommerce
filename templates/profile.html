@@ -88,7 +88,7 @@
 
         <!-- Profile -->
         {% if session.get("customer_id") %}
-        <a href="/profile" class="icon-link" aria-label="User Profile">♙</a>
+        <a href="{{ url_for('profile', inner_page=['dashboard'])}}" class="icon-link" aria-label="User Profile">♙</a>
         {% else %}
         <a href="/login" class="icon-link" aria-label="User Profile">♙</a>
         {% endif %}
@@ -496,21 +496,21 @@
             <span class="nav-tooltip">Profile</span>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="orders-btn">
+            <a class="nav-link" id="orders-btn" href="{{ url_for('profile', inner_page=['orders']) }}">
               <span class="nav-icon material-symbols-rounded">shopping_cart_checkout</span> <!-- Prior Orders Button -->
               <span class="nav-label">Orders</span>
             </a>
             <span class="nav-tooltip">Orders</span>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="wishlist-btn">
+            <a class="nav-link" id="wishlist-btn" href="{{ url_for('profile', inner_page=['wishlist']) }}">
               <span class="nav-icon material-symbols-rounded">favorite</span> <!--               Wishlist Butotn -->
               <span class="nav-label">Wishlist</span>
             </a>
             <span class="nav-tooltip">Wishlist</span>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="settings-btn">
+            <a class="nav-link" id="settings-btn" href="{{ url_for('profile', inner_page=['settings']) }}">
               <span class="nav-icon material-symbols-rounded">settings</span> <!--              Settings Button -->
               <span class="nav-label">Settings</span>
             </a>

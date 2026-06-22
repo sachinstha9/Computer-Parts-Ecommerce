@@ -82,10 +82,14 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const inner_page = urlParams.get("inner_page");
 
-if (inner_page === "wishlist") {
-  loadPage("wishlist");
-} else if (inner_page === "profile") { 
+if (inner_page === "profile") { 
   loadPage("profile");
+} else if (inner_page === "orders") { 
+  loadPage("orders");
+} else if (inner_page === "wishlist") {
+  loadPage("wishlist");
+} else if (inner_page === "settings") { 
+  loadPage("settings");
 } else {
   loadPage("dashboard");
 }
