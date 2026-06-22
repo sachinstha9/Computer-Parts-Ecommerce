@@ -20,24 +20,27 @@
     <h1>Dashboard</h1>
     <hr class="solid" />
 
+    <!-- ======== PROFILE DETAILS ======== -->
     <div class="dashboard-grid">
       <section class="dash-card profile-card">
         <h2>Profile Details</h2>
-        <p><strong>Username:</strong> placeholder</p>
-        <p><strong>Email:</strong> placeholder</p>
+        <p><strong>Username:</strong> {{customer[0] }}</p>
+        <p><strong>Email:</strong> {{customer[1] }}</p>
         <p><strong>Phone:</strong> placeholder</p>
         <a href="#" class="dash-link" id="view_profile">View Profile</a>
       </section>
 
+      <!-- ======== SHIPPING DETAILS ======== -->
       <section class="dash-card">
         <h2>Shipping Details</h2>
         <p><strong>Name:</strong> placeholder</p>
         <p><strong>Address:</strong> placeholder</p>
         <p><strong>City:</strong> placeholder</p>
         <p><strong>Postcode:</strong> placeholder</p>
-        <a href="#" class="dash-link">Edit Shipping</a>
+        <a href="#" class="dash-link" id="view_shipping">Edit Shipping</a>
       </section>
 
+      <!-- ======== RECENT ORDER DETAILS ======== -->
       <section class="dash-card wide-card">
         <h2>Recent Orders</h2>
 
@@ -54,16 +57,18 @@
         <a href="#" class="dash-link" id="view-all-orders">View All Orders</a>
       </section>
 
+      <!-- ======== WISHLIST DETAILS ======== -->
       <section class="dash-card">
         <h2>Wishlist</h2>
         <p>You currently have {{ wishlist_count }} item(s) saved.</p>
-        <a href="#" class="dash-link">View Wishlist</a>
+        <a href="#" class="dash-link" id="view_wishlist">View Wishlist</a>
       </section>
 
+      <!-- ======== SETTINGS DETAILS ======== -->
       <section class="dash-card">
         <h2>Settings</h2>
         <p>Manage your account, password and preferences.</p>
-        <a href="#" class="dash-link">Account Settings</a>
+        <a href="#" class="dash-link" id="view_settings">Account Settings</a>
       </section>
     </div>
   </div>
