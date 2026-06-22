@@ -28,91 +28,75 @@
     <div class="page">
       <!-- ================= HEADER ================= -->
 
-    <header class="navbar">
-      <div id="first-row">
-        <div class="nav-left">
-          <!-- Website logo linking back to the homepage -->
-          <a href="/" class="logo-link">
-            <img
-              src="../static/images/galact.png"
-              alt="Galact Logo"
-              class="logo-image"
-            />
-          </a>
-  <!-- Search bar -->
-  <form action="/search" method="GET" class="search-form">
-    <span>
-      <div>
-        <i class="fa fa-search" aria-hidden="true"></i>
+     <header class="navbar">
+    <div id="first-row">
+      <div class="nav-left">
+        <!-- Website logo linking back to the homepage -->
+        <a href="/" class="logo-link">
+          <img src="../static/images/galact.png" alt="Galact Logo" class="logo-image" />
+        </a>
+        <!-- Search bar -->
+        <form action="/search" method="GET" class="search-form">
+          <span>
+            <div>
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </div>
+
+            <input type="text" name="q" placeholder="Search..." />
+          </span>
+        </form>
       </div>
 
-      <input
-        type="text"
-        name="q"
-        placeholder="Search..."
-      />
-    </span>
-  </form>
-</div>
+      <div class="nav-right">
+        <!-- Wishlist icon -->
+        <!-- <a href="/wishlist" class="icon-link" aria-label="Wishlist"> ♡ </a> -->
 
-        <div class="nav-right">
-          <!-- Wishlist icon -->
-          <!-- <a href="/wishlist" class="icon-link" aria-label="Wishlist"> ♡ </a> -->
+        <div class="wishlist-wrapper">
+          <button class="wishlist-icon" type="button" aria-label="Open wishlist preview">
+            ♡
+            <!-- Cart amount shown in the header -->
+            <span class="wishlist-count"> 0 </span>
+          </button>
+          <!-- Small dropdown preview for the user's cart -->
+          <div class="wishlist-dropdown">
+            <h3>Your Wishlist</h3>
 
-          <div class="wishlist-wrapper">
-            <button
-              class="wishlist-icon"
-              type="button"
-              aria-label="Open wishlist preview"
-            >
-              ♡
-              <!-- Cart amount shown in the header -->
-              <span class="wishlist-count"> 0 </span>
-            </button>
-            <!-- Small dropdown preview for the user's cart -->
-            <div class="wishlist-dropdown">
-              <h3>Your Wishlist</h3>
-
-              <div class="wishlist-items">
-                <p class="empty-wishlist-message">Your wishlist is empty.</p>
-              </div>
-
-              <a href="/profile?inner_page=wishlist" class="wishlist-page-button"> Go to Wishlist Page </a>
+            <div class="wishlist-items">
+              <p class="empty-wishlist-message">Your wishlist is empty.</p>
             </div>
+
+            <a href="/profile?inner_page=wishlist" class="wishlist-page-button"> Go to Wishlist Page </a>
           </div>
-
-
-          <!-- Cart preview dropdown -->
-          <div class="cart-wrapper">
-            <button
-              class="cart-icon"
-              type="button"
-              aria-label="Open cart preview"
-            >
-              🛍
-              <!-- Cart amount shown in the header -->
-              <span class="cart-count"> 0 </span>
-            </button>
-            <!-- Small dropdown preview for the user's cart -->
-            <div class="cart-dropdown">
-              <h3>Your Cart</h3>
-
-              <div class="cart-items">
-                <p class="empty-cart-message">Your cart is empty.</p>
-              </div>
-
-              <a href="/shopping-cart" class="checkout-button"> Checkout </a>
-            </div>
-          </div>
-
-          <!-- Profile -->
-          {% if session.get("customer_id") %}
-    <a href="/profile" class="icon-link" aria-label="User Profile">♙</a>
-{% else %}
-    <a href="/login" class="icon-link" aria-label="User Profile">♙</a>
-{% endif %}
         </div>
+
+
+        <!-- Cart preview dropdown -->
+        <div class="cart-wrapper">
+          <button class="cart-icon" type="button" aria-label="Open cart preview">
+            🛍
+            <!-- Cart amount shown in the header -->
+            <span class="cart-count"> 0 </span>
+          </button>
+          <!-- Small dropdown preview for the user's cart -->
+          <div class="cart-dropdown">
+            <h3>Your Cart</h3>
+
+            <div class="cart-items">
+              <p class="empty-cart-message">Your cart is empty.</p>
+            </div>
+
+            <a href="/shopping-cart" class="checkout-button"> Checkout </a>
+          </div>
+        </div>
+
+        <!-- Profile -->
+        {% if session.get("customer_id") %}
+        <a href="{{ url_for('profile', inner_page=['dashboard'])}}" class="icon-link" aria-label="User Profile">♙</a>
+        {% else %}
+        <a href="/login" class="icon-link" aria-label="User Profile">♙</a>
+        {% endif %}
       </div>
+    </div>
 
     <div id="second-row">
       <ul id="header-items-container">
@@ -276,8 +260,7 @@
 
             <ul class="header-item-list">
               <li><a href="{{url_for('products', or_tags=['power supplies', 'psu'])}}">Power Supplies/PSU</a></li>
-              <li><a
-                  href="{{url_for('products', tags=['sleeved cables'], or_tags=['power supplies', 'psu'])}}">Sleeved
+              <li><a href="{{url_for('products', tags=['sleeved cables'], or_tags=['power supplies', 'psu'])}}">Sleeved
                   Cables</a></li>
             </ul>
 
@@ -458,10 +441,11 @@
         <li class="header-item">
           <a class="header-item-title" href="{{ url_for('products', tags=['special'])}}">
             Specials
-          </a></li>
+          </a>
+        </li>
       </ul>
-      </div>
-    </header>
+    </div>
+  </header>
 
       <!-- ================= HERO ================= -->
 

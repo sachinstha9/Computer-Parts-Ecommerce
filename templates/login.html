@@ -25,7 +25,7 @@
 <body>
   <!-- ================= HEADER ================= -->
 
-  <header class="navbar">
+   <header class="navbar">
     <div id="first-row">
       <div class="nav-left">
         <!-- Website logo linking back to the homepage -->
@@ -88,7 +88,7 @@
 
         <!-- Profile -->
         {% if session.get("customer_id") %}
-        <a href="/profile" class="icon-link" aria-label="User Profile">♙</a>
+        <a href="{{ url_for('profile', inner_page=['dashboard'])}}" class="icon-link" aria-label="User Profile">♙</a>
         {% else %}
         <a href="/login" class="icon-link" aria-label="User Profile">♙</a>
         {% endif %}
