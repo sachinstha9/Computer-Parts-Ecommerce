@@ -68,7 +68,8 @@ function loadPage(page) {
         // Pass "dashboard" to render recent 3 items in a row layout
         renderWishlist("dashboard"); 
       } else if (page === "profile") {
-        clickOrders();
+        // Target and hook up the save interface routine
+        initializeProfileFormHandler();      
       } else if (page === "wishlist") {
         
         // Pass "full" to render all items in the full card grid layout
@@ -267,4 +268,72 @@ async function renderWishlist(viewType = "dashboard") {
       await renderWishlist(viewType);
     });
   }
+}
+
+function initializeProfileFormHandler() {
+  const form = document.getElementById("editable-profile-form");
+  const feedback = document.getElementById("form-feedback-msg");
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    feedback.textContent = "Processing updates...";
+    feedback.className = "";
+
+    const formData = new FormData(form);
+    const dataPayload = Object.fromEntries(formData.entries());
+
+    // --- CLIENT SIDE SECURITY CHECKS ---
+    const currentPass = dataPayload.current_password;
+    const newPass = dataPayload.new_password;
+    const confirmPass = dataPayload.confirm_password;
+
+    // Check if the user is trying to change their password
+    if (newPass || confirmPass || currentPass) {
+      if (!currentPass) {
+        feedback.textContent = "× Current password is required to verify changes.";
+        feedback.className = "error";
+        return;
+      }
+      if (newPass !== confirmPass) {
+        feedback.textContent = "× New password fields do not match.";
+        feedback.className = "error";
+        return;
+      }
+      if (newPass.length < 6) { // Optional safety check length
+        feedback.textContent = "× New password must be at least 6 characters.";
+        feedback.className = "error";
+        return;
+      }
+    }
+
+    // --- ENDPOINT TRANSMISSION PIPE ---
+    try {
+      const response = await fetch("/update_profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dataPayload)
+      });
+
+      const responseData = await response.json().catch(() => ({}));
+
+      if (response.ok) {
+        feedback.textContent = "✓ Account details synchronized successfully!";
+        feedback.className = "success";
+        
+        // Wipe password fields clean after a successful update loop
+        form.querySelector("#current_password").value = "";
+        form.querySelector("#new_password").value = "";
+        form.querySelector("#confirm_password").value = "";
+      } else {
+        // Fallback to backend validation messages if passed
+        feedback.textContent = responseData.message || "× Verification failed. Check parameters.";
+        feedback.className = "error";
+      }
+    } catch (err) {
+      console.error("Critical submission disruption:", err);
+      feedback.textContent = "× Connection lost. Try again.";
+      feedback.className = "error";
+    }
+  });
 }
