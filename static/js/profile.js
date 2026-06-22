@@ -80,7 +80,7 @@ document.querySelector("#settings-btn").addEventListener("click", () => {
   loadPage("settings");
 });
 
-function clickProfile() {
+function dashboardLoadProfile() {
   document.getElementById("view_profile").addEventListener("click", () => {
     loadPage("profile");
   });
@@ -92,7 +92,7 @@ function dashboardViewAllOrders() {
   });
 }
 
-function clickOrders() {
+function profileViewOrders() {
   document.getElementById("test-btn").addEventListener("click", () => {
     document.querySelector("#orders-btn").click();
   });
