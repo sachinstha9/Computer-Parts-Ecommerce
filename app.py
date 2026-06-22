@@ -589,6 +589,34 @@ def get_product_details():
         "discount": product[11],
         "arrival_date": product[12]
     })
+    
+@app.route("/search")
+def search():
+    search_query = request.args.get("q", "")
+
+    conn = sqlite3.connect("computer-ecommerce.db")
+    c = conn.cursor()
+
+    c.execute("""
+        SELECT * FROM products
+        WHERE title LIKE ?
+        OR tags LIKE ?
+    """, (
+        "%" + search_query + "%",
+        "%" + search_query + "%"
+    ))
+
+    filtered_products = c.fetchall()
+
+    conn.close()
+
+    filtered_products = product_formatter(filtered_products)
+
+    return render_template(
+        "products.html",
+        filtered_products=filtered_products,
+        cart_count=get_cart_count()
+    )    
 
 if __name__ == "__main__":
     app.run(debug=True)

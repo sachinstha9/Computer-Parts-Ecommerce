@@ -49,14 +49,22 @@
               class="logo-image"
             />
           </a>
-          <!-- Search bar area -->
-          <span>
-            <div>
-              <i class="fa fa-search" aria-hidden="true"></i>
-            </div>
-            <input type="text" placeholder="Search..." />
-          </span>
-        </div>
+
+  <!-- Search bar -->
+  <form action="/search" method="GET" class="search-form">
+    <span>
+      <div>
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </div>
+
+      <input
+        type="text"
+        name="q"
+        placeholder="Search..."
+      />
+    </span>
+  </form>
+</div>
 
         <div class="nav-right">
           <!-- Wishlist icon -->
