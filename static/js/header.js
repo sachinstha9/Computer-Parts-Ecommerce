@@ -183,16 +183,17 @@ export function showWishlistPreview() {
 
     return;
   }
+}
 
-  wishlist.forEach(async (item, index) => {
-    const wishlistItem = document.createElement("div");
-    wishlistItem.classList.add("wishlist-preview-item");
+wishlist.forEach(async (item, index) => {
+  const wishlistItem = document.createElement("div");
+  wishlistItem.classList.add("wishlist-preview-item");
 
-    let productDetails = item;
+  let productDetails = item;
 
-    if (user["loggedIn"]) productDetails = await getProductDetails(item);
+  if (user["loggedIn"]) productDetails = await getProductDetails(item);
 
-    wishlistItem.innerHTML = `
+  wishlistItem.innerHTML = `
       <a href="/productview/${productDetails.id}" class="wishlist-image-wrapper">
         <img src="${productDetails.image[0]}" alt="${productDetails.title}">
       </a>
@@ -210,44 +211,41 @@ export function showWishlistPreview() {
       </button>
     `;
 
-    wishlistItemsBox.appendChild(wishlistItem);
+  wishlistItemsBox.appendChild(wishlistItem);
+
+  const removeButtons = document.querySelector(".remove-wishlist-item");
+  const imageWrapper = document.querySelector(".wishlist-image-wrapper");
+
+  removeButtons.addEventListener("click", (event) => {
+    event.stopPropagation();
+    console.log(user["loggedIn"], "hgewgvew");
+    if (!user["loggedIn"]) {
+      const itemIndex = removeButtons.dataset.index;
+      wishlist.splice(itemIndex, 1);
+    } else {
+      let productId = imageWrapper[index].href;
+      productId = productId.split("/");
+      let userWishlist = user["wishlist"];
+
+      console.log(productId);
+
+      if (userWishlist.includes(productId[productId.length - 1]))
+        fetch("/remove_wishlist", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: productId[productId.length - 1],
+          }),
+        }).then((response) => response.text());
+    }
+
+    saveWishlist();
+    updateWishlistCount();
+    showWishlistPreview();
   });
-
-  const removeButtons = document.querySelectorAll(".remove-wishlist-item");
-  const imageWrapper = document.querySelectorAll(".wishlist-image-wrapper");
-
-  removeButtons.forEach((button) => {
-    button.addEventListener("click", (event) => {
-      event.stopPropagation();
-      console.log(user["loggedIn"], "hgewgvew");
-      if (!user["loggedIn"]) {
-        const itemIndex = button.dataset.index;
-        wishlist.splice(itemIndex, 1);
-      } else {
-        let productId = imageWrapper[index].href;
-        productId = productId.split("/");
-        let userWishlist = user["wishlist"];
-
-        console.log(productId);
-
-        if (userWishlist.includes(productId[productId.length - 1]))
-          fetch("/remove_wishlist", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              id: productId[productId.length - 1],
-            }),
-          }).then((response) => response.text());
-      }
-
-      saveWishlist();
-      updateWishlistCount();
-      showWishlistPreview();
-    });
-  });
-}
+});
 
 updateWishlistCount();
 showWishlistPreview();

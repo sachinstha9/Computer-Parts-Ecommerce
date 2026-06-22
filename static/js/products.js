@@ -29,7 +29,7 @@ addButtons.forEach((button) => {
 
       cart.push({
         id: productId,
-        name: productName,
+        title: productName,
         price: productPrice,
         image: productImageSrc,
         quantity: 1,
