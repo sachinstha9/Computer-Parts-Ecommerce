@@ -50,7 +50,29 @@
 
         <div class="nav-right">
           <!-- Wishlist icon -->
-          <a href="/wishlist" class="icon-link" aria-label="Wishlist"> ♡ </a>
+          <!-- <a href="/wishlist" class="icon-link" aria-label="Wishlist"> ♡ </a> -->
+
+          <div class="wishlist-wrapper">
+            <button
+              class="wishlist-icon"
+              type="button"
+              aria-label="Open wishlist preview"
+            >
+              ♡
+              <!-- Cart amount shown in the header -->
+              <span class="wishlist-count"> 0 </span>
+            </button>
+            <!-- Small dropdown preview for the user's cart -->
+            <div class="wishlist-dropdown">
+              <h3>Your Wishlist</h3>
+
+              <div class="wishlist-items">
+                <p class="empty-wishlist-message">Your wishlist is empty.</p>
+              </div>
+
+              <a href="/profile?inner_page=wishlist" class="wishlist-page-button"> Go to Wishlist Page </a>
+            </div>
+          </div>
 
 
           <!-- Cart preview dropdown -->

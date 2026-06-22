@@ -47,6 +47,8 @@ function loadPage(page) {
         clickSettings();
       } else if (page == "profile") {
         clickOrders();
+      } else if (page == "wishlist") {
+        loadItems();
       }
     });
 }
@@ -125,4 +127,95 @@ function clickSettings() {
   document.getElementById("view_settings").addEventListener("click", () => {
     loadPage("settings");
   });
+}
+
+import getUser from "./get-user.js";
+import getProductDetails from "./get-product-details.js";
+
+let user = (await getUser()) || {};
+let wishlist = user["wishlist"] || [];
+
+function loadItems() {
+  const wishlistItemsBox = document.querySelector("#inner-page-wishlist-box");
+
+  async function showWishlistPreview() {
+    if (!wishlistItemsBox) {
+      console.error(
+        "Could not find .inner-page-wishlist-box. Make sure it exists in wishlist.html",
+      );
+      return;
+    }
+
+    wishlistItemsBox.innerHTML = "";
+
+    if (wishlist.length === 0) {
+      wishlistItemsBox.innerHTML = `
+        <p class="empty-wishlist-message">
+          Your wishlist is empty.
+        </p>
+      `;
+      return;
+    }
+
+    for (const [index, item] of wishlist.entries()) {
+      let productDetails = item;
+
+      if (user.loggedIn) {
+        productDetails = await getProductDetails(item);
+      }
+
+      const wishlistItem = document.createElement("div");
+      wishlistItem.classList.add("wishlist-preview-item");
+
+      wishlistItem.innerHTML = `
+        <a href="/productview/${productDetails.id}" class="wishlist-image-wrapper">
+          <img src="${productDetails.image[0]}" alt="${productDetails.title}">
+        </a>
+
+        <div class="wishlist-preview-info">
+          <p>${productDetails.title}</p>
+
+          <div class="wishlist-preview-bottom">
+            <strong>$${productDetails.price}</strong>
+          </div>
+        </div>
+
+        <button class="remove-wishlist-item" data-index="${index}">
+          ×
+        </button>
+      `;
+
+      wishlistItemsBox.appendChild(wishlistItem);
+
+      const removeButton = wishlistItem.querySelector(".remove-wishlist-item");
+
+      removeButton.addEventListener("click", async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (!user.loggedIn) {
+          wishlist.splice(index, 1);
+          saveWishlist();
+        } else {
+          const response = await fetch("/remove_wishlist", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              id: productDetails.id,
+            }),
+          });
+
+          if (response.ok) {
+            wishlist.splice(index, 1);
+          }
+        }
+
+        showWishlistPreview();
+      });
+    }
+  }
+
+  showWishlistPreview();
 }

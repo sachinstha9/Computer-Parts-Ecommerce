@@ -5,6 +5,8 @@ import {
   cart,
   wishlist,
   saveWishlist,
+  updateWishlistCount,
+  showWishlistPreview,
 } from "./header.js";
 import getUser from "./get-user.js";
 
