@@ -42,6 +42,9 @@ function loadPage(page) {
       if (page == "dashboard") {
         clickProfile();
         dashboardViewAllOrders();
+        clickShipping();
+        clickWishlist();
+        clickSettings();
       } else if (page == "profile") {
         clickOrders();
       }
@@ -86,14 +89,32 @@ function dashboardLoadProfile() {
   });
 }
 
+function clickProfile() {
+  document.getElementById("view_profile").addEventListener("click", () => {
+    loadPage("profile");
+  });
+}
+
 function dashboardViewAllOrders() {
   document.getElementById("view-all-orders").addEventListener("click", () => {
     loadPage("orders");
   });
 }
 
-function profileViewAllOrders() {
-  document.getElementById("test-btn").addEventListener("click", () => {
-    loadPage("orders");
+function clickShipping() {
+  document.getElementById("view_shipping").addEventListener("click", () => {
+    loadPage("profile");
+  });
+}
+
+function clickWishlist() {
+  document.getElementById("view_wishlist").addEventListener("click", () => {
+    loadPage("wishlist");
+  });
+}
+
+function clickSettings() {
+  document.getElementById("view_settings").addEventListener("click", () => {
+    loadPage("settings");
   });
 }
