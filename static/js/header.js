@@ -169,7 +169,7 @@ export function saveWishlist() {
   localStorage.setItem("wishlist", JSON.stringify(wishlist));
 }
 
-export function showWishlistPreview() {
+export async function showWishlistPreview() {
   if (!wishlistItemsBox) return;
 
   wishlistItemsBox.innerHTML = "";
@@ -180,20 +180,20 @@ export function showWishlistPreview() {
         Your wishlist is empty.
       </p>
     `;
-
     return;
   }
-}
 
-wishlist.forEach(async (item, index) => {
-  const wishlistItem = document.createElement("div");
-  wishlistItem.classList.add("wishlist-preview-item");
+  for (const [index, item] of wishlist.entries()) {
+    const wishlistItem = document.createElement("div");
+    wishlistItem.classList.add("wishlist-preview-item");
 
-  let productDetails = item;
+    let productDetails = item;
 
-  if (user["loggedIn"]) productDetails = await getProductDetails(item);
+    if (user.loggedIn) {
+      productDetails = await getProductDetails(item);
+    }
 
-  wishlistItem.innerHTML = `
+    wishlistItem.innerHTML = `
       <a href="/productview/${productDetails.id}" class="wishlist-image-wrapper">
         <img src="${productDetails.image[0]}" alt="${productDetails.title}">
       </a>
@@ -211,41 +211,37 @@ wishlist.forEach(async (item, index) => {
       </button>
     `;
 
-  wishlistItemsBox.appendChild(wishlistItem);
+    wishlistItemsBox.appendChild(wishlistItem);
 
-  const removeButtons = document.querySelector(".remove-wishlist-item");
-  const imageWrapper = document.querySelector(".wishlist-image-wrapper");
+    const removeButton = wishlistItem.querySelector(".remove-wishlist-item");
 
-  removeButtons.addEventListener("click", (event) => {
-    event.stopPropagation();
-    console.log(user["loggedIn"], "hgewgvew");
-    if (!user["loggedIn"]) {
-      const itemIndex = removeButtons.dataset.index;
-      wishlist.splice(itemIndex, 1);
-    } else {
-      let productId = imageWrapper[index].href;
-      productId = productId.split("/");
-      let userWishlist = user["wishlist"];
+    removeButton.addEventListener("click", async (event) => {
+      event.stopPropagation();
 
-      console.log(productId);
-
-      if (userWishlist.includes(productId[productId.length - 1]))
-        fetch("/remove_wishlist", {
+      if (!user.loggedIn) {
+        wishlist.splice(index, 1);
+        saveWishlist();
+      } else {
+        const response = await fetch("/remove_wishlist", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            id: productId[productId.length - 1],
+            id: productDetails.id,
           }),
-        }).then((response) => response.text());
-    }
+        });
 
-    saveWishlist();
-    updateWishlistCount();
-    showWishlistPreview();
-  });
-});
+        if (response.ok) {
+          wishlist.splice(index, 1);
+        }
+      }
+
+      updateWishlistCount();
+      showWishlistPreview();
+    });
+  }
+}
 
 updateWishlistCount();
 showWishlistPreview();

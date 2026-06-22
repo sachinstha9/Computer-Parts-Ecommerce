@@ -51,12 +51,20 @@ function loadPage(page) {
     });
 }
 
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const inner_page = urlParams.get("inner_page");
+
+if (inner_page == "wishlist") {
+  loadPage("wishlist");
+} else {
+  loadPage("dashboard");
+}
+
 // Checks what button is clicked, and what it should display
 // These 'pages' will be viewed as a part of the initial 'profile' page
 // and will be displayed in the remaining space in the middle of the screen
 // leaving the sidenav at the side where it belongs.
-
-loadPage("dashboard");
 
 document.querySelector("#dashboard-btn").addEventListener("click", () => {
   // Display Dashboard
