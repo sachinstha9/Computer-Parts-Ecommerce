@@ -56,25 +56,25 @@ function loadPage(page) {
   fetch(`/profile/${page}`)
     .then((response) => response.text())
     .then((html) => {
-      // Inject the incoming sub-page markup segment
       document.getElementById("content").innerHTML = html;
 
-      // Conditional initialization based on active structural context
       if (page === "dashboard") {
         clickProfile();
         dashboardViewAllOrders();
         clickShipping();
         clickWishlist();
         clickSettings();
-        // Triggers beautifully now that elements exist inside the DOM tree
-        renderDashboardWishlist(); 
+        
+        // Pass "dashboard" to render recent 3 items in a row layout
+        renderWishlist("dashboard"); 
       } else if (page === "profile") {
-        if (typeof clickOrders === "function") clickOrders();
+        clickOrders();
       } else if (page === "wishlist") {
-        if (typeof loadItems === "function") loadItems();
+        
+        // Pass "full" to render all items in the full card grid layout
+        renderWishlist("full"); 
       }
-    })
-    .catch(err => console.error(`Error streaming page layout fragment: ${page}`, err));
+    });
 }
 
 // Global entry point handling checks
@@ -136,28 +136,53 @@ function clickSettings() {
 // ==========================================
 // --- ASYNC DASHBOARD WISHLIST RENDERING ---
 // ==========================================
-async function renderDashboardWishlist() {
-  // FIX: Element query selectors run contextually inside execution frame loop
-  const dashWishlistContainer = document.querySelector(".dash-wishlist-items");
-  const dashWishlistCountVal = document.querySelector(".dash-wishlist-count-val");
+// ==========================================
+// --- UNIFIED WISHLIST RENDERING ENGINE ---
+// ==========================================
+async function renderWishlist(viewType = "dashboard") {
+  const isDash = viewType === "dashboard";
 
-  if (!dashWishlistContainer) return;
-  dashWishlistContainer.innerHTML = "";
+  // 1. Assign target containers contextually based on active view type
+  const container = isDash 
+    ? document.querySelector(".dash-wishlist-items") 
+    : document.getElementById("inner-page-wishlist-box");
 
-  // Synchronize count visual displays natively
-  if (dashWishlistCountVal) {
-    dashWishlistCountVal.textContent = wishlist ? wishlist.length : 0;
+  if (!container) return;
+  container.innerHTML = "";
+
+  // 2. Natively handle dashboard count text if applicable
+  if (isDash) {
+    const dashWishlistCountVal = document.querySelector(".dash-wishlist-count-val");
+    if (dashWishlistCountVal) {
+      dashWishlistCountVal.textContent = wishlist ? wishlist.length : 0;
+    }
   }
 
+  // 3. Handle empty states gracefully for both separate layouts
   if (!wishlist || wishlist.length === 0) {
-    dashWishlistContainer.innerHTML = `<p class="dash-empty-msg">No items in your wishlist.</p>`;
+    container.innerHTML = isDash 
+      ? `<p class="dash-empty-msg">No items in your wishlist.</p>`
+      : `<div class="full-wishlist-empty">
+          <p>Your wishlist is currently empty.</p>
+          <a href="/" class="wishlist-shop-btn">Continue Shopping</a>
+         </div>`;
     return;
   }
 
-  // Preview only the 3 most recent entries
-  const recentWishlistItems = wishlist.slice(-3).reverse();
+  // 4. Filter array length constraint: Recent 3 items for dashboard, all for full page
+  const itemsToRender = isDash ? wishlist.slice(-3).reverse() : wishlist;
 
-  for (const item of recentWishlistItems) {
+  // 5. Build full view grid wrapper if rendering the standalone child page
+  let appendTarget = container;
+  if (!isDash) {
+    const wishlistGrid = document.createElement("div");
+    wishlistGrid.classList.add("wishlist-page-grid");
+    container.appendChild(wishlistGrid);
+    appendTarget = wishlistGrid;
+  }
+
+  // 6. Process item iteration loop execution cleanly
+  for (const item of itemsToRender) {
     if (!item) continue;
 
     let productDetails = item;
@@ -167,7 +192,7 @@ async function renderDashboardWishlist() {
         productDetails = await getProductDetails(item);
         if (!productDetails) continue;
       } catch (err) {
-        console.error(`Error resolving dashboard wishlist item details for ID ${item}:`, err);
+        console.error(`Error resolving wishlist data parameters for ID ${item}:`, err);
         continue;
       }
     }
@@ -179,23 +204,41 @@ async function renderDashboardWishlist() {
     const displayTitle = productDetails.title || "Unknown Product";
     const productId = productDetails.id || item;
 
-    const row = document.createElement("div");
-    row.classList.add("dash-wishlist-row");
-    row.innerHTML = `
-      <div class="dash-wishlist-media">
-        <img src="${displayImg}" alt="${displayTitle}">
-        <div class="dash-wishlist-details">
-          <a href="/productview/${productId}" class="dash-wishlist-title">${displayTitle}</a>
-          <strong class="dash-wishlist-price">${displayPrice}</strong>
+    // 7. Inject specific template blocks depending on the rendering flag context
+    const element = document.createElement("div");
+    
+    if (isDash) {
+      element.classList.add("dash-wishlist-row");
+      element.innerHTML = `
+        <div class="dash-wishlist-media">
+          <img src="${displayImg}" alt="${displayTitle}">
+          <div class="dash-wishlist-details">
+            <a href="/productview/${productId}" class="dash-wishlist-title">${displayTitle}</a>
+            <strong class="dash-wishlist-price">${displayPrice}</strong>
+          </div>
         </div>
-      </div>
-      <button class="dash-wishlist-remove-btn" title="Remove Item">×</button>
-    `;
+        <button class="dash-wishlist-remove-btn" title="Remove Item">×</button>
+      `;
+    } else {
+      element.classList.add("wishlist-page-card");
+      element.innerHTML = `
+        <button class="wishlist-card-delete-btn" title="Remove Item">×</button>
+        <div class="wishlist-card-img-holder">
+          <img src="${displayImg}" alt="${displayTitle}">
+        </div>
+        <div class="wishlist-card-body">
+          <h3 class="wishlist-card-title">${displayTitle}</h3>
+          <span class="wishlist-card-price">${displayPrice}</span>
+          <a href="/productview/${productId}" class="wishlist-card-view-link">View Details</a>
+        </div>
+      `;
+    }
 
-    dashWishlistContainer.appendChild(row);
+    appendTarget.appendChild(element);
 
-    const removeBtn = row.querySelector(".dash-wishlist-remove-btn");
-    removeBtn.addEventListener("click", async (e) => {
+    // 8. Unified Delete Action Listener Mapping
+    const deleteBtn = element.querySelector(isDash ? ".dash-wishlist-remove-btn" : ".wishlist-card-delete-btn");
+    deleteBtn.addEventListener("click", async (e) => {
       e.stopPropagation();
 
       const globalIndex = wishlist.indexOf(item);
@@ -216,10 +259,12 @@ async function renderDashboardWishlist() {
         }
       }
 
-      // Re-trigger global structural counts and panel refreshes smoothly
+      // Sync all header components
       updateWishlistCount();
       await showWishlistPreview();
-      await renderDashboardWishlist();
+      
+      // Recursive call automatically maintains the current view state framework smoothly
+      await renderWishlist(viewType);
     });
   }
 }
