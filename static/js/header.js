@@ -308,3 +308,14 @@ if (cartIcon && cartDropdown) {
 if (wishlistIcon && wishlistDropdown) {
   wishlistIcon.addEventListener("click", () => wishlistDropdown.classList.toggle("open"));
 }
+
+// ==========================================
+// NEW: Clear wishlist and cart if they exist
+// ==========================================
+if (localStorage.getItem("wishlist")) {
+  localStorage.setItem("wishlist", "[]");
+}
+if (localStorage.getItem("cart")) {
+  localStorage.setItem("cart", "[]");
+}
+// ==========================================

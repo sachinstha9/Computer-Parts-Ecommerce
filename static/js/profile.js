@@ -1,26 +1,45 @@
+// ==========================================
+// --- IMPORTS & CORE SESSION INITIALIZATION ---
+// ==========================================
+import { wishlist, updateWishlistCount, showWishlistPreview } from "./header.js";
+import getProductDetails from "./get-product-details.js";
+import getUser from "./get-user.js";
+
+// Initialize authenticated user state globally for this module
+const user = (await getUser()) || {};
+
+// ==========================================
+// --- SIDEBAR NAVIGATION INTERFACES ---
+// ==========================================
 const sidebar = document.querySelector(".sidebar");
 const sidebarToggler = document.querySelector(".sidebar-toggler");
 const menuToggler = document.querySelector(".menu-toggler");
-// Ensure these heights match the CSS sidebar height values
-let collapsedSidebarHeight = "56px"; // Height in mobile view (collapsed)
-let fullSidebarHeight = "calc(100vh - 32px)"; // Height in larger screen
-// Toggle sidebar's collapsed state
-sidebarToggler.addEventListener("click", () => {
-  sidebar.classList.toggle("collapsed");
-});
-// Update sidebar height and menu toggle text
+
+let collapsedSidebarHeight = "56px"; 
+let fullSidebarHeight = "calc(100vh - 32px)"; 
+
+if (sidebarToggler && sidebar) {
+  sidebarToggler.addEventListener("click", () => {
+    sidebar.classList.toggle("collapsed");
+  });
+}
+
 const toggleMenu = (isMenuActive) => {
+  if (!sidebar || !menuToggler) return;
   sidebar.style.height = isMenuActive
     ? `${sidebar.scrollHeight}px`
     : collapsedSidebarHeight;
   menuToggler.querySelector("span").innerText = isMenuActive ? "close" : "menu";
 };
-// Toggle menu-active class and adjust height
-menuToggler.addEventListener("click", () => {
-  toggleMenu(sidebar.classList.toggle("menu-active"));
-});
-// (Optional code): Adjust sidebar height on window resize
+
+if (menuToggler) {
+  menuToggler.addEventListener("click", () => {
+    toggleMenu(sidebar.classList.toggle("menu-active"));
+  });
+}
+
 window.addEventListener("resize", () => {
+  if (!sidebar) return;
   if (window.innerWidth >= 1024) {
     sidebar.style.height = fullSidebarHeight;
   } else {
@@ -30,192 +49,173 @@ window.addEventListener("resize", () => {
   }
 });
 
-// Function to load the pages onto profile.html from
-// The 'profile-pages' folder in templates.
-
+// ==========================================
+// --- DYNAMIC ROUTING & PAGE LOADER ---
+// ==========================================
 function loadPage(page) {
   fetch(`/profile/${page}`)
     .then((response) => response.text())
     .then((html) => {
+      // Inject the incoming sub-page markup segment
       document.getElementById("content").innerHTML = html;
 
-      if (page == "dashboard") {
+      // Conditional initialization based on active structural context
+      if (page === "dashboard") {
         clickProfile();
         dashboardViewAllOrders();
         clickShipping();
         clickWishlist();
         clickSettings();
-      } else if (page == "profile") {
-        clickOrders();
-      } else if (page == "wishlist") {
-        loadItems();
+        // Triggers beautifully now that elements exist inside the DOM tree
+        renderDashboardWishlist(); 
+      } else if (page === "profile") {
+        if (typeof clickOrders === "function") clickOrders();
+      } else if (page === "wishlist") {
+        if (typeof loadItems === "function") loadItems();
       }
-    });
+    })
+    .catch(err => console.error(`Error streaming page layout fragment: ${page}`, err));
 }
 
+// Global entry point handling checks
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const inner_page = urlParams.get("inner_page");
 
-if (inner_page == "wishlist") {
+if (inner_page === "wishlist") {
   loadPage("wishlist");
+} else if (inner_page === "profile") { 
+  loadPage("profile");
 } else {
   loadPage("dashboard");
 }
 
-// Checks what button is clicked, and what it should display
-// These 'pages' will be viewed as a part of the initial 'profile' page
-// and will be displayed in the remaining space in the middle of the screen
-// leaving the sidenav at the side where it belongs.
-
-document.querySelector("#dashboard-btn").addEventListener("click", () => {
-  // Display Dashboard
-  loadPage("dashboard");
-});
-
-document.querySelector("#orders-btn").addEventListener("click", () => {
-  // Display Orders
-  loadPage("orders");
-});
-
-document.querySelector("#profile-btn").addEventListener("click", () => {
-  // Display Profile
-  loadPage("profile");
-});
-
-document.querySelector("#wishlist-btn").addEventListener("click", () => {
-  // Display Wishlist
-  loadPage("wishlist");
-});
-
-document.querySelector("#settings-btn").addEventListener("click", () => {
-  // Display Settings
-  loadPage("settings");
-});
-
-function dashboardLoadProfile() {
-  document.getElementById("view_profile").addEventListener("click", () => {
-    loadPage("profile");
-  });
-}
-
+// ==========================================
+// --- DASHBOARD INTER-LINK EVENT BINDERS ---
+// ==========================================
 function clickProfile() {
-  document.getElementById("view_profile").addEventListener("click", () => {
+  document.getElementById("view_profile")?.addEventListener("click", (e) => {
+    e.preventDefault();
     loadPage("profile");
   });
 }
 
 function dashboardViewAllOrders() {
-  document.getElementById("view-all-orders").addEventListener("click", () => {
+  document.getElementById("view-all-orders")?.addEventListener("click", (e) => {
+    e.preventDefault();
     loadPage("orders");
   });
 }
 
 function clickShipping() {
-  document.getElementById("view_shipping").addEventListener("click", () => {
+  document.getElementById("view_shipping")?.addEventListener("click", (e) => {
+    e.preventDefault();
     loadPage("profile");
   });
 }
 
 function clickWishlist() {
-  document.getElementById("view_wishlist").addEventListener("click", () => {
+  document.getElementById("view_wishlist")?.addEventListener("click", (e) => {
+    e.preventDefault();
     loadPage("wishlist");
   });
 }
 
 function clickSettings() {
-  document.getElementById("view_settings").addEventListener("click", () => {
+  document.getElementById("view_settings")?.addEventListener("click", (e) => {
+    e.preventDefault();
     loadPage("settings");
   });
 }
 
-import getUser from "./get-user.js";
-import getProductDetails from "./get-product-details.js";
 
-let user = (await getUser()) || {};
-let wishlist = user["wishlist"] || [];
+// ==========================================
+// --- ASYNC DASHBOARD WISHLIST RENDERING ---
+// ==========================================
+async function renderDashboardWishlist() {
+  // FIX: Element query selectors run contextually inside execution frame loop
+  const dashWishlistContainer = document.querySelector(".dash-wishlist-items");
+  const dashWishlistCountVal = document.querySelector(".dash-wishlist-count-val");
 
-function loadItems() {
-  const wishlistItemsBox = document.querySelector("#inner-page-wishlist-box");
+  if (!dashWishlistContainer) return;
+  dashWishlistContainer.innerHTML = "";
 
-  async function showWishlistPreview() {
-    if (!wishlistItemsBox) {
-      console.error(
-        "Could not find .inner-page-wishlist-box. Make sure it exists in wishlist.html",
-      );
-      return;
-    }
-
-    wishlistItemsBox.innerHTML = "";
-
-    if (wishlist.length === 0) {
-      wishlistItemsBox.innerHTML = `
-        <p class="empty-wishlist-message">
-          Your wishlist is empty.
-        </p>
-      `;
-      return;
-    }
-
-    for (const [index, item] of wishlist.entries()) {
-      let productDetails = item;
-
-      if (user.loggedIn) {
-        productDetails = await getProductDetails(item);
-      }
-
-      const wishlistItem = document.createElement("div");
-      wishlistItem.classList.add("wishlist-preview-item");
-
-      wishlistItem.innerHTML = `
-        <a href="/productview/${productDetails.id}" class="wishlist-image-wrapper">
-          <img src="${productDetails.image[0]}" alt="${productDetails.title}">
-        </a>
-
-        <div class="wishlist-preview-info">
-          <p>${productDetails.title}</p>
-
-          <div class="wishlist-preview-bottom">
-            <strong>$${productDetails.price}</strong>
-          </div>
-        </div>
-
-        <button class="remove-wishlist-item" data-index="${index}">
-          ×
-        </button>
-      `;
-
-      wishlistItemsBox.appendChild(wishlistItem);
-
-      const removeButton = wishlistItem.querySelector(".remove-wishlist-item");
-
-      removeButton.addEventListener("click", async (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        if (!user.loggedIn) {
-          wishlist.splice(index, 1);
-          saveWishlist();
-        } else {
-          const response = await fetch("/remove_wishlist", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              id: productDetails.id,
-            }),
-          });
-
-          if (response.ok) {
-            wishlist.splice(index, 1);
-          }
-        }
-
-        showWishlistPreview();
-      });
-    }
+  // Synchronize count visual displays natively
+  if (dashWishlistCountVal) {
+    dashWishlistCountVal.textContent = wishlist ? wishlist.length : 0;
   }
 
-  showWishlistPreview();
+  if (!wishlist || wishlist.length === 0) {
+    dashWishlistContainer.innerHTML = `<p class="dash-empty-msg">No items in your wishlist.</p>`;
+    return;
+  }
+
+  // Preview only the 3 most recent entries
+  const recentWishlistItems = wishlist.slice(-3).reverse();
+
+  for (const item of recentWishlistItems) {
+    if (!item) continue;
+
+    let productDetails = item;
+
+    if (user.loggedIn) {
+      try {
+        productDetails = await getProductDetails(item);
+        if (!productDetails) continue;
+      } catch (err) {
+        console.error(`Error resolving dashboard wishlist item details for ID ${item}:`, err);
+        continue;
+      }
+    }
+
+    const displayPrice = productDetails.price 
+      ? (productDetails.price.toString().startsWith('$') ? productDetails.price : `$${productDetails.price}`) 
+      : "$0.00";
+    const displayImg = (productDetails.image && productDetails.image[0]) || "/images/placeholder.png";
+    const displayTitle = productDetails.title || "Unknown Product";
+    const productId = productDetails.id || item;
+
+    const row = document.createElement("div");
+    row.classList.add("dash-wishlist-row");
+    row.innerHTML = `
+      <div class="dash-wishlist-media">
+        <img src="${displayImg}" alt="${displayTitle}">
+        <div class="dash-wishlist-details">
+          <a href="/productview/${productId}" class="dash-wishlist-title">${displayTitle}</a>
+          <strong class="dash-wishlist-price">${displayPrice}</strong>
+        </div>
+      </div>
+      <button class="dash-wishlist-remove-btn" title="Remove Item">×</button>
+    `;
+
+    dashWishlistContainer.appendChild(row);
+
+    const removeBtn = row.querySelector(".dash-wishlist-remove-btn");
+    removeBtn.addEventListener("click", async (e) => {
+      e.stopPropagation();
+
+      const globalIndex = wishlist.indexOf(item);
+      if (globalIndex === -1) return;
+
+      if (!user.loggedIn) {
+        wishlist.splice(globalIndex, 1);
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      } else {
+        const response = await fetch("/remove_wishlist", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: productId }),
+        }).catch(err => console.error(err));
+
+        if (response && response.ok) {
+          wishlist.splice(globalIndex, 1);
+        }
+      }
+
+      // Re-trigger global structural counts and panel refreshes smoothly
+      updateWishlistCount();
+      await showWishlistPreview();
+      await renderDashboardWishlist();
+    });
+  }
 }

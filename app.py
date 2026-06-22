@@ -247,6 +247,8 @@ def login():
         if customer:
             session["customer_id"] = customer[0]
             session["username"] = customer[1]
+
+            
             return redirect("/")
 
         return render_template(

@@ -7,15 +7,14 @@
     href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="../static/css/global.css" />
-  <link rel="stylesheet" href="../static/css/dashboard.css" />
+  <link rel="stylesheet" href="../../static/css/global.css" />
+  <link rel="stylesheet" href="../../static/css/dashboard.css" />
 </head>
 <!-- ======== END HEAD ======== -->
 
 <!-- ======== START MAIN CONTENT ======== -->
 
 <div class="main-content-layout">
-  <div id="content-2"></div>
   <div class="dashboard">
     <h1>Dashboard</h1>
     <hr class="solid" />
@@ -58,11 +57,14 @@
       </section>
 
       <!-- ======== WISHLIST DETAILS ======== -->
-      <section class="dash-card">
-        <h2>Wishlist</h2>
-        <p>You currently have {{ wishlist }} item(s) saved.</p>
-        <a href="#" class="dash-link" id="view_wishlist">View Wishlist</a>
-      </section>
+    <section class="dash-card">
+      <h2>Wishlist</h2>
+      <p>You currently have <span class="dash-wishlist-count-val">0</span> item(s) saved.</p>
+      
+      <div class="dash-wishlist-items"></div>
+      
+      <a href="#" class="dash-link" id="view_wishlist">View Wishlist</a>
+    </section>
 
       <!-- ======== SETTINGS DETAILS ======== -->
       <section class="dash-card">
