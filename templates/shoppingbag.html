@@ -21,6 +21,9 @@
 
         <link rel="icon" type="image/x-icon" href="../static/images/favicon-16x16.png">
 
+<script src="https://www.paypal.com/sdk/js?client-id=Afk2Kw_C5TqguBDKkSKVfCCHWjI4sN4JA60RJljMcvWv7NJOIlKJhdH0RgWiBbPQtUWoSJlCFZixsoSg&currency=NZD"></script>
+
+
     <title>Shopping Cart | Galact</title>
   </head>
 
@@ -28,7 +31,7 @@
     <div class="page">
       <!-- ================= HEADER ================= -->
 
-     <header class="navbar">
+    <header class="navbar">
     <div id="first-row">
       <div class="nav-left">
         <!-- Website logo linking back to the homepage -->
@@ -466,6 +469,8 @@
     <!-- ============= START SHOPPING-CART ============== -->
 
       <main class="checkout-page">
+        <div class="item-box"></div>
+
         <section class="checkout-container">
           <div class="checkout-items">
             <div class="checkout-line"></div>
@@ -527,10 +532,12 @@
           </aside>
         </section>
       </main>
+<div id="paypal-button-container">hello</div>
+
     </div>
 
-  <script src="../static/js/shoppingbag.js"></script>
-  <script src="../static/js/header.js"></script>  
+  <script src="../static/js/shoppingbag.js" type="module"></script>
+  <script src="../static/js/header.js" type="module"></script>  
 
   </body>
 

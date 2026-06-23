@@ -1,6 +1,5 @@
 import getUser from "./get-user.js";
 import getProductDetails from "./get-product-details.js";
-
 let user = {};
 export let cart = [];
 export let wishlist = [];
@@ -18,7 +17,7 @@ function safeParse(key) {
 // Global runtime session initialization
 try {
   user = (await getUser()) || {};
-  
+
   if (!user["loggedIn"]) {
     cart = safeParse("cart");
     wishlist = safeParse("wishlist");
@@ -28,7 +27,10 @@ try {
     cart = typeof dbCart === "string" ? JSON.parse(dbCart || "[]") : dbCart;
 
     let dbWishlist = user["wishlist"] || [];
-    wishlist = typeof dbWishlist === "string" ? JSON.parse(dbWishlist || "[]") : dbWishlist;
+    wishlist =
+      typeof dbWishlist === "string"
+        ? JSON.parse(dbWishlist || "[]")
+        : dbWishlist;
   }
 } catch (error) {
   console.error("Failed to initialize user session state:", error);
@@ -45,7 +47,6 @@ const wishlistIcon = document.querySelector(".wishlist-icon");
 const wishlistDropdown = document.querySelector(".wishlist-dropdown");
 const wishlistItemsBox = document.querySelector(".wishlist-items");
 
-
 // ==========================================
 // --- CART MANAGEMENT SYSTEM ---
 // ==========================================
@@ -54,7 +55,7 @@ export function updateCartCount() {
   if (cartCount) {
     let totalItems = 0;
     cart.forEach((item) => {
-      totalItems += (item.quantity || 0);
+      totalItems += item.quantity || 0;
     });
     cartCount.textContent = totalItems;
   }
@@ -83,7 +84,7 @@ export async function showCartPreview() {
       name: item.name || "Loading Product...",
       price: item.price || "$0.00",
       image: item.image || "/images/placeholder.png",
-      quantity: item.quantity || 1
+      quantity: item.quantity || 1,
     };
 
     // If logged in, fetch live details using the database metadata ID tracking link
@@ -92,13 +93,20 @@ export async function showCartPreview() {
         const productDetails = await getProductDetails(item.id);
         if (productDetails) {
           displayItem.name = productDetails.title || displayItem.name;
-          displayItem.price = productDetails.price 
-            ? (productDetails.price.toString().startsWith('$') ? productDetails.price : `$${productDetails.price}`) 
+          displayItem.price = productDetails.price
+            ? productDetails.price.toString().startsWith("$")
+              ? productDetails.price
+              : `$${productDetails.price}`
             : displayItem.price;
-          displayItem.image = (productDetails.image && productDetails.image[0]) || displayItem.image;
+          displayItem.image =
+            (productDetails.image && productDetails.image[0]) ||
+            displayItem.image;
         }
       } catch (err) {
-        console.error(`Error resolving cart details for item dynamic parsing ID ${item.id}:`, err);
+        console.error(
+          `Error resolving cart details for item dynamic parsing ID ${item.id}:`,
+          err,
+        );
       }
     }
 
@@ -140,7 +148,7 @@ export async function showCartPreview() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: targetItem.id }),
-        }).catch(err => console.error(err));
+        }).catch((err) => console.error(err));
       } else {
         saveCart();
       }
@@ -157,8 +165,11 @@ export async function showCartPreview() {
         await fetch("/add_cart", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: cart[index].id, quantity: cart[index].quantity }),
-        }).catch(err => console.error(err));
+          body: JSON.stringify({
+            id: cart[index].id,
+            quantity: cart[index].quantity,
+          }),
+        }).catch((err) => console.error(err));
       } else {
         saveCart();
       }
@@ -177,8 +188,11 @@ export async function showCartPreview() {
           await fetch("/add_cart", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id: targetItem.id, quantity: targetItem.quantity }),
-          }).catch(err => console.error(err));
+            body: JSON.stringify({
+              id: targetItem.id,
+              quantity: targetItem.quantity,
+            }),
+          }).catch((err) => console.error(err));
         }
       } else {
         cart.splice(index, 1);
@@ -187,7 +201,7 @@ export async function showCartPreview() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ id: targetItem.id }),
-          }).catch(err => console.error(err));
+          }).catch((err) => console.error(err));
         }
       }
 
@@ -197,7 +211,6 @@ export async function showCartPreview() {
     });
   }
 }
-
 
 // ==========================================
 // --- WISHLIST MANAGEMENT SYSTEM ---
@@ -224,24 +237,31 @@ export async function showWishlistPreview() {
 
   for (const [index, item] of wishlist.entries()) {
     if (!item) continue;
-    
+
     let productDetails = item;
 
     if (user.loggedIn) {
       try {
         productDetails = await getProductDetails(item);
-        if (!productDetails) continue; 
+        if (!productDetails) continue;
       } catch (err) {
-        console.error(`Error resolving wishlist item details for mapping configuration ID ${item}:`, err);
+        console.error(
+          `Error resolving wishlist item details for mapping configuration ID ${item}:`,
+          err,
+        );
         continue;
       }
     }
 
-    const displayPrice = productDetails.price 
-      ? (productDetails.price.toString().startsWith('$') ? productDetails.price : `$${productDetails.price}`) 
+    const displayPrice = productDetails.price
+      ? productDetails.price.toString().startsWith("$")
+        ? productDetails.price
+        : `$${productDetails.price}`
       : "$0.00";
-    
-    const displayImg = (productDetails.image && productDetails.image[0]) || "/images/placeholder.png";
+
+    const displayImg =
+      (productDetails.image && productDetails.image[0]) ||
+      "/images/placeholder.png";
     const displayTitle = productDetails.title || "Unknown Product";
 
     const wishlistItem = document.createElement("div");
@@ -273,7 +293,7 @@ export async function showWishlistPreview() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: productDetails.id || item }),
-        }).catch(err => console.error(err));
+        }).catch((err) => console.error(err));
 
         if (response && response.ok) {
           wishlist.splice(index, 1);
@@ -286,27 +306,30 @@ export async function showWishlistPreview() {
   }
 }
 
-
 // ==========================================
 // --- RUNTIME INTERFACE INITIALIZATION ---
 // ==========================================
 
 try {
   updateCartCount();
-  showCartPreview().catch(err => console.error(err));
-  
+  showCartPreview().catch((err) => console.error(err));
+
   updateWishlistCount();
-  showWishlistPreview().catch(err => console.error(err));
+  showWishlistPreview().catch((err) => console.error(err));
 } catch (error) {
   console.error("Runtime component display execution error:", error);
 }
 
 // Toggle Dropdown Panel Visual Visibility
 if (cartIcon && cartDropdown) {
-  cartIcon.addEventListener("click", () => cartDropdown.classList.toggle("open"));
+  cartIcon.addEventListener("click", () =>
+    cartDropdown.classList.toggle("open"),
+  );
 }
 if (wishlistIcon && wishlistDropdown) {
-  wishlistIcon.addEventListener("click", () => wishlistDropdown.classList.toggle("open"));
+  wishlistIcon.addEventListener("click", () =>
+    wishlistDropdown.classList.toggle("open"),
+  );
 }
 
 // ==========================================

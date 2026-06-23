@@ -1,136 +1,218 @@
-// Get the saved cart from localStorage
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+import { cart } from "./header.js";
+import getUser from "./get-user.js";
+import getProductDetails from "./get-product-details.js";
+let user = (await getUser()) || {};
 
-// Select page elements
-const checkoutProducts = document.querySelector(".checkout-products");
-const cartCount = document.querySelector(".cart-count");
-const subtotalText = document.querySelector(".subtotal-price");
-const shippingText = document.querySelector(".shipping-price");
-const totalText = document.querySelector(".total-price");
+let total = 0;
 
-function saveCart() {
+export function updateCartCount() {
+  // if (cartCount) {
+  //   let totalItems = 0;
+  //   cart.forEach((item) => {
+  //     totalItems += (item.quantity || 0);
+  //   });
+  //   cartCount.textContent = totalItems;
+  // }
+}
+
+export function saveCart() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-function updateCartCount() {
-  let totalItems = 0;
+let cartItemsBox = document.querySelector(".item-box");
 
-  cart.forEach(item => {
-    totalItems += item.quantity;
-  });
+export async function showCartPreview() {
+  if (!cartItemsBox) return;
+  cartItemsBox.innerHTML = "";
 
-  cartCount.textContent = totalItems;
-}
-
-function getPriceNumber(priceText) {
-  return Number(priceText.replace("$", "").replace(",", ""));
-}
-
-function renderShoppingCart() {
-  checkoutProducts.innerHTML = "";
-
-  if (cart.length === 0) {
-    checkoutProducts.innerHTML = `
-      <p class="empty-checkout-message">
-        Your shopping cart is currently empty.
-      </p>
-    `;
-
-    subtotalText.textContent = "$0.00";
-    shippingText.textContent = "$0.00";
-    totalText.textContent = "$0.00";
-
-    updateCartCount();
+  if (!cart || cart.length === 0) {
+    cartItemsBox.innerHTML = `<p class="empty-cart-message">Your cart is empty.</p>`;
     return;
   }
 
-  let subtotal = 0;
+  // Linear iteration allows clean execution blocking via async/await loops
+  for (const [index, item] of cart.entries()) {
+    if (!item) continue;
 
-  cart.forEach((item, index) => {
-    const price = getPriceNumber(item.price);
-    subtotal += price * item.quantity;
+    // Local configuration adapter template fallback
+    let displayItem = {
+      id: item.id,
+      name: item.name || "Loading Product...",
+      price: item.price || "$0.00",
+      image: item.image || "/images/placeholder.png",
+      quantity: item.quantity || 1,
+    };
 
-    const cartProduct = document.createElement("article");
-    cartProduct.classList.add("checkout-product");
+    // If logged in, fetch live details using the database metadata ID tracking link
+    if (user.loggedIn) {
+      try {
+        const productDetails = await getProductDetails(item.id);
+        if (productDetails) {
+          displayItem.name = productDetails.title || displayItem.name;
+          displayItem.price = productDetails.price
+            ? productDetails.price.toString().startsWith("$")
+              ? productDetails.price
+              : `$${productDetails.price}`
+            : displayItem.price;
+          displayItem.image =
+            (productDetails.image && productDetails.image[0]) ||
+            displayItem.image;
+        }
+      } catch (err) {
+        console.error(
+          `Error resolving cart details for item dynamic parsing ID ${item.id}:`,
+          err,
+        );
+      }
+    }
 
-    cartProduct.innerHTML = `
-      <img src="${item.image}" alt="${item.name}">
-
-      <div class="checkout-product-info">
-        <h3>${item.name}</h3>
-
-        <p>${item.price}</p>
-
-        <div class="quantity-controls">
-          <button class="quantity-btn decrease" data-index="${index}">
-            -
-          </button>
-
-          <span class="quantity-value">${item.quantity}</span>
-
-          <button class="quantity-btn increase" data-index="${index}">
-            +
-          </button>
+    const cartItem = document.createElement("div");
+    cartItem.classList.add("cart-preview-item");
+    cartItem.innerHTML = `
+      <a href="/productview/${displayItem.id}">
+        <img src="${displayItem.image}" alt="${displayItem.name}">
+      </a>
+      <div class="cart-preview-info">
+        <p>${displayItem.name}</p>
+        <div class="cart-preview-bottom">
+          <strong>${displayItem.price}</strong>
+          <div class="mini-quantity-controls">
+            <button class="mini-decrease">-</button>
+            <span>${displayItem.quantity}</span>
+            <button class="mini-increase">+</button>
+          </div>
         </div>
-
-        <button class="remove-product" data-index="${index}">
-          Remove
-        </button>
       </div>
+      <button class="remove-cart-item">×</button>
     `;
 
-    checkoutProducts.appendChild(cartProduct);
-  });
+    cartItemsBox.appendChild(cartItem);
 
-  const shipping = 12.99;
-  const total = subtotal + shipping;
+    // Contextually target and couple listeners locally inside creation scope
+    const removeButton = cartItem.querySelector(".remove-cart-item");
+    const increaseButton = cartItem.querySelector(".mini-increase");
+    const decreaseButton = cartItem.querySelector(".mini-decrease");
 
-  subtotalText.textContent = "$" + subtotal.toFixed(2);
-  shippingText.textContent = "$" + shipping.toFixed(2);
-  totalText.textContent = "$" + total.toFixed(2);
+    // Click Actions: Delete record completely
+    removeButton.addEventListener("click", async (event) => {
+      event.stopPropagation();
+      const targetItem = cart[index];
+      cart.splice(index, 1);
 
-  const removeButtons = document.querySelectorAll(".remove-product");
-  const increaseButtons = document.querySelectorAll(".increase");
-  const decreaseButtons = document.querySelectorAll(".decrease");
-
-  removeButtons.forEach(button => {
-    button.addEventListener("click", () => {
-      const itemIndex = button.dataset.index;
-
-      cart.splice(itemIndex, 1);
-
-      saveCart();
-      renderShoppingCart();
-    });
-  });
-
-  increaseButtons.forEach(button => {
-    button.addEventListener("click", () => {
-      const itemIndex = button.dataset.index;
-
-      cart[itemIndex].quantity++;
-
-      saveCart();
-      renderShoppingCart();
-    });
-  });
-
-  decreaseButtons.forEach(button => {
-    button.addEventListener("click", () => {
-      const itemIndex = button.dataset.index;
-
-      if (cart[itemIndex].quantity > 1) {
-        cart[itemIndex].quantity--;
+      if (user["loggedIn"]) {
+        await fetch("/remove_cart", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: targetItem.id }),
+        }).catch((err) => console.error(err));
       } else {
-        cart.splice(itemIndex, 1);
+        saveCart();
+      }
+      updateCartCount();
+      await showCartPreview();
+    });
+
+    // Click Actions: Quantity Increment modification
+    increaseButton.addEventListener("click", async (event) => {
+      event.stopPropagation();
+      cart[index].quantity++;
+
+      if (user["loggedIn"]) {
+        await fetch("/add_cart", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: cart[index].id,
+            quantity: cart[index].quantity,
+          }),
+        }).catch((err) => console.error(err));
+      } else {
+        saveCart();
+      }
+      updateCartCount();
+      await showCartPreview();
+    });
+
+    // Click Actions: Quantity Decrement modification
+    decreaseButton.addEventListener("click", async (event) => {
+      event.stopPropagation();
+      const targetItem = cart[index];
+
+      if (targetItem.quantity > 1) {
+        targetItem.quantity--;
+        if (user["loggedIn"]) {
+          await fetch("/add_cart", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              id: targetItem.id,
+              quantity: targetItem.quantity,
+            }),
+          }).catch((err) => console.error(err));
+        }
+      } else {
+        cart.splice(index, 1);
+        if (user["loggedIn"]) {
+          await fetch("/remove_cart", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: targetItem.id }),
+          }).catch((err) => console.error(err));
+        }
       }
 
-      saveCart();
-      renderShoppingCart();
+      if (!user["loggedIn"]) saveCart();
+      updateCartCount();
+      await showCartPreview();
     });
-  });
-
-  updateCartCount();
+  }
+}
+updateCartCount();
+showCartPreview().catch((err) => console.error(err));
+if (localStorage.getItem("cart")) {
+  localStorage.setItem("cart", "[]");
 }
 
-renderShoppingCart();
+async function getTotal() {
+  let total = 0;
+
+  for (const item of cart) {
+    const details = await getProductDetails(item.id);
+    total += parseFloat(details.price);
+  }
+
+  return total;
+}
+
+paypal
+  .Buttons({
+    createOrder: async () => {
+      total = await getTotal();
+
+      const response = await fetch("/create-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: total,
+        }),
+      });
+
+      const order = await response.json();
+
+      console.log(order);
+
+      return order.id;
+    },
+
+    onApprove: async (data) => {
+      const response = await fetch(`/capture-order/${data.orderID}`, {
+        method: "POST",
+      });
+
+      const result = await response.json();
+      console.log(result);
+    },
+  })
+  .render("#paypal-button-container");

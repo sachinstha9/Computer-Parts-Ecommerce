@@ -323,79 +323,6 @@ def signup():
 
     return render_template("signup.html", cart_count=get_cart_count())
 
-@app.route('/update_profile', methods=['POST'])
-def update_profile():
-    # 1. Authenticate user session framework (using customer_id from your session)
-    user_id = session.get('customer_id')  
-    if not user_id:
-        return jsonify({"message": "Unauthorized access. Please log in again."}), 401
-
-    # 2. Extract incoming JSON payload parameters 
-    data = request.get_json()
-    if not data:
-        return jsonify({"message": "Malformatted request. No payload received."}), 400
-
-    username = data.get('username')
-    email = data.get('email')
-    shipping_name = data.get('shipping_name')
-    shipping_address = data.get('shipping_address')
-    shipping_city = data.get('shipping_city')
-    shipping_postcode = data.get('shipping_postcode')
-    phone = data.get('phone')
-
-    current_password = data.get('current_password')
-    new_password = data.get('new_password')
-
-    # Basic server-side validation boundary
-    if not username or not email:
-        return jsonify({"message": "Username and Email fields are required."}), 400
-
-    conn = sqlite3.connect('computer-ecommerce.db') 
-    cursor = conn.cursor()
-
-    try:
-        # 3. Handle Plain Text Password Verification and Updates
-        if current_password and new_password:
-            # Query the existing plain text password from the user row
-            cursor.execute("SELECT password FROM customers WHERE id = ?", (user_id,))
-            user_record = cursor.fetchone()
-
-            if not user_record:
-                return jsonify({"message": "Account record not located."}), 404
-
-            stored_password = user_record[0]
-            
-            # Direct text string comparison
-            if stored_password != current_password:
-                return jsonify({"message": "The current password you entered is incorrect."}), 400
-
-            # Save the new password directly as plain text
-            cursor.execute("UPDATE customers SET password = ? WHERE id = ?", (new_password, user_id))
-
-        # 4. Synchronize Account Details and Shipping Parameters
-        cursor.execute("""
-            UPDATE customers 
-            SET username = ?, 
-                email = ?, 
-                name = ?, 
-                address = ?, 
-                city = ?, 
-                postcode = ?,
-                phone = ?
-            WHERE id = ?
-        """, (username, email, shipping_name, shipping_address, shipping_city, shipping_postcode, phone, user_id))
-        
-        conn.commit()
-        return jsonify({"message": "Account details synchronized successfully!"}), 200
-
-    except Exception as err:
-        conn.rollback()
-        print(f"Critical operational exception identified: {err}")
-        return jsonify({"message": "An internal server error disrupted the update loop."}), 500
-        
-    finally:
-        cursor.close()
-
 @app.route("/logout")
 def logout():
     session.clear()
@@ -775,6 +702,72 @@ def search():
         filtered_products=filtered_products,
         cart_count=get_cart_count()
     )    
+
+@app.route("/pay")
+def payy():
+    return render_template("pay.html")
+
+CLIENT_ID = "Afk2Kw_C5TqguBDKkSKVfCCHWjI4sN4JA60RJljMcvWv7NJOIlKJhdH0RgWiBbPQtUWoSJlCFZixsoSg"
+CLIENT_SECRET = "EIQUXfiYaUFBPcfFt2Dm4eg7BHBJnLWnKYjiC9I2f2Dy7Hp2UNrwG3qiSRCztLAtQewf21ppDDmTiR3R"
+BASE_URL = "https://api-m.sandbox.paypal.com"
+
+import requests
+def get_access_token():
+    response = requests.post(
+        f"{BASE_URL}/v1/oauth2/token",
+        auth=(CLIENT_ID, CLIENT_SECRET),
+        data={"grant_type": "client_credentials"},
+    )
+
+    return response.json()["access_token"]
+
+@app.route("/create-order", methods=["POST"])
+def create_order():
+    data = request.get_json()
+    token = get_access_token()
+
+    amount = data["amount"]
+
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {token}",
+    }
+
+    order = {
+        "intent": "CAPTURE",
+        "purchase_units": [
+            {
+                "amount": {
+                    "currency_code": "NZD",
+                    "value": str(amount)
+                }
+            }
+        ]
+    }
+
+    response = requests.post(
+        f"{BASE_URL}/v2/checkout/orders",
+        json=order,
+        headers=headers,
+    )
+
+    return jsonify(response.json())
+
+@app.route("/capture-order/<order_id>", methods=["POST"])
+def capture_order(order_id):
+    token = get_access_token()
+
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {token}",
+    }
+
+    response = requests.post(
+        f"{BASE_URL}/v2/checkout/orders/{order_id}/capture",
+        headers=headers,
+    )
+
+    return jsonify(response.json())
 
 if __name__ == "__main__":
     app.run(debug=True)
