@@ -78,6 +78,8 @@ function loadPage(page) {
       } else if (page === "wishlist") {
         // Pass "full" to render all items in the full card grid layout
         renderWishlist("full");
+      } else if (page == "orders") {
+        renderFullOrdersPage();
       }
     });
 }
@@ -407,4 +409,78 @@ function renderDashboardOrders() {
 
     ordersContainer.appendChild(row);
   });
+}
+
+// ==========================================
+// --- FULL PAGE ORDERS RENDERING ENGINE ---
+// ==========================================
+function renderFullOrdersPage() {
+  const container = document.getElementById("full-orders-container");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  // 1. Parse string data safely out of your user dataset
+  let rawOrders = user["orders"] || [];
+  let ordersArr =
+    typeof rawOrders === "string" ? JSON.parse(rawOrders || "[]") : rawOrders;
+
+  // 2. Handle empty state gracefully
+  if (!ordersArr || ordersArr.length === 0) {
+    container.innerHTML = `
+      <div class="full-orders-empty">
+        <p>You haven't placed any orders yet.</p>
+        <a href="/" class="orders-shop-btn">Start Shopping</a>
+      </div>`;
+    return;
+  }
+
+  // 3. Render ALL orders, newest first
+  const allOrders = ordersArr.slice().reverse();
+
+  const ordersGrid = document.createElement("div");
+  ordersGrid.classList.add("orders-page-grid");
+
+  allOrders.forEach((order, index) => {
+    // Extract data with fallbacks
+    const transId = order.transaction_id
+      ? order.transaction_id
+      : `ORDER-${index}`;
+    const shortTransId = transId.substring(0, 12); // Slightly longer ID for the full page
+    const orderDate = order.date ? order.date : "N/A";
+    const totalPaid = order.total_paid
+      ? parseFloat(order.total_paid).toFixed(2)
+      : "0.00";
+    const statusText = order.status || "Paid";
+    const isDelivered = order.delivered === "1";
+
+    // Count items to display a quick summary
+    const itemCount = order.items ? order.items.length : 0;
+    const itemText = itemCount === 1 ? "1 Item" : `${itemCount} Items`;
+
+    const card = document.createElement("div");
+    card.classList.add("order-page-card");
+
+    card.innerHTML = `
+      <div class="order-card-body">
+        <div class="order-card-info">
+          <h3 class="order-card-title">Order #${shortTransId}</h3>
+          <span class="order-card-date">${orderDate} • ${itemText}</span>
+        </div>
+        
+        <div class="order-card-status">
+          <span class="status-badge ${isDelivered ? "status-delivered" : "status-paid"}">
+            ${isDelivered ? "Delivered" : statusText}
+          </span>
+        </div>
+        
+        <div class="order-card-price">$${totalPaid}</div>
+        
+        <a href="#" class="order-card-view-link">View Details</a>
+      </div>
+    `;
+    ordersGrid.appendChild(card);
+  });
+
+  container.appendChild(ordersGrid);
 }
