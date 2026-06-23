@@ -25,7 +25,7 @@
         <h2>Profile Details</h2>
         <p><strong>Username:</strong> {{customer[0] }}</p>
         <p><strong>Email:</strong> {{customer[1] }}</p>
-        <p><strong>Phone:</strong> placeholder</p>
+        <p><strong>Phone:</strong> {{customer[9] }}</p>
         <a href="#" class="dash-link" id="view_profile">View Profile</a>
       </section>
 
@@ -57,14 +57,17 @@
       </section>
 
       <!-- ======== WISHLIST DETAILS ======== -->
-    <section class="dash-card">
-      <h2>Wishlist</h2>
-      <p>You currently have <span class="dash-wishlist-count-val">0</span> item(s) saved.</p>
-      
-      <div class="dash-wishlist-items"></div>
-      
-      <a href="#" class="dash-link" id="view_wishlist">View Wishlist</a>
-    </section>
+      <section class="dash-card">
+        <h2>Wishlist</h2>
+        <p>
+          You currently have
+          <span class="dash-wishlist-count-val">0</span> item(s) saved.
+        </p>
+
+        <div class="dash-wishlist-items"></div>
+
+        <a href="#" class="dash-link" id="view_wishlist">View Wishlist</a>
+      </section>
 
       <!-- ======== SETTINGS DETAILS ======== -->
       <section class="dash-card">

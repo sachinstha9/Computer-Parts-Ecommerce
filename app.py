@@ -290,13 +290,15 @@ def signup():
                     name,
                     address,
                     city,
-                    postcode
+                    postcode,
+                    phone
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 username,
                 password,
                 email,
+                "[]",
                 "[]",
                 "[]",
                 "[]",
@@ -339,6 +341,7 @@ def update_profile():
     shipping_address = data.get('shipping_address')
     shipping_city = data.get('shipping_city')
     shipping_postcode = data.get('shipping_postcode')
+    phone = data.get('phone')
     
     current_password = data.get('current_password')
     new_password = data.get('new_password')
@@ -378,8 +381,9 @@ def update_profile():
                 address = ?, 
                 city = ?, 
                 postcode = ?
+                phone = ?
             WHERE id = ?
-        """, (username, email, shipping_name, shipping_address, shipping_city, shipping_postcode, user_id))
+        """, (username, email, shipping_name, shipping_address, shipping_city, shipping_postcode, user_id, phone))
         
         conn.commit()
         return jsonify({"message": "Account details synchronized successfully!"}), 200
@@ -437,7 +441,7 @@ def profile_page(name):
     c = conn.cursor()
 
     c.execute(
-        "SELECT username, email, cart, wishlist, orders, name, address, city, postcode FROM customers WHERE id = ?",
+        "SELECT username, email, cart, wishlist, orders, name, address, city, postcode, phone FROM customers WHERE id = ?",
         (session["customer_id"],)
     )
 
