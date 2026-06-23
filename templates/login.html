@@ -1,112 +1,99 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/css/login.css" />
-    <link rel="stylesheet" href="../static/css/header.css" />
-    <link rel="stylesheet" href="../static/css/hero.css" />    
-    <link rel="stylesheet" href="../static/css/products.css" />
-    <link rel="stylesheet" href="../static/css/footer.css" />    
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../static/css/login.css" />
+  <link rel="stylesheet" href="../static/css/header.css" />
+  <link rel="stylesheet" href="../static/css/hero.css" />
+  <link rel="stylesheet" href="../static/css/products.css" />
+  <link rel="stylesheet" href="../static/css/footer.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap"
-      rel="stylesheet"
-    />
-        <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <link rel="icon" type="image/x-icon" href="../static/images/favicon-16x16.png">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-    <title>Login | Galact</title>
-  </head>
-  <body>
-      <!-- ================= HEADER ================= -->
+  <link rel="icon" type="image/x-icon" href="../static/images/favicon-16x16.png">
+
+  <title>Login | Galact</title>
+</head>
+
+<body>
+  <!-- ================= HEADER ================= -->
 
    <header class="navbar">
-      <div id="first-row">
-        <div class="nav-left">
-          <!-- Website logo linking back to the homepage -->
-          <a href="/" class="logo-link">
-            <img
-              src="../static/images/galact.png"
-              alt="Galact Logo"
-              class="logo-image"
-            />
-          </a>
-          <!-- Search bar area -->
+    <div id="first-row">
+      <div class="nav-left">
+        <!-- Website logo linking back to the homepage -->
+        <a href="/" class="logo-link">
+          <img src="../static/images/galact.png" alt="Galact Logo" class="logo-image" />
+        </a>
+        <!-- Search bar -->
+        <form action="/search" method="GET" class="search-form">
           <span>
             <div>
               <i class="fa fa-search" aria-hidden="true"></i>
             </div>
-            <input type="text" placeholder="Search..." />
+
+            <input type="text" name="q" placeholder="Search..." />
           </span>
-        </div>
-
-        <div class="nav-right">
-          <!-- Wishlist icon -->
-          <!-- <a href="/wishlist" class="icon-link" aria-label="Wishlist"> ♡ </a> -->
-
-          <div class="wishlist-wrapper">
-            <button
-              class="wishlist-icon"
-              type="button"
-              aria-label="Open wishlist preview"
-            >
-              ♡
-              <!-- Cart amount shown in the header -->
-              <span class="wishlist-count"> 0 </span>
-            </button>
-            <!-- Small dropdown preview for the user's cart -->
-            <div class="wishlist-dropdown">
-              <h3>Your Wishlist</h3>
-
-              <div class="wishlist-items">
-                <p class="empty-wishlist-message">Your wishlist is empty.</p>
-              </div>
-
-              <a href="/profile?inner_page=wishlist" class="wishlist-page-button"> Go to Wishlist Page </a>
-            </div>
-          </div>
-
-
-          <!-- Cart preview dropdown -->
-          <div class="cart-wrapper">
-            <button
-              class="cart-icon"
-              type="button"
-              aria-label="Open cart preview"
-            >
-              🛍
-              <!-- Cart amount shown in the header -->
-              <span class="cart-count"> 0 </span>
-            </button>
-            <!-- Small dropdown preview for the user's cart -->
-            <div class="cart-dropdown">
-              <h3>Your Cart</h3>
-
-              <div class="cart-items">
-                <p class="empty-cart-message">Your cart is empty.</p>
-              </div>
-
-              <a href="/shopping-cart" class="checkout-button"> Checkout </a>
-            </div>
-          </div>
-
-          <!-- Profile -->
-          {% if session.get("customer_id") %}
-    <a href="/profile" class="icon-link" aria-label="User Profile">♙</a>
-{% else %}
-    <a href="/login" class="icon-link" aria-label="User Profile">♙</a>
-{% endif %}
-        </div>
+        </form>
       </div>
+
+      <div class="nav-right">
+        <!-- Wishlist icon -->
+        <!-- <a href="/wishlist" class="icon-link" aria-label="Wishlist"> ♡ </a> -->
+
+        <div class="wishlist-wrapper">
+          <button class="wishlist-icon" type="button" aria-label="Open wishlist preview">
+            ♡
+            <!-- Cart amount shown in the header -->
+            <span class="wishlist-count"> 0 </span>
+          </button>
+          <!-- Small dropdown preview for the user's cart -->
+          <div class="wishlist-dropdown">
+            <h3>Your Wishlist</h3>
+
+            <div class="wishlist-items">
+              <p class="empty-wishlist-message">Your wishlist is empty.</p>
+            </div>
+
+            <a href="/profile?inner_page=wishlist" class="wishlist-page-button"> Go to Wishlist Page </a>
+          </div>
+        </div>
+
+
+        <!-- Cart preview dropdown -->
+        <div class="cart-wrapper">
+          <button class="cart-icon" type="button" aria-label="Open cart preview">
+            🛍
+            <!-- Cart amount shown in the header -->
+            <span class="cart-count"> 0 </span>
+          </button>
+          <!-- Small dropdown preview for the user's cart -->
+          <div class="cart-dropdown">
+            <h3>Your Cart</h3>
+
+            <div class="cart-items">
+              <p class="empty-cart-message">Your cart is empty.</p>
+            </div>
+
+            <a href="/shopping-cart" class="checkout-button"> Checkout </a>
+          </div>
+        </div>
+
+        <!-- Profile -->
+        {% if session.get("customer_id") %}
+        <a href="{{ url_for('profile', inner_page=['dashboard'])}}" class="icon-link" aria-label="User Profile">♙</a>
+        {% else %}
+        <a href="/login" class="icon-link" aria-label="User Profile">♙</a>
+        {% endif %}
+      </div>
+    </div>
 
     <div id="second-row">
       <ul id="header-items-container">
@@ -270,8 +257,7 @@
 
             <ul class="header-item-list">
               <li><a href="{{url_for('products', or_tags=['power supplies', 'psu'])}}">Power Supplies/PSU</a></li>
-              <li><a
-                  href="{{url_for('products', tags=['sleeved cables'], or_tags=['power supplies', 'psu'])}}">Sleeved
+              <li><a href="{{url_for('products', tags=['sleeved cables'], or_tags=['power supplies', 'psu'])}}">Sleeved
                   Cables</a></li>
             </ul>
 
@@ -452,161 +438,147 @@
         <li class="header-item">
           <a class="header-item-title" href="{{ url_for('products', tags=['special'])}}">
             Specials
-          </a></li>
+          </a>
+        </li>
       </ul>
+    </div>
+  </header>
+
+
+  <!-- ================= HERO ================= -->
+
+  <section class="hero">
+    <div class="diagonal-hero-bg"></div>
+
+    <div class="hero-content">
+      <h1>LOGIN</h1>
+
+      <p>Login or create an account!</p>
+    </div>
+  </section>
+
+  <!-- ============= END OF HERO ============== -->
+
+  <!-- ============= LOGIN START ============== -->
+
+  <div class="login-box">
+    <div class="login-header">
+    </div>
+
+    {% if error %}
+    <p class="error-message">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST" action="/login">
+
+      <div class="input-box">
+        <input type="text" name="username" class="input-field" placeholder="Username" autocomplete="off" required />
       </div>
-    </header>
 
-
-    <!-- ================= HERO ================= -->
-
-    <section class="hero">
-      <div class="diagonal-hero-bg"></div>
-
-      <div class="hero-content">
-        <h1>LOGIN</h1>
-
-        <p>Login or create an account!</p>
+      <div class="input-box">
+        <input type="password" name="password" class="input-field" placeholder="Password" autocomplete="off" required />
       </div>
-    </section>
 
-    <!-- ============= END OF HERO ============== -->
-
-    <!-- ============= LOGIN START ============== -->
-
-<div class="login-box">
-  <div class="login-header">
-  </div>
-
-  {% if error %}
-  <p class="error-message">{{ error }}</p>
-  {% endif %}
-
-  <form method="POST" action="/login">
-
-    <div class="input-box">
-      <input
-        type="text"
-        name="username"
-        class="input-field"
-        placeholder="Username"
-        autocomplete="off"
-        required
-      />
-    </div>
-
-    <div class="input-box">
-      <input
-        type="password"
-        name="password"
-        class="input-field"
-        placeholder="Password"
-        autocomplete="off"
-        required
-      />
-    </div>
-
-    <div class="forgot">
-      <section>
-        <input type="checkbox" id="check" />
-        <label for="check">Remember me</label>
-      </section>
-
-      <section>
-        <a href="#">Forgot password</a>
-      </section>
-    </div>
-
-    <div class="input-submit">
-      <button type="submit" class="submit-btn">
-        Sign In
-      </button>
-    </div>
-
-  </form>
-
-  <div class="sign-up-link">
-    <p>Don't have an account? <a href="/signup">Sign Up</a></p>
-  </div>
-</div>
-
-    <!-- ============= END OF LOGIN ============== -->
-
-    <!-- ============= FOOTER START ============== -->
-
-    <footer>
-      <hr class="rounded">
-      <br>
-      <div id="footer-row-1">
-        <section id="footer-col-1" style="flex: 1.5">
-          <img src="../static/images/galact.png" alt="" />
- 
-          <p>
-            Providing Kiwis with state-of-the-art gaming and workstation PCs.
-          </p>
- 
-          <ul id="footer-social-media-links">
-            <li>
-              <a href="#" target="_blank">
-                <i class="fa fa-facebook-official" aria-hidden="true"></i>
-              </a>
-            </li>
- 
-            <li>
-              <a href="#" target="_blank">
-                <i class="fa fa-youtube-play" aria-hidden="true"></i>
-              </a>
-            </li>
- 
-            <li>
-              <a href="#" target="_blank">
-                <i class="fa fa-instagram" aria-hidden="true"></i>
-              </a>
-            </li>
- 
-            <li>
-              <a href="#" target="_blank">
-                <i class="fa fa-linkedin-square" aria-hidden="true"></i>
-              </a>
-            </li>
-          </ul>
+      <div class="forgot">
+        <section>
+          <input type="checkbox" id="check" />
+          <label for="check">Remember me</label>
         </section>
-        <ul id="footer-col-2">
-          <li>Help</li>
-          <li>Contact Us</li>
-          <li>Return & Warranties</li>
-          <li>Delivery</li>
-          <li>FInances</li>
-          <li>Price Match</li>
-        </ul>
-        <ul id="footer-col-3">
-          <li>Company</li>
-          <li>About Us</li>
-          <li>Gift Card</li>
-          <li>Careers</li>
-        </ul>
-        <section id="footer-col-4" style="flex: 1.5">
-          <p>Newsletter</p>
-          <p>Sign up for exclusive offers original stories, events and more.</p>
-          <span id="footer-email-wrapper">
-            <input type="email" placeholder="Enter you email" />
-            <button>
-              <i class="fa fa-arrow-right" aria-hidden="true"></i>
-            </button>
-          </span>
+
+        <section>
+          <a href="#">Forgot password</a>
         </section>
       </div>
- 
-      <br>
-      
-      <div id="footer-row-2">
-        <p>&copy; 2026 All rights reserved.</p>
+
+      <div class="input-submit">
+        <button type="submit" class="submit-btn">
+          Sign In
+        </button>
       </div>
-    </footer>
 
-    <!-- ============= END OF FOOTER ============== -->        
+    </form>
 
-        <script type="module" src="../static/js/products.js"></script>
-    <script type="module" src="../static/js/header.js"></script>
-  </body>
+    <div class="sign-up-link">
+      <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+    </div>
+  </div>
+
+  <!-- ============= END OF LOGIN ============== -->
+
+  <!-- ============= FOOTER START ============== -->
+
+  <footer>
+    <hr class="rounded">
+    <br>
+    <div id="footer-row-1">
+      <section id="footer-col-1" style="flex: 1.5">
+        <img src="../static/images/galact.png" alt="" />
+
+        <p>
+          Providing Kiwis with state-of-the-art gaming and workstation PCs.
+        </p>
+
+        <ul id="footer-social-media-links">
+          <li>
+            <a href="#" target="_blank">
+              <i class="fa fa-facebook-official" aria-hidden="true"></i>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" target="_blank">
+              <i class="fa fa-youtube-play" aria-hidden="true"></i>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" target="_blank">
+              <i class="fa fa-instagram" aria-hidden="true"></i>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" target="_blank">
+              <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+            </a>
+          </li>
+        </ul>
+      </section>
+      <ul id="footer-col-2">
+        <li>Help</li>
+        <li>Contact Us</li>
+        <li>Return & Warranties</li>
+        <li>Delivery</li>
+        <li>FInances</li>
+        <li>Price Match</li>
+      </ul>
+      <ul id="footer-col-3">
+        <li>Company</li>
+        <li>About Us</li>
+        <li>Gift Card</li>
+        <li>Careers</li>
+      </ul>
+      <section id="footer-col-4" style="flex: 1.5">
+        <p>Newsletter</p>
+        <p>Sign up for exclusive offers original stories, events and more.</p>
+        <span id="footer-email-wrapper">
+          <input type="email" placeholder="Enter you email" />
+          <button>
+            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+          </button>
+        </span>
+      </section>
+    </div>
+
+    <br>
+
+    <div id="footer-row-2">
+      <p>&copy; 2026 All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ============= END OF FOOTER ============== -->
+
+  <script type="module" src="../static/js/header.js"></script>
+</body>
 </html>

@@ -28,24 +28,56 @@ const productImage = document.querySelector("#product-view-img-src");
 const productImageSrc = productImage.src;
 
 // Add to Cart
+// Add to Cart
 btnAddToCart.addEventListener("click", () => {
-  const existingProduct = cart.find((item) => item.name === productName);
-  let currentUrl = window.location.href;
-  let productId = currentUrl.split("/");
+  const prodId = productId[productId.length - 1];
+  const existingProduct = cart.find((item) => item.id === prodId);
 
   if (existingProduct) {
     existingProduct.quantity++;
+    
+    if (user["loggedIn"]) {
+      fetch("/add_cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: prodId,
+          quantity: existingProduct.quantity,
+        }),
+      }).then((response) => response.text());
+    }
   } else {
-    cart.push({
-      id: productId[productId.length - 1],
+    const newProduct = {
+      id: prodId,
       name: productName,
       price: productPrice,
       image: productImageSrc,
       quantity: 1,
-    });
+    };
+    
+    cart.push(newProduct);
+
+    if (user["loggedIn"]) {
+      fetch("/add_cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: prodId,
+          quantity: 1,
+        }),
+      }).then((response) => response.text());
+    }
   }
 
-  saveCart();
+  // Only write to localStorage if user is a guest
+  if (!user["loggedIn"]) {
+    saveCart();
+  }
+  
   updateCartCount();
   showCartPreview();
 
@@ -61,7 +93,7 @@ btnAddToCart.addEventListener("click", () => {
 });
 
 if (!user["loggedIn"]) {
-  const existingProduct = wishlist.find((item) => item.name === productName);
+  const existingProduct = wishlist.find((item) => item.title === productName);  
 
   if (existingProduct) {
     wishListAddButtonIcon.classList.remove("fa-heart-o");
@@ -81,72 +113,78 @@ if (!user["loggedIn"]) {
 // Add / Remove Wishlist
 wishListAddButton.addEventListener("click", async () => {
   user = (await getUser()) || {};
+  const prodId = productId[productId.length - 1]; // Cache the product ID
 
   if (wishListAddButtonIcon.classList.contains("fa-heart-o")) {
-    // Add to wishlist
+    // --- ADD TO WISHLIST ---
     wishListAddButtonIcon.classList.remove("fa-heart-o");
     wishListAddButtonIcon.classList.add("fa-heart");
     wishListAddButtonIcon.classList.add("add-red");
 
     if (!user["loggedIn"]) {
-      const existingProduct = wishlist.find(
-        (item) => item.name === productName,
-      );
+      // Logged Out: Save full object to localStorage
+      const existingProduct = wishlist.find((item) => item.title === productName);
 
       if (!existingProduct) {
         wishlist.push({
-          id: productId[productId.length - 1],
+          id: prodId,
           title: productName,
           price: productPrice,
           image: [productImageSrc],
         });
       }
+      saveWishlist(); // Only sync localStorage when logged out
     } else {
-      let userWishlist = user["wishlist"];
-
-      if (!userWishlist.includes(productId[productId.length - 1]))
+      // Logged In: Push string ID to local array and sync with DB
+      if (!wishlist.includes(prodId)) {
+        wishlist.push(prodId); 
+        
         fetch("/add_wishlist", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            id: productId[productId.length - 1],
-          }),
+          body: JSON.stringify({ id: prodId }),
         }).then((response) => response.text());
+      }
     }
 
-    saveWishlist();
   } else {
-    // Remove from wishlist
+    // --- REMOVE FROM WISHLIST ---
     wishListAddButtonIcon.classList.remove("fa-heart");
     wishListAddButtonIcon.classList.remove("add-red");
     wishListAddButtonIcon.classList.add("fa-heart-o");
+
     if (!user["loggedIn"]) {
-      const index = wishlist.findIndex(
-        (product) => product.name === productName,
-      );
+      // Logged Out: Remove object from localStorage
+      const index = wishlist.findIndex((product) => product.title === productName);
 
       if (index !== -1) {
         wishlist.splice(index, 1);
       }
+      saveWishlist(); // Only sync localStorage when logged out
     } else {
-      let userWishlist = user["wishlist"];
+      // Logged In: Remove string ID from local array and sync with DB
+      if (wishlist.includes(prodId)) {
+        const index = wishlist.indexOf(prodId);
+        if (index !== -1) {
+          wishlist.splice(index, 1);
+        }
 
-      if (userWishlist.includes(productId[productId.length - 1]))
         fetch("/remove_wishlist", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            id: productId[productId.length - 1],
-          }),
+          body: JSON.stringify({ id: prodId }),
         }).then((response) => response.text());
+      }
     }
-
-    saveWishlist();
   }
+
+  // --- ALWAYS UPDATE THE UI IMMEDIATELY ---
+  updateWishlistCount();
+  await showWishlistPreview(); // Await since header fetching is async for logged-in users
 });
 
 let productViewChoicesOptions = document.querySelectorAll(

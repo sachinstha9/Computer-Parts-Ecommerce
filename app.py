@@ -247,6 +247,8 @@ def login():
         if customer:
             session["customer_id"] = customer[0]
             session["username"] = customer[1]
+
+            
             return redirect("/")
 
         return render_template(
@@ -288,13 +290,15 @@ def signup():
                     name,
                     address,
                     city,
-                    postcode
+                    postcode,
+                    phone
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 username,
                 password,
                 email,
+                "[]",
                 "[]",
                 "[]",
                 "[]",
@@ -318,6 +322,79 @@ def signup():
         return redirect("/login")
 
     return render_template("signup.html", cart_count=get_cart_count())
+
+@app.route('/update_profile', methods=['POST'])
+def update_profile():
+    # 1. Authenticate user session framework (using customer_id from your session)
+    user_id = session.get('customer_id')  
+    if not user_id:
+        return jsonify({"message": "Unauthorized access. Please log in again."}), 401
+
+    # 2. Extract incoming JSON payload parameters 
+    data = request.get_json()
+    if not data:
+        return jsonify({"message": "Malformatted request. No payload received."}), 400
+
+    username = data.get('username')
+    email = data.get('email')
+    shipping_name = data.get('shipping_name')
+    shipping_address = data.get('shipping_address')
+    shipping_city = data.get('shipping_city')
+    shipping_postcode = data.get('shipping_postcode')
+    phone = data.get('phone')
+
+    current_password = data.get('current_password')
+    new_password = data.get('new_password')
+
+    # Basic server-side validation boundary
+    if not username or not email:
+        return jsonify({"message": "Username and Email fields are required."}), 400
+
+    conn = sqlite3.connect('computer-ecommerce.db') 
+    cursor = conn.cursor()
+
+    try:
+        # 3. Handle Plain Text Password Verification and Updates
+        if current_password and new_password:
+            # Query the existing plain text password from the user row
+            cursor.execute("SELECT password FROM customers WHERE id = ?", (user_id,))
+            user_record = cursor.fetchone()
+
+            if not user_record:
+                return jsonify({"message": "Account record not located."}), 404
+
+            stored_password = user_record[0]
+            
+            # Direct text string comparison
+            if stored_password != current_password:
+                return jsonify({"message": "The current password you entered is incorrect."}), 400
+
+            # Save the new password directly as plain text
+            cursor.execute("UPDATE customers SET password = ? WHERE id = ?", (new_password, user_id))
+
+        # 4. Synchronize Account Details and Shipping Parameters
+        cursor.execute("""
+            UPDATE customers 
+            SET username = ?, 
+                email = ?, 
+                name = ?, 
+                address = ?, 
+                city = ?, 
+                postcode = ?,
+                phone = ?
+            WHERE id = ?
+        """, (username, email, shipping_name, shipping_address, shipping_city, shipping_postcode, phone, user_id))
+        
+        conn.commit()
+        return jsonify({"message": "Account details synchronized successfully!"}), 200
+
+    except Exception as err:
+        conn.rollback()
+        print(f"Critical operational exception identified: {err}")
+        return jsonify({"message": "An internal server error disrupted the update loop."}), 500
+        
+    finally:
+        cursor.close()
 
 @app.route("/logout")
 def logout():
@@ -364,7 +441,7 @@ def profile_page(name):
     c = conn.cursor()
 
     c.execute(
-        "SELECT username, email, cart, wishlist, orders, name, address, city, postcode FROM customers WHERE id = ?",
+        "SELECT username, email, cart, wishlist, orders, name, address, city, postcode, phone FROM customers WHERE id = ?",
         (session["customer_id"],)
     )
 
@@ -469,6 +546,87 @@ def remove_wishlist():
         "UPDATE customers SET wishlist = ? WHERE id = ?",
         (
             json.dumps(wishlistArr),
+            session["customer_id"]
+        )
+    )
+
+    conn.commit()
+    conn.close()
+
+    return {"success": True}
+
+@app.route("/add_cart", methods=["POST"])
+def add_cart():
+    data = request.get_json()
+
+    conn = sqlite3.connect("computer-ecommerce.db")
+    c = conn.cursor()
+
+    c.execute("SELECT cart FROM customers WHERE id = ?", (session["customer_id"],))
+    cartArr = c.fetchone()[0]
+    
+    if cartArr:
+        cartArr = json.loads(cartArr)
+    else:
+        cartArr = []
+
+    product_id = str(data["id"])
+    quantity = int(data["quantity"])
+
+    # Look for the product in the cart to update its quantity
+    item_found = False
+    for item in cartArr:
+        if str(item["id"]) == product_id:
+            item["quantity"] = quantity
+            item_found = True
+            break
+
+    # If it's a new product, append it as a dictionary configuration
+    if not item_found:
+        cartArr.append({
+            "id": product_id,
+            "quantity": quantity
+        })
+
+    cartArrFinal = json.dumps(cartArr)
+
+    query = "UPDATE customers SET cart = ? WHERE id = ?"
+    new_data = (cartArrFinal, session["customer_id"])
+
+    c.execute(query, new_data)
+
+    conn.commit()
+    conn.close()
+
+    return {"success": True}
+
+@app.route("/remove_cart", methods=["POST"])
+def remove_cart():
+    data = request.get_json()
+
+    conn = sqlite3.connect("computer-ecommerce.db")
+    c = conn.cursor()
+
+    c.execute(
+        "SELECT cart FROM customers WHERE id = ?",
+        (session["customer_id"],)
+    )
+
+    cartArr = c.fetchone()[0]
+    if cartArr:
+        cartArr = json.loads(cartArr)
+    else:
+        cartArr = []
+
+    product_id = str(data["id"])
+
+    # Rebuild list excluding the target item dictionary
+    cartArr = [item for item in cartArr if str(item["id"]) != product_id]
+
+    c.execute(
+        "UPDATE customers SET cart = ? WHERE id = ?",
+        (
+            json.dumps(cartArr),
             session["customer_id"]
         )
     )
@@ -589,6 +747,34 @@ def get_product_details():
         "discount": product[11],
         "arrival_date": product[12]
     })
+    
+@app.route("/search")
+def search():
+    search_query = request.args.get("q", "")
+
+    conn = sqlite3.connect("computer-ecommerce.db")
+    c = conn.cursor()
+
+    c.execute("""
+        SELECT * FROM products
+        WHERE title LIKE ?
+        OR tags LIKE ?
+    """, (
+        "%" + search_query + "%",
+        "%" + search_query + "%"
+    ))
+
+    filtered_products = c.fetchall()
+
+    conn.close()
+
+    filtered_products = product_formatter(filtered_products)
+
+    return render_template(
+        "products.html",
+        filtered_products=filtered_products,
+        cart_count=get_cart_count()
+    )    
 
 if __name__ == "__main__":
     app.run(debug=True)

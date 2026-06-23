@@ -157,3 +157,86 @@ hr.solid {
     grid-template-columns: 1fr;
   }
 }
+
+/* Dashboard Card Wishlist Container */
+.dash-wishlist-items {
+  margin: 15px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Row Alignment Layout */
+.dash-wishlist-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.dash-wishlist-row:last-child {
+  border-bottom: none;
+}
+
+.dash-wishlist-media {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Image Item Thumbnails */
+.dash-wishlist-media img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  background-color: #fcfcfc;
+  border: 1px solid #eef0f2;
+  border-radius: 4px;
+}
+
+.dash-wishlist-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dash-wishlist-title {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #ffffff;
+  text-decoration: none;
+  max-width: 160px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dash-wishlist-price {
+  font-size: 0.82rem;
+  color: #d8d8d8;
+}
+
+/* Close Delete Button */
+.dash-wishlist-remove-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #aaa;
+  cursor: pointer;
+  padding: 2px 6px;
+  transition: color 0.15s ease;
+  line-height: 1;
+}
+
+.dash-wishlist-remove-btn:hover {
+  color: #e43d3d;
+}
+
+.dash-empty-msg {
+  font-size: 0.85rem;
+  color: #888;
+  font-style: italic;
+  margin: 5px 0;
+}
+

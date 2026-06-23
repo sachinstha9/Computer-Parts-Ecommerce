@@ -1,26 +1,45 @@
+// ==========================================
+// --- IMPORTS & CORE SESSION INITIALIZATION ---
+// ==========================================
+import { wishlist, updateWishlistCount, showWishlistPreview } from "./header.js";
+import getProductDetails from "./get-product-details.js";
+import getUser from "./get-user.js";
+
+// Initialize authenticated user state globally for this module
+const user = (await getUser()) || {};
+
+// ==========================================
+// --- SIDEBAR NAVIGATION INTERFACES ---
+// ==========================================
 const sidebar = document.querySelector(".sidebar");
 const sidebarToggler = document.querySelector(".sidebar-toggler");
 const menuToggler = document.querySelector(".menu-toggler");
-// Ensure these heights match the CSS sidebar height values
-let collapsedSidebarHeight = "56px"; // Height in mobile view (collapsed)
-let fullSidebarHeight = "calc(100vh - 32px)"; // Height in larger screen
-// Toggle sidebar's collapsed state
-sidebarToggler.addEventListener("click", () => {
-  sidebar.classList.toggle("collapsed");
-});
-// Update sidebar height and menu toggle text
+
+let collapsedSidebarHeight = "56px"; 
+let fullSidebarHeight = "calc(100vh - 32px)"; 
+
+if (sidebarToggler && sidebar) {
+  sidebarToggler.addEventListener("click", () => {
+    sidebar.classList.toggle("collapsed");
+  });
+}
+
 const toggleMenu = (isMenuActive) => {
+  if (!sidebar || !menuToggler) return;
   sidebar.style.height = isMenuActive
     ? `${sidebar.scrollHeight}px`
     : collapsedSidebarHeight;
   menuToggler.querySelector("span").innerText = isMenuActive ? "close" : "menu";
 };
-// Toggle menu-active class and adjust height
-menuToggler.addEventListener("click", () => {
-  toggleMenu(sidebar.classList.toggle("menu-active"));
-});
-// (Optional code): Adjust sidebar height on window resize
+
+if (menuToggler) {
+  menuToggler.addEventListener("click", () => {
+    toggleMenu(sidebar.classList.toggle("menu-active"));
+  });
+}
+
 window.addEventListener("resize", () => {
+  if (!sidebar) return;
   if (window.innerWidth >= 1024) {
     sidebar.style.height = fullSidebarHeight;
   } else {
@@ -30,192 +49,291 @@ window.addEventListener("resize", () => {
   }
 });
 
-// Function to load the pages onto profile.html from
-// The 'profile-pages' folder in templates.
-
+// ==========================================
+// --- DYNAMIC ROUTING & PAGE LOADER ---
+// ==========================================
 function loadPage(page) {
   fetch(`/profile/${page}`)
     .then((response) => response.text())
     .then((html) => {
       document.getElementById("content").innerHTML = html;
 
-      if (page == "dashboard") {
+      if (page === "dashboard") {
         clickProfile();
         dashboardViewAllOrders();
         clickShipping();
         clickWishlist();
         clickSettings();
-      } else if (page == "profile") {
-        clickOrders();
-      } else if (page == "wishlist") {
-        loadItems();
+        
+        // Pass "dashboard" to render recent 3 items in a row layout
+        renderWishlist("dashboard"); 
+      } else if (page === "profile") {
+        // Target and hook up the save interface routine
+        initializeProfileFormHandler();      
+      } else if (page === "wishlist") {
+        
+        // Pass "full" to render all items in the full card grid layout
+        renderWishlist("full"); 
       }
     });
 }
 
+// Global entry point handling checks
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const inner_page = urlParams.get("inner_page");
 
-if (inner_page == "wishlist") {
+if (inner_page === "profile") { 
+  loadPage("profile");
+} else if (inner_page === "orders") { 
+  loadPage("orders");
+} else if (inner_page === "wishlist") {
   loadPage("wishlist");
+} else if (inner_page === "settings") { 
+  loadPage("settings");
 } else {
   loadPage("dashboard");
 }
 
-// Checks what button is clicked, and what it should display
-// These 'pages' will be viewed as a part of the initial 'profile' page
-// and will be displayed in the remaining space in the middle of the screen
-// leaving the sidenav at the side where it belongs.
-
-document.querySelector("#dashboard-btn").addEventListener("click", () => {
-  // Display Dashboard
-  loadPage("dashboard");
-});
-
-document.querySelector("#orders-btn").addEventListener("click", () => {
-  // Display Orders
-  loadPage("orders");
-});
-
-document.querySelector("#profile-btn").addEventListener("click", () => {
-  // Display Profile
-  loadPage("profile");
-});
-
-document.querySelector("#wishlist-btn").addEventListener("click", () => {
-  // Display Wishlist
-  loadPage("wishlist");
-});
-
-document.querySelector("#settings-btn").addEventListener("click", () => {
-  // Display Settings
-  loadPage("settings");
-});
-
-function dashboardLoadProfile() {
-  document.getElementById("view_profile").addEventListener("click", () => {
-    loadPage("profile");
-  });
-}
-
+// ==========================================
+// --- DASHBOARD INTER-LINK EVENT BINDERS ---
+// ==========================================
 function clickProfile() {
-  document.getElementById("view_profile").addEventListener("click", () => {
+  document.getElementById("view_profile")?.addEventListener("click", (e) => {
+    e.preventDefault();
     loadPage("profile");
   });
 }
 
 function dashboardViewAllOrders() {
-  document.getElementById("view-all-orders").addEventListener("click", () => {
+  document.getElementById("view-all-orders")?.addEventListener("click", (e) => {
+    e.preventDefault();
     loadPage("orders");
   });
 }
 
 function clickShipping() {
-  document.getElementById("view_shipping").addEventListener("click", () => {
+  document.getElementById("view_shipping")?.addEventListener("click", (e) => {
+    e.preventDefault();
     loadPage("profile");
   });
 }
 
 function clickWishlist() {
-  document.getElementById("view_wishlist").addEventListener("click", () => {
+  document.getElementById("view_wishlist")?.addEventListener("click", (e) => {
+    e.preventDefault();
     loadPage("wishlist");
   });
 }
 
 function clickSettings() {
-  document.getElementById("view_settings").addEventListener("click", () => {
+  document.getElementById("view_settings")?.addEventListener("click", (e) => {
+    e.preventDefault();
     loadPage("settings");
   });
 }
 
-import getUser from "./get-user.js";
-import getProductDetails from "./get-product-details.js";
 
-let user = (await getUser()) || {};
-let wishlist = user["wishlist"] || [];
+// ==========================================
+// --- ASYNC DASHBOARD WISHLIST RENDERING ---
+// ==========================================
+// ==========================================
+// --- UNIFIED WISHLIST RENDERING ENGINE ---
+// ==========================================
+async function renderWishlist(viewType = "dashboard") {
+  const isDash = viewType === "dashboard";
 
-function loadItems() {
-  const wishlistItemsBox = document.querySelector("#inner-page-wishlist-box");
+  // 1. Assign target containers contextually based on active view type
+  const container = isDash 
+    ? document.querySelector(".dash-wishlist-items") 
+    : document.getElementById("inner-page-wishlist-box");
 
-  async function showWishlistPreview() {
-    if (!wishlistItemsBox) {
-      console.error(
-        "Could not find .inner-page-wishlist-box. Make sure it exists in wishlist.html",
-      );
-      return;
-    }
+  if (!container) return;
+  container.innerHTML = "";
 
-    wishlistItemsBox.innerHTML = "";
-
-    if (wishlist.length === 0) {
-      wishlistItemsBox.innerHTML = `
-        <p class="empty-wishlist-message">
-          Your wishlist is empty.
-        </p>
-      `;
-      return;
-    }
-
-    for (const [index, item] of wishlist.entries()) {
-      let productDetails = item;
-
-      if (user.loggedIn) {
-        productDetails = await getProductDetails(item);
-      }
-
-      const wishlistItem = document.createElement("div");
-      wishlistItem.classList.add("wishlist-preview-item");
-
-      wishlistItem.innerHTML = `
-        <a href="/productview/${productDetails.id}" class="wishlist-image-wrapper">
-          <img src="${productDetails.image[0]}" alt="${productDetails.title}">
-        </a>
-
-        <div class="wishlist-preview-info">
-          <p>${productDetails.title}</p>
-
-          <div class="wishlist-preview-bottom">
-            <strong>$${productDetails.price}</strong>
-          </div>
-        </div>
-
-        <button class="remove-wishlist-item" data-index="${index}">
-          ×
-        </button>
-      `;
-
-      wishlistItemsBox.appendChild(wishlistItem);
-
-      const removeButton = wishlistItem.querySelector(".remove-wishlist-item");
-
-      removeButton.addEventListener("click", async (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        if (!user.loggedIn) {
-          wishlist.splice(index, 1);
-          saveWishlist();
-        } else {
-          const response = await fetch("/remove_wishlist", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              id: productDetails.id,
-            }),
-          });
-
-          if (response.ok) {
-            wishlist.splice(index, 1);
-          }
-        }
-
-        showWishlistPreview();
-      });
+  // 2. Natively handle dashboard count text if applicable
+  if (isDash) {
+    const dashWishlistCountVal = document.querySelector(".dash-wishlist-count-val");
+    if (dashWishlistCountVal) {
+      dashWishlistCountVal.textContent = wishlist ? wishlist.length : 0;
     }
   }
 
-  showWishlistPreview();
+  // 3. Handle empty states gracefully for both separate layouts
+  if (!wishlist || wishlist.length === 0) {
+    container.innerHTML = isDash 
+      ? `<p class="dash-empty-msg">No items in your wishlist.</p>`
+      : `<div class="full-wishlist-empty">
+          <p>Your wishlist is currently empty.</p>
+          <a href="/" class="wishlist-shop-btn">Continue Shopping</a>
+         </div>`;
+    return;
+  }
+
+  // 4. Filter array length constraint: Recent 3 items for dashboard, all for full page
+  const itemsToRender = isDash ? wishlist.slice(-3).reverse() : wishlist;
+
+  // 5. Build full view grid wrapper if rendering the standalone child page
+  let appendTarget = container;
+  if (!isDash) {
+    const wishlistGrid = document.createElement("div");
+    wishlistGrid.classList.add("wishlist-page-grid");
+    container.appendChild(wishlistGrid);
+    appendTarget = wishlistGrid;
+  }
+
+  // 6. Process item iteration loop execution cleanly
+  for (const item of itemsToRender) {
+    if (!item) continue;
+
+    let productDetails = item;
+
+    if (user.loggedIn) {
+      try {
+        productDetails = await getProductDetails(item);
+        if (!productDetails) continue;
+      } catch (err) {
+        console.error(`Error resolving wishlist data parameters for ID ${item}:`, err);
+        continue;
+      }
+    }
+
+    const displayPrice = productDetails.price 
+      ? (productDetails.price.toString().startsWith('$') ? productDetails.price : `$${productDetails.price}`) 
+      : "$0.00";
+    const displayImg = (productDetails.image && productDetails.image[0]) || "/images/placeholder.png";
+    const displayTitle = productDetails.title || "Unknown Product";
+    const productId = productDetails.id || item;
+
+    // 7. Inject specific template blocks depending on the rendering flag context
+    const element = document.createElement("div");
+    
+    if (isDash) {
+      element.classList.add("dash-wishlist-row");
+      element.innerHTML = `
+        <div class="dash-wishlist-media">
+          <img src="${displayImg}" alt="${displayTitle}">
+          <div class="dash-wishlist-details">
+            <a href="/productview/${productId}" class="dash-wishlist-title">${displayTitle}</a>
+            <strong class="dash-wishlist-price">${displayPrice}</strong>
+          </div>
+        </div>
+        <button class="dash-wishlist-remove-btn" title="Remove Item">×</button>
+      `;
+    } else {
+      element.classList.add("wishlist-page-card");
+      element.innerHTML = `
+        <button class="wishlist-card-delete-btn" title="Remove Item">×</button>
+        <div class="wishlist-card-img-holder">
+          <img src="${displayImg}" alt="${displayTitle}">
+        </div>
+        <div class="wishlist-card-body">
+          <h3 class="wishlist-card-title">${displayTitle}</h3>
+          <span class="wishlist-card-price">${displayPrice}</span>
+          <a href="/productview/${productId}" class="wishlist-card-view-link">View Details</a>
+        </div>
+      `;
+    }
+
+    appendTarget.appendChild(element);
+
+    // 8. Unified Delete Action Listener Mapping
+    const deleteBtn = element.querySelector(isDash ? ".dash-wishlist-remove-btn" : ".wishlist-card-delete-btn");
+    deleteBtn.addEventListener("click", async (e) => {
+      e.stopPropagation();
+
+      const globalIndex = wishlist.indexOf(item);
+      if (globalIndex === -1) return;
+
+      if (!user.loggedIn) {
+        wishlist.splice(globalIndex, 1);
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      } else {
+        const response = await fetch("/remove_wishlist", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: productId }),
+        }).catch(err => console.error(err));
+
+        if (response && response.ok) {
+          wishlist.splice(globalIndex, 1);
+        }
+      }
+
+      // Sync all header components
+      updateWishlistCount();
+      await showWishlistPreview();
+      
+      // Recursive call automatically maintains the current view state framework smoothly
+      await renderWishlist(viewType);
+    });
+  }
+}
+
+function initializeProfileFormHandler() {
+  const form = document.getElementById("editable-profile-form");
+  const feedback = document.getElementById("form-feedback-msg");
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    feedback.textContent = "Processing updates...";
+    feedback.className = "";
+
+    const formData = new FormData(form);
+    const dataPayload = Object.fromEntries(formData.entries());
+
+    // --- CLIENT SIDE SECURITY CHECKS ---
+    const currentPass = dataPayload.current_password;
+    const newPass = dataPayload.new_password;
+    const confirmPass = dataPayload.confirm_password;
+
+    // Check if the user is trying to change their password
+    if (newPass || confirmPass || currentPass) {
+      if (!currentPass) {
+        feedback.textContent = "× Current password is required to verify changes.";
+        feedback.className = "error";
+        return;
+      }
+      if (newPass !== confirmPass) {
+        feedback.textContent = "× New password fields do not match.";
+        feedback.className = "error";
+        return;
+      }
+      if (newPass.length < 6) { // Optional safety check length
+        feedback.textContent = "× New password must be at least 6 characters.";
+        feedback.className = "error";
+        return;
+      }
+    }
+
+    // --- ENDPOINT TRANSMISSION PIPE ---
+    try {
+      const response = await fetch("/update_profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dataPayload)
+      });
+
+      const responseData = await response.json().catch(() => ({}));
+
+      if (response.ok) {
+        feedback.textContent = "✓ Account details synchronized successfully!";
+        feedback.className = "success";
+        
+        // Wipe password fields clean after a successful update loop
+        form.querySelector("#current_password").value = "";
+        form.querySelector("#new_password").value = "";
+        form.querySelector("#confirm_password").value = "";
+      } else {
+        // Fallback to backend validation messages if passed
+        feedback.textContent = responseData.message || "× Verification failed. Check parameters.";
+        feedback.className = "error";
+      }
+    } catch (err) {
+      console.error("Critical submission disruption:", err);
+      feedback.textContent = "× Connection lost. Try again.";
+      feedback.className = "error";
+    }
+  });
 }
