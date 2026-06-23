@@ -870,7 +870,7 @@ def capture_order(order_id):
         c = conn.cursor()
 
         # Fetch current cart and orders
-        c.execute("SELECT cart, ongoing_orders FROM customers WHERE id = ?", (customer_id,))
+        c.execute("SELECT cart, orders FROM customers WHERE id = ?", (customer_id,))
         user_data = c.fetchone()
 
         if user_data:
@@ -887,7 +887,8 @@ def capture_order(order_id):
                 "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 "total_paid": captured_amount,
                 "status": "Paid",
-                "items": current_cart  # We copy their whole cart here!
+                "items": current_cart,
+                "delivered": "0"
             }
 
             # Append the new order to their order history
@@ -898,7 +899,7 @@ def capture_order(order_id):
             # 2. Save the updated orders array
             c.execute("""
                 UPDATE customers 
-                SET cart = '[]', ongoing_orders = ? 
+                SET cart = '[]', orders = ? 
                 WHERE id = ?
             """, (json.dumps(current_orders), customer_id))
 

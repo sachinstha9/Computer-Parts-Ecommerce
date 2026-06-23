@@ -17,13 +17,13 @@
   left: 0rem;
   top: 0rem;
 }
-.checkout-product{
+.checkout-product {
   img {
     width: 20%;
     height: 20%;
-    Height: auto;
+    height: auto;
     object-fit: cover;
-    POSITION: DEFAULT;
+    position: DEFAULT;
   }
 }
 .order-summary-box {
@@ -33,7 +33,6 @@
   border-width: 0.0625rem;
   width: 17.5625rem;
   height: 20.1875rem;
-
 }
 .shopping-bag-preview-line-break {
   margin-top: -0.0625rem;
@@ -61,13 +60,11 @@
   background: #d9d9d9;
   width: 14.3125rem;
   height: 14.3125rem;
-
 }
 .products-boxes2 {
   background: #d9d9d9;
   width: 14.3125rem;
   height: 14.3125rem;
-
 }
 .order-summary {
   color: #ffffff;
@@ -185,4 +182,226 @@
   position: absolute;
   left: 55.0625rem;
   top: 29rem;
+}
+
+/* ==========================================
+   CHECKOUT PAGE WRAPPER
+   ========================================== */
+.checkout-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  /* Matches a clean, techy look; update if you use a specific font */
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    sans-serif;
+  color: #f3f4f6; /* Off-white text for readability */
+}
+
+/* ==========================================
+   LAYOUT GRID (Desktop: 2 columns, Mobile: 1)
+   ========================================== */
+.checkout-container {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* ==========================================
+   LEFT SIDE: CART ITEMS
+   ========================================== */
+.checkout-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkout-line {
+  height: 1px;
+  background-color: #333333; /* Darker line for dark theme */
+  margin: 20px 0;
+}
+
+.checkout-products {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Product Row styling */
+.checkout-product,
+.cart-preview-item {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  position: relative;
+  padding: 10px 0;
+}
+
+.checkout-product img,
+.cart-preview-item img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 4px; /* Sharper corners to match your product cards */
+  border: 1px solid #333333;
+  background-color: #1a1a1a; /* Fallback for transparent images */
+}
+
+.checkout-product-info,
+.cart-preview-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checkout-product-info h3,
+.cart-preview-info p:first-child {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.checkout-product-info p,
+.cart-preview-bottom strong {
+  margin: 0;
+  color: #a1a1aa; /* Muted gray for secondary text/price */
+  font-size: 0.95rem;
+}
+
+/* Remove Button */
+.remove-product,
+.remove-cart-item {
+  background: none;
+  border: none;
+  color: #ef4444; /* Standard red (matches your "Out of Stock" color) */
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  margin-top: 4px;
+  transition: color 0.2s;
+  font-weight: 500;
+}
+
+.remove-product:hover,
+.remove-cart-item:hover {
+  color: #dc2626;
+  text-decoration: underline;
+}
+
+/* JS-Rendered Mini Quantity Controls */
+.mini-quantity-controls {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #404040;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 8px;
+  width: max-content;
+  background: #262626;
+}
+
+.mini-quantity-controls button {
+  background: #333333;
+  border: none;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #ffffff;
+  transition: background 0.2s;
+}
+
+.mini-quantity-controls button:hover {
+  background: #8b5cf6; /* Added your site's purple accent on hover! */
+}
+
+.mini-quantity-controls span {
+  padding: 0 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.empty-checkout-message,
+.empty-cart-message {
+  text-align: center;
+  padding: 40px;
+  color: #a1a1aa;
+  font-size: 1.1rem;
+  background: #262626; /* Dark card background */
+  border-radius: 4px;
+  border: 1px solid #333333;
+}
+
+/* ==========================================
+   RIGHT SIDE: ORDER SUMMARY (Sticky Sidebar)
+   ========================================== */
+.order-summary {
+  background-color: #202020; /* Slightly elevated dark background */
+  border: 1px solid #333333;
+  border-radius: 8px;
+  padding: 24px;
+  position: sticky;
+  top: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+}
+
+.order-summary h2 {
+  margin-top: 0;
+  margin-bottom: 24px;
+  font-size: 1.25rem;
+  border-bottom: 1px solid #333333;
+  padding-bottom: 12px;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  color: #a1a1aa; /* Muted gray */
+  font-size: 1rem;
+}
+
+.total-row {
+  border-top: 1px solid #404040;
+  padding-top: 16px;
+  margin-top: 20px;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #ffffff;
+}
+
+.terms-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 24px 0;
+  font-size: 0.85rem;
+  color: #a1a1aa;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.terms-row input[type="checkbox"] {
+  margin-top: 2px;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  accent-color: #8b5cf6; /* Uses your purple accent when checked */
+  background-color: #262626;
+  border: 1px solid #404040;
+}
+
+/* Space for the PayPal Buttons */
+#paypal-button-container {
+  margin-top: 10px;
+  min-height: 150px;
 }
