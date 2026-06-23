@@ -323,6 +323,79 @@ def signup():
 
     return render_template("signup.html", cart_count=get_cart_count())
 
+@app.route('/update_profile', methods=['POST'])
+def update_profile():
+    # 1. Authenticate user session framework (using customer_id from your session)
+    user_id = session.get('customer_id')  
+    if not user_id:
+        return jsonify({"message": "Unauthorized access. Please log in again."}), 401
+
+    # 2. Extract incoming JSON payload parameters 
+    data = request.get_json()
+    if not data:
+        return jsonify({"message": "Malformatted request. No payload received."}), 400
+
+    username = data.get('username')
+    email = data.get('email')
+    shipping_name = data.get('shipping_name')
+    shipping_address = data.get('shipping_address')
+    shipping_city = data.get('shipping_city')
+    shipping_postcode = data.get('shipping_postcode')
+    phone = data.get('phone')
+    
+    current_password = data.get('current_password')
+    new_password = data.get('new_password')
+
+    # Basic server-side validation boundary
+    if not username or not email:
+        return jsonify({"message": "Username and Email fields are required."}), 400
+
+    conn = sqlite3.connect('computer-ecommerce.db') 
+    cursor = conn.cursor()
+
+    try:
+        # 3. Handle Plain Text Password Verification and Updates
+        if current_password and new_password:
+            # Query the existing plain text password from the user row
+            cursor.execute("SELECT password FROM customers WHERE id = ?", (user_id,))
+            user_record = cursor.fetchone()
+
+            if not user_record:
+                return jsonify({"message": "Account record not located."}), 404
+
+            stored_password = user_record[0]
+            
+            # Direct text string comparison
+            if stored_password != current_password:
+                return jsonify({"message": "The current password you entered is incorrect."}), 400
+
+            # Save the new password directly as plain text
+            cursor.execute("UPDATE customers SET password = ? WHERE id = ?", (new_password, user_id))
+
+        # 4. Synchronize Account Details and Shipping Parameters
+        cursor.execute("""
+            UPDATE customers 
+            SET username = ?, 
+                email = ?, 
+                name = ?, 
+                address = ?, 
+                city = ?, 
+                postcode = ?
+                phone = ?
+            WHERE id = ?
+        """, (username, email, shipping_name, shipping_address, shipping_city, shipping_postcode, user_id, phone))
+        
+        conn.commit()
+        return jsonify({"message": "Account details synchronized successfully!"}), 200
+
+    except Exception as err:
+        conn.rollback()
+        print(f"Critical operational exception identified: {err}")
+        return jsonify({"message": "An internal server error disrupted the update loop."}), 500
+        
+    finally:
+        cursor.close()
+
 @app.route("/logout")
 def logout():
     session.clear()
