@@ -380,10 +380,10 @@ def update_profile():
                 name = ?, 
                 address = ?, 
                 city = ?, 
-                postcode = ?
+                postcode = ?,
                 phone = ?
             WHERE id = ?
-        """, (username, email, shipping_name, shipping_address, shipping_city, shipping_postcode, user_id, phone))
+        """, (username, email, shipping_name, shipping_address, shipping_city, shipping_postcode, phone, user_id,))
         
         conn.commit()
         return jsonify({"message": "Account details synchronized successfully!"}), 200
