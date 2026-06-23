@@ -1,4 +1,5 @@
 import { cart } from "./header.js";
+import { showCartPreview as showCartPreviewHeader } from "./header.js";
 import getUser from "./get-user.js";
 import getProductDetails from "./get-product-details.js";
 
@@ -267,6 +268,7 @@ paypal
         cart.length = 0; // Empties the array without breaking the reference
         saveCart();
         updateCartCount();
+        showCartPreviewHeader();
 
         // 2. Hide the main checkout grid so the user can't interact with it anymore
         const checkoutContainer = document.querySelector(".checkout-container");
