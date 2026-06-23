@@ -468,32 +468,12 @@
 
     <!-- ============= START SHOPPING-CART ============== -->
 
-      <main class="checkout-page">
-  <div class="item-box"></div>
-
+<main class="checkout-page">
   <section class="checkout-container">
     <div class="checkout-items">
       <div class="checkout-line"></div>
 
-      <div class="checkout-products">
-        {% if cart_items %} 
-          {% for item in cart_items %}
-          <article class="checkout-product">
-            <img src="{{ item.img_sources[0] }}" alt="{{ item.title }}" />
-            <div class="checkout-product-info">
-              <h3>{{ item.title }}</h3>
-              <p>${{ "%.2f"|format(item.price) }}</p>
-              <p>Quantity: {{ item.quantity }}</p>
-              <form action="/remove-from-cart/{{ item.id }}" method="POST">
-                <button class="remove-product" type="submit">Remove</button>
-              </form>
-            </div>
-          </article>
-          {% endfor %} 
-        {% else %}
-          <p class="empty-checkout-message">Your shopping cart is currently empty.</p>
-        {% endif %}
-      </div>
+      <div class="checkout-products"></div>
 
       <div class="checkout-line"></div>
     </div>

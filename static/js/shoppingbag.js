@@ -4,7 +4,7 @@ import getUser from "./get-user.js";
 import getProductDetails from "./get-product-details.js";
 
 let user = (await getUser()) || {};
-let cartItemsBox = document.querySelector(".item-box");
+let cartItemsBox = document.querySelector(".checkout-products");
 let cartCount = document.querySelector(".cart-count"); // Make sure this element exists in your header
 
 // --- Cart Utility Functions ---
@@ -67,13 +67,12 @@ export async function showCartPreview() {
   if (!cartItemsBox) return;
   cartItemsBox.innerHTML = "";
 
+  // Inside your showCartPreview() function:
   if (!cart || cart.length === 0) {
-    cartItemsBox.innerHTML = `<p class="empty-cart-message">Your cart is empty.</p>`;
-    // Update summary to zero if empty
+    cartItemsBox.innerHTML = `<p class="empty-checkout-message">Your shopping cart is currently empty.</p>`;
     await updateOrderSummary();
     return;
   }
-
   for (const [index, item] of cart.entries()) {
     if (!item) continue;
 
