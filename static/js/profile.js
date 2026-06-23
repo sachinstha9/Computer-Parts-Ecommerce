@@ -69,8 +69,9 @@ function loadPage(page) {
         clickWishlist();
         clickSettings();
 
-        // Pass "dashboard" to render recent 3 items in a row layout
-        renderWishlist("dashboard");
+        // RUN BOTH CYBERPUNK DISPLAY LAYOUT ENGINE WRAPPERS HERE
+        renderDashboardOrders(); // Dynamic Order injection
+        renderWishlist("dashboard"); // Dynamic Wishlist injection
       } else if (page === "profile") {
         // Target and hook up the save interface routine
         initializeProfileFormHandler();
@@ -351,5 +352,59 @@ function initializeProfileFormHandler() {
       feedback.textContent = "× Connection lost. Try again.";
       feedback.className = "error";
     }
+  });
+}
+
+// ==========================================
+// --- DYNAMIC DASHBOARD ORDERS RENDERING ---
+// ==========================================
+function renderDashboardOrders() {
+  const ordersContainer = document.getElementById(
+    "dash-recent-orders-container",
+  );
+  if (!ordersContainer) return;
+
+  ordersContainer.innerHTML = "";
+
+  // 1. Parse string data safely out of your user dataset
+  let rawOrders = user["orders"] || [];
+  let ordersArr =
+    typeof rawOrders === "string" ? JSON.parse(rawOrders || "[]") : rawOrders;
+
+  if (!ordersArr || ordersArr.length === 0) {
+    ordersContainer.innerHTML = `<p class="dash-empty-msg">No previous orders yet.</p>`;
+    return;
+  }
+
+  // 2. Extract recent purchases (grabs up to 3 entries)
+  const recentOrders = ordersArr.slice(-3).reverse();
+
+  // FIX: Using index tracking (idx) to shield unique rendering rows from ID collisions
+  recentOrders.forEach((order, idx) => {
+    const transId = order.transaction_id
+      ? order.transaction_id
+      : `ORDER-${idx}`;
+    const orderDate = order.date ? order.date.split(" ")[0] : "N/A";
+    const totalPaid = order.total_paid
+      ? parseFloat(order.total_paid).toFixed(2)
+      : "0.00";
+    const statusText = order.status || "Paid";
+    const isDelivered = order.delivered === "1";
+
+    // 3. Append distinct rows smoothly into the viewport template container
+    const row = document.createElement("div");
+    row.classList.add("order-row");
+    row.setAttribute("data-row-index", idx); // Guarantees element isolation in the DOM tree
+
+    row.innerHTML = `
+      <span class="order-id">#${transId}</span>
+      <span class="order-date">${orderDate}</span>
+      <span class="order-total">$${totalPaid}</span>
+      <span class="status-badge ${isDelivered ? "status-delivered" : "status-paid"}">
+        ${isDelivered ? "Delivered" : statusText}
+      </span>
+    `;
+
+    ordersContainer.appendChild(row);
   });
 }
