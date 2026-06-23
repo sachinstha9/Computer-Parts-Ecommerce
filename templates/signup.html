@@ -1,30 +1,26 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/css/global.css" />
-    <link rel="stylesheet" href="../static/css/header.css" />
-    <link rel="stylesheet" href="../static/css/hero.css" />    
-    <link rel="stylesheet" href="../static/css/signup.css" />
-    <link rel="stylesheet" href="../static/css/footer.css" />    
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap"
-      rel="stylesheet"
-    />
-        <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../static/css/global.css" />
+  <link rel="stylesheet" href="../static/css/header.css" />
+  <link rel="stylesheet" href="../static/css/hero.css" />
+  <link rel="stylesheet" href="../static/css/signup.css" />
+  <link rel="stylesheet" href="../static/css/footer.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-        <link rel="icon" type="image/x-icon" href="../static/images/favicon-16x16.png">
-    <title>Sign up | Galact</title>
-  </head>
-  <body>
-      <!-- ================= HEADER ================= -->
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <link rel="icon" type="image/x-icon" href="../static/images/favicon-16x16.png">
+  <title>Sign up | Galact</title>
+</head>
+
+<body>
+  <!-- ================= HEADER ================= -->
 
   <header class="navbar">
     <div id="first-row">
@@ -446,143 +442,144 @@
   </header>
 
 
-      <!-- ================= HERO ================= -->
+  <!-- ================= HERO ================= -->
 
-      <section class="hero">
-        <div class="diagonal-hero-bg"></div>
+  <section class="hero">
+    <div class="diagonal-hero-bg"></div>
 
-        <div class="hero-content">
-          <h1>SIGN UP</h1>
+    <div class="hero-content">
+      <h1>SIGN UP</h1>
 
-          <p>
-            Sign Up to our website to make checkout faster!
-          </p>
+      <p>
+        Sign Up to our website to make checkout faster!
+      </p>
+    </div>
+  </section>
+
+  <!-- ============= END OF HERO ============== -->
+
+  <!-- ============= START SIGNUP ============== -->
+
+  <div class="container">
+    <div class="title">Sign Up</div>
+    <div class="content">
+      <form method="POST" action="/signup">
+        {% if error %}
+        <p class="error-message">{{ error }}</p>
+        {% endif %}
+
+        <div class="user-details">
+          <div class="input-box">
+            <span class="details">Username</span>
+            <input type="text" name="username" placeholder="Enter your username" required />
+          </div>
+
+          <div class="input-box">
+            <span class="details">Email</span>
+            <input type="email" name="email" placeholder="Enter your email" required />
+          </div>
+
+          <div class="input-box">
+            <span class="details">Phone Number</span>
+            <input type="text" name="phone" placeholder="Enter your number" required />
+          </div>
+
+          <div class="input-box">
+            <span class="details">Password</span>
+            <input type="password" name="password" placeholder="Enter your password" required />
+          </div>
+
+          <div class="input-box">
+            <span class="details">Confirm Password</span>
+            <input type="password" name="confirm_password" placeholder="Confirm your password" required />
+          </div>
         </div>
+
+        <div class="button">
+          <input type="submit" value="Sign up" />
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============= END OF SIGNUP ============== -->
+
+  <!-- ============= FOOTER START ============== -->
+
+  <footer>
+    <hr class="rounded">
+    <br>
+    <div id="footer-row-1">
+      <section id="footer-col-1" style="flex: 1.5">
+        <img src="../static/images/galact.png" alt="" />
+
+        <p>
+          Providing Kiwis with state-of-the-art gaming and workstation PCs.
+        </p>
+
+        <ul id="footer-social-media-links">
+          <li>
+            <a href="#" target="_blank">
+              <i class="fa fa-facebook-official" aria-hidden="true"></i>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" target="_blank">
+              <i class="fa fa-youtube-play" aria-hidden="true"></i>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" target="_blank">
+              <i class="fa fa-instagram" aria-hidden="true"></i>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" target="_blank">
+              <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+            </a>
+          </li>
+        </ul>
       </section>
-
-    <!-- ============= END OF HERO ============== -->
-
-    <!-- ============= START SIGNUP ============== -->
-
-    <div class="container">
-      <div class="title">Sign Up</div>
-      <div class="content">
-        <form method="POST" action="/signup">
-  {% if error %}
-    <p class="error-message">{{ error }}</p>
-  {% endif %}
-
-  <div class="user-details">
-    <div class="input-box">
-      <span class="details">Username</span>
-      <input type="text" name="username" placeholder="Enter your username" required />
+      <ul id="footer-col-2">
+        <li>Help</li>
+        <li>Contact Us</li>
+        <li>Return & Warranties</li>
+        <li>Delivery</li>
+        <li>FInances</li>
+        <li>Price Match</li>
+      </ul>
+      <ul id="footer-col-3">
+        <li>Company</li>
+        <li>About Us</li>
+        <li>Gift Card</li>
+        <li>Careers</li>
+      </ul>
+      <section id="footer-col-4" style="flex: 1.5">
+        <p>Newsletter</p>
+        <p>Sign up for exclusive offers original stories, events and more.</p>
+        <span id="footer-email-wrapper">
+          <input type="email" placeholder="Enter you email" />
+          <button>
+            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+          </button>
+        </span>
+      </section>
     </div>
 
-    <div class="input-box">
-      <span class="details">Email</span>
-      <input type="email" name="email" placeholder="Enter your email" required />
+    <br>
+
+    <div id="footer-row-2">
+      <p>&copy; 2026 All rights reserved.</p>
     </div>
+  </footer>
 
-    <div class="input-box">
-      <span class="details">Phone Number</span>
-      <input type="text" name="phone" placeholder="Enter your number" required />
-    </div>
+  <!-- ============= END OF FOOTER ============== -->
 
-    <div class="input-box">
-      <span class="details">Password</span>
-      <input type="password" name="password" placeholder="Enter your password" required />
-    </div>
+  <script type="module" src="../static/js/products.js"></script>
+  <script type="module" src="../static/js/header.js"></script>
+</body>
 
-    <div class="input-box">
-      <span class="details">Confirm Password</span>
-      <input type="password" name="confirm_password" placeholder="Confirm your password" required />
-    </div>
-  </div>
-
-  <div class="button">
-    <input type="submit" value="Sign up" />
-  </div>
-</form>
-      </div>
-    </div>
-
-      <!-- ============= END OF SIGNUP ============== -->
-
-    <!-- ============= FOOTER START ============== -->
-
-    <footer>
-      <hr class="rounded">
-      <br>
-      <div id="footer-row-1">
-        <section id="footer-col-1" style="flex: 1.5">
-          <img src="../static/images/galact.png" alt="" />
- 
-          <p>
-            Providing Kiwis with state-of-the-art gaming and workstation PCs.
-          </p>
- 
-          <ul id="footer-social-media-links">
-            <li>
-              <a href="#" target="_blank">
-                <i class="fa fa-facebook-official" aria-hidden="true"></i>
-              </a>
-            </li>
- 
-            <li>
-              <a href="#" target="_blank">
-                <i class="fa fa-youtube-play" aria-hidden="true"></i>
-              </a>
-            </li>
- 
-            <li>
-              <a href="#" target="_blank">
-                <i class="fa fa-instagram" aria-hidden="true"></i>
-              </a>
-            </li>
- 
-            <li>
-              <a href="#" target="_blank">
-                <i class="fa fa-linkedin-square" aria-hidden="true"></i>
-              </a>
-            </li>
-          </ul>
-        </section>
-        <ul id="footer-col-2">
-          <li>Help</li>
-          <li>Contact Us</li>
-          <li>Return & Warranties</li>
-          <li>Delivery</li>
-          <li>FInances</li>
-          <li>Price Match</li>
-        </ul>
-        <ul id="footer-col-3">
-          <li>Company</li>
-          <li>About Us</li>
-          <li>Gift Card</li>
-          <li>Careers</li>
-        </ul>
-        <section id="footer-col-4" style="flex: 1.5">
-          <p>Newsletter</p>
-          <p>Sign up for exclusive offers original stories, events and more.</p>
-          <span id="footer-email-wrapper">
-            <input type="email" placeholder="Enter you email" />
-            <button>
-              <i class="fa fa-arrow-right" aria-hidden="true"></i>
-            </button>
-          </span>
-        </section>
-      </div>
- 
-      <br>
-      
-      <div id="footer-row-2">
-        <p>&copy; 2026 All rights reserved.</p>
-      </div>
-    </footer>
-
-    <!-- ============= END OF FOOTER ============== -->      
-
-    <script type="module" src="../static/js/products.js"></script>
-    <script type="module" src="../static/js/header.js"></script>
-  </body>
 </html>

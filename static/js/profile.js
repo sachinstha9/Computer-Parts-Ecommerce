@@ -1,7 +1,11 @@
 // ==========================================
 // --- IMPORTS & CORE SESSION INITIALIZATION ---
 // ==========================================
-import { wishlist, updateWishlistCount, showWishlistPreview } from "./header.js";
+import {
+  wishlist,
+  updateWishlistCount,
+  showWishlistPreview,
+} from "./header.js";
 import getProductDetails from "./get-product-details.js";
 import getUser from "./get-user.js";
 
@@ -15,8 +19,8 @@ const sidebar = document.querySelector(".sidebar");
 const sidebarToggler = document.querySelector(".sidebar-toggler");
 const menuToggler = document.querySelector(".menu-toggler");
 
-let collapsedSidebarHeight = "56px"; 
-let fullSidebarHeight = "calc(100vh - 32px)"; 
+let collapsedSidebarHeight = "56px";
+let fullSidebarHeight = "calc(100vh - 32px)";
 
 if (sidebarToggler && sidebar) {
   sidebarToggler.addEventListener("click", () => {
@@ -64,16 +68,15 @@ function loadPage(page) {
         clickShipping();
         clickWishlist();
         clickSettings();
-        
+
         // Pass "dashboard" to render recent 3 items in a row layout
-        renderWishlist("dashboard"); 
+        renderWishlist("dashboard");
       } else if (page === "profile") {
         // Target and hook up the save interface routine
-        initializeProfileFormHandler();      
+        initializeProfileFormHandler();
       } else if (page === "wishlist") {
-        
         // Pass "full" to render all items in the full card grid layout
-        renderWishlist("full"); 
+        renderWishlist("full");
       }
     });
 }
@@ -83,13 +86,13 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const inner_page = urlParams.get("inner_page");
 
-if (inner_page === "profile") { 
+if (inner_page === "profile") {
   loadPage("profile");
-} else if (inner_page === "orders") { 
+} else if (inner_page === "orders") {
   loadPage("orders");
 } else if (inner_page === "wishlist") {
   loadPage("wishlist");
-} else if (inner_page === "settings") { 
+} else if (inner_page === "settings") {
   loadPage("settings");
 } else {
   loadPage("dashboard");
@@ -133,7 +136,6 @@ function clickSettings() {
   });
 }
 
-
 // ==========================================
 // --- ASYNC DASHBOARD WISHLIST RENDERING ---
 // ==========================================
@@ -144,8 +146,8 @@ async function renderWishlist(viewType = "dashboard") {
   const isDash = viewType === "dashboard";
 
   // 1. Assign target containers contextually based on active view type
-  const container = isDash 
-    ? document.querySelector(".dash-wishlist-items") 
+  const container = isDash
+    ? document.querySelector(".dash-wishlist-items")
     : document.getElementById("inner-page-wishlist-box");
 
   if (!container) return;
@@ -153,7 +155,9 @@ async function renderWishlist(viewType = "dashboard") {
 
   // 2. Natively handle dashboard count text if applicable
   if (isDash) {
-    const dashWishlistCountVal = document.querySelector(".dash-wishlist-count-val");
+    const dashWishlistCountVal = document.querySelector(
+      ".dash-wishlist-count-val",
+    );
     if (dashWishlistCountVal) {
       dashWishlistCountVal.textContent = wishlist ? wishlist.length : 0;
     }
@@ -161,7 +165,7 @@ async function renderWishlist(viewType = "dashboard") {
 
   // 3. Handle empty states gracefully for both separate layouts
   if (!wishlist || wishlist.length === 0) {
-    container.innerHTML = isDash 
+    container.innerHTML = isDash
       ? `<p class="dash-empty-msg">No items in your wishlist.</p>`
       : `<div class="full-wishlist-empty">
           <p>Your wishlist is currently empty.</p>
@@ -193,21 +197,28 @@ async function renderWishlist(viewType = "dashboard") {
         productDetails = await getProductDetails(item);
         if (!productDetails) continue;
       } catch (err) {
-        console.error(`Error resolving wishlist data parameters for ID ${item}:`, err);
+        console.error(
+          `Error resolving wishlist data parameters for ID ${item}:`,
+          err,
+        );
         continue;
       }
     }
 
-    const displayPrice = productDetails.price 
-      ? (productDetails.price.toString().startsWith('$') ? productDetails.price : `$${productDetails.price}`) 
+    const displayPrice = productDetails.price
+      ? productDetails.price.toString().startsWith("$")
+        ? productDetails.price
+        : `$${productDetails.price}`
       : "$0.00";
-    const displayImg = (productDetails.image && productDetails.image[0]) || "/images/placeholder.png";
+    const displayImg =
+      (productDetails.image && productDetails.image[0]) ||
+      "/images/placeholder.png";
     const displayTitle = productDetails.title || "Unknown Product";
     const productId = productDetails.id || item;
 
     // 7. Inject specific template blocks depending on the rendering flag context
     const element = document.createElement("div");
-    
+
     if (isDash) {
       element.classList.add("dash-wishlist-row");
       element.innerHTML = `
@@ -238,7 +249,9 @@ async function renderWishlist(viewType = "dashboard") {
     appendTarget.appendChild(element);
 
     // 8. Unified Delete Action Listener Mapping
-    const deleteBtn = element.querySelector(isDash ? ".dash-wishlist-remove-btn" : ".wishlist-card-delete-btn");
+    const deleteBtn = element.querySelector(
+      isDash ? ".dash-wishlist-remove-btn" : ".wishlist-card-delete-btn",
+    );
     deleteBtn.addEventListener("click", async (e) => {
       e.stopPropagation();
 
@@ -253,7 +266,7 @@ async function renderWishlist(viewType = "dashboard") {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: productId }),
-        }).catch(err => console.error(err));
+        }).catch((err) => console.error(err));
 
         if (response && response.ok) {
           wishlist.splice(globalIndex, 1);
@@ -263,7 +276,7 @@ async function renderWishlist(viewType = "dashboard") {
       // Sync all header components
       updateWishlistCount();
       await showWishlistPreview();
-      
+
       // Recursive call automatically maintains the current view state framework smoothly
       await renderWishlist(viewType);
     });
@@ -291,7 +304,8 @@ function initializeProfileFormHandler() {
     // Check if the user is trying to change their password
     if (newPass || confirmPass || currentPass) {
       if (!currentPass) {
-        feedback.textContent = "× Current password is required to verify changes.";
+        feedback.textContent =
+          "× Current password is required to verify changes.";
         feedback.className = "error";
         return;
       }
@@ -300,7 +314,8 @@ function initializeProfileFormHandler() {
         feedback.className = "error";
         return;
       }
-      if (newPass.length < 6) { // Optional safety check length
+      if (newPass.length < 6) {
+        // Optional safety check length
         feedback.textContent = "× New password must be at least 6 characters.";
         feedback.className = "error";
         return;
@@ -312,7 +327,7 @@ function initializeProfileFormHandler() {
       const response = await fetch("/update_profile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataPayload)
+        body: JSON.stringify(dataPayload),
       });
 
       const responseData = await response.json().catch(() => ({}));
@@ -320,14 +335,15 @@ function initializeProfileFormHandler() {
       if (response.ok) {
         feedback.textContent = "✓ Account details synchronized successfully!";
         feedback.className = "success";
-        
+
         // Wipe password fields clean after a successful update loop
         form.querySelector("#current_password").value = "";
         form.querySelector("#new_password").value = "";
         form.querySelector("#confirm_password").value = "";
       } else {
         // Fallback to backend validation messages if passed
-        feedback.textContent = responseData.message || "× Verification failed. Check parameters.";
+        feedback.textContent =
+          responseData.message || "× Verification failed. Check parameters.";
         feedback.className = "error";
       }
     } catch (err) {
