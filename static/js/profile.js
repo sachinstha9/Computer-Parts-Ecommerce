@@ -476,7 +476,6 @@ function renderFullOrdersPage() {
         
         <div class="order-card-price">$${totalPaid}</div>
         
-        <a href="#" class="order-card-view-link">View Details</a>
       </div>
     `;
     ordersGrid.appendChild(card);

@@ -924,5 +924,6 @@ def capture_order(order_id):
     # If everything succeeded, send the PayPal data back to the frontend
     return jsonify(paypal_data)
 
+
 if __name__ == "__main__":
     app.run(debug=True)
