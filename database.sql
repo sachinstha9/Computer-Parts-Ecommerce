@@ -1,19 +1,30 @@
-CREATE TABLE "customers" ( "id" INTEGER NOT NULL UNIQUE, "username"
-TEXT NOT NULL UNIQUE, "password" TEXT NOT NULL, "email" TEXT NOT
-NULL, "cart" TEXT, "wishlist" TEXT, "previous_orders" TEXT,
-"current_orders" TEXT, PRIMARY KEY("id") )
+CREATE TABLE products (
+    id INTEGER PRIMARY KEY,
+    title TEXT,
+    description TEXT,
+    img_sources NUMERIC,
+    tags TEXT,
+    price INTEGER,
+    specifications REAL,
+    availability INTEGER,
+    in_banner INTEGER,
+    company TEXT,
+    choices TEXT DEFAULT '{}',
+    discount TEXT,
+    arrival_date INTEGER
+);
 
-CREATE TABLE "products" (
-	"id"	INTEGER NOT NULL,
-	"title"	TEXT,
-	"description"	TEXT,
-	"img_sources"	TEXT,
-	"tags"	TEXT,
-	"price"	INTEGER,
-	"specifications"	TEXT,
-	"availability"	INTEGER,
-	"in_banner"	INTEGER,
-	"company"	TEXT,
-	"main_category"	TEXT,
-	PRIMARY KEY("id")
-)
+CREATE TABLE customers (
+    id INTEGER PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    email TEXT NOT NULL,
+    cart TEXT,
+    wishlist TEXT,
+    orders TEXT,
+    name TEXT,
+    address TEXT,
+    city TEXT,
+    postcode TEXT,
+    phone TEXT
+);

@@ -9,6 +9,7 @@ from urllib.parse import unquote
 import re
 import datetime
 from datetime import datetime, timedelta
+import requests
 
 # Application Setup
 app = Flask(__name__)
@@ -20,6 +21,10 @@ cloudinary.config(
     api_key=os.getenv("API_KEY"),
     api_secret=os.getenv("API_SECRET")
 )
+
+CLIENT_ID = os.getenv("CLIENT_ID")
+CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+BASE_URL = os.getenv("BASE_URL")
 
 # Product Formatting Function
 def product_formatter(products):
@@ -776,15 +781,8 @@ def search():
         cart_count=get_cart_count()
     )    
 
-@app.route("/pay")
-def payy():
-    return render_template("pay.html")
 
-CLIENT_ID = "Afk2Kw_C5TqguBDKkSKVfCCHWjI4sN4JA60RJljMcvWv7NJOIlKJhdH0RgWiBbPQtUWoSJlCFZixsoSg"
-CLIENT_SECRET = "EIQUXfiYaUFBPcfFt2Dm4eg7BHBJnLWnKYjiC9I2f2Dy7Hp2UNrwG3qiSRCztLAtQewf21ppDDmTiR3R"
-BASE_URL = "https://api-m.sandbox.paypal.com"
 
-import requests
 def get_access_token():
     response = requests.post(
         f"{BASE_URL}/v1/oauth2/token",
