@@ -1,6 +1,3 @@
-// ==========================================
-// --- IMPORTS & CORE SESSION INITIALIZATION ---
-// ==========================================
 import {
   wishlist,
   updateWishlistCount,
@@ -9,12 +6,10 @@ import {
 import getProductDetails from "./get-product-details.js";
 import getUser from "./get-user.js";
 
-// Initialize authenticated user state globally for this module
+// get user data global for this page
 const user = (await getUser()) || {};
 
-// ==========================================
-// --- SIDEBAR NAVIGATION INTERFACES ---
-// ==========================================
+// sidebar open close logic
 const sidebar = document.querySelector(".sidebar");
 const sidebarToggler = document.querySelector(".sidebar-toggler");
 const menuToggler = document.querySelector(".menu-toggler");
@@ -53,9 +48,7 @@ window.addEventListener("resize", () => {
   }
 });
 
-// ==========================================
-// --- DYNAMIC ROUTING & PAGE LOADER ---
-// ==========================================
+// load different page inside profile without refresh
 function loadPage(page) {
   fetch(`/profile/${page}`)
     .then((response) => response.text())
@@ -69,14 +62,14 @@ function loadPage(page) {
         clickWishlist();
         clickSettings();
 
-        // RUN BOTH CYBERPUNK DISPLAY LAYOUT ENGINE WRAPPERS HERE
-        renderDashboardOrders(); // Dynamic Order injection
-        renderWishlist("dashboard"); // Dynamic Wishlist injection
+        // render the widgets
+        renderDashboardOrders();
+        renderWishlist("dashboard");
       } else if (page === "profile") {
-        // Target and hook up the save interface routine
+        // setup form save
         initializeProfileFormHandler();
       } else if (page === "wishlist") {
-        // Pass "full" to render all items in the full card grid layout
+        // show all item in grid layout
         renderWishlist("full");
       } else if (page == "orders") {
         renderFullOrdersPage();
@@ -84,7 +77,7 @@ function loadPage(page) {
     });
 }
 
-// Global entry point handling checks
+// check url to see what page to load first
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const inner_page = urlParams.get("inner_page");
@@ -101,9 +94,7 @@ if (inner_page === "profile") {
   loadPage("dashboard");
 }
 
-// ==========================================
-// --- DASHBOARD INTER-LINK EVENT BINDERS ---
-// ==========================================
+// button clicks to change page
 function clickProfile() {
   document.getElementById("view_profile")?.addEventListener("click", (e) => {
     e.preventDefault();
@@ -139,16 +130,11 @@ function clickSettings() {
   });
 }
 
-// ==========================================
-// --- ASYNC DASHBOARD WISHLIST RENDERING ---
-// ==========================================
-// ==========================================
-// --- UNIFIED WISHLIST RENDERING ENGINE ---
-// ==========================================
+// render wishlist items
 async function renderWishlist(viewType = "dashboard") {
   const isDash = viewType === "dashboard";
 
-  // 1. Assign target containers contextually based on active view type
+  // get correct box for wishlist
   const container = isDash
     ? document.querySelector(".dash-wishlist-items")
     : document.getElementById("inner-page-wishlist-box");
@@ -156,7 +142,7 @@ async function renderWishlist(viewType = "dashboard") {
   if (!container) return;
   container.innerHTML = "";
 
-  // 2. Natively handle dashboard count text if applicable
+  // update count text
   if (isDash) {
     const dashWishlistCountVal = document.querySelector(
       ".dash-wishlist-count-val",
@@ -166,7 +152,7 @@ async function renderWishlist(viewType = "dashboard") {
     }
   }
 
-  // 3. Handle empty states gracefully for both separate layouts
+  // show empty text if no item
   if (!wishlist || wishlist.length === 0) {
     container.innerHTML = isDash
       ? `<p class="dash-empty-msg">No items in your wishlist.</p>`
@@ -177,10 +163,10 @@ async function renderWishlist(viewType = "dashboard") {
     return;
   }
 
-  // 4. Filter array length constraint: Recent 3 items for dashboard, all for full page
+  // only show 3 item for dashboard
   const itemsToRender = isDash ? wishlist.slice(-3).reverse() : wishlist;
 
-  // 5. Build full view grid wrapper if rendering the standalone child page
+  // make wrapper if it full page
   let appendTarget = container;
   if (!isDash) {
     const wishlistGrid = document.createElement("div");
@@ -189,7 +175,6 @@ async function renderWishlist(viewType = "dashboard") {
     appendTarget = wishlistGrid;
   }
 
-  // 6. Process item iteration loop execution cleanly
   for (const item of itemsToRender) {
     if (!item) continue;
 
@@ -200,10 +185,7 @@ async function renderWishlist(viewType = "dashboard") {
         productDetails = await getProductDetails(item);
         if (!productDetails) continue;
       } catch (err) {
-        console.error(
-          `Error resolving wishlist data parameters for ID ${item}:`,
-          err,
-        );
+        console.error(`error loading item ${item}:`, err);
         continue;
       }
     }
@@ -219,7 +201,6 @@ async function renderWishlist(viewType = "dashboard") {
     const displayTitle = productDetails.title || "Unknown Product";
     const productId = productDetails.id || item;
 
-    // 7. Inject specific template blocks depending on the rendering flag context
     const element = document.createElement("div");
 
     if (isDash) {
@@ -251,7 +232,7 @@ async function renderWishlist(viewType = "dashboard") {
 
     appendTarget.appendChild(element);
 
-    // 8. Unified Delete Action Listener Mapping
+    // delete item button logic
     const deleteBtn = element.querySelector(
       isDash ? ".dash-wishlist-remove-btn" : ".wishlist-card-delete-btn",
     );
@@ -276,11 +257,11 @@ async function renderWishlist(viewType = "dashboard") {
         }
       }
 
-      // Sync all header components
+      // update header counts
       updateWishlistCount();
       await showWishlistPreview();
 
-      // Recursive call automatically maintains the current view state framework smoothly
+      // reload list again
       await renderWishlist(viewType);
     });
   }
@@ -299,12 +280,12 @@ function initializeProfileFormHandler() {
     const formData = new FormData(form);
     const dataPayload = Object.fromEntries(formData.entries());
 
-    // --- CLIENT SIDE SECURITY CHECKS ---
+    // checking form inputs
     const currentPass = dataPayload.current_password;
     const newPass = dataPayload.new_password;
     const confirmPass = dataPayload.confirm_password;
 
-    // Check if the user is trying to change their password
+    // if user try to change pass
     if (newPass || confirmPass || currentPass) {
       if (!currentPass) {
         feedback.textContent =
@@ -318,14 +299,13 @@ function initializeProfileFormHandler() {
         return;
       }
       if (newPass.length < 6) {
-        // Optional safety check length
         feedback.textContent = "× New password must be at least 6 characters.";
         feedback.className = "error";
         return;
       }
     }
 
-    // --- ENDPOINT TRANSMISSION PIPE ---
+    // send data to backend
     try {
       const response = await fetch("/update_profile", {
         method: "POST",
@@ -339,27 +319,24 @@ function initializeProfileFormHandler() {
         feedback.textContent = "✓ Account details synchronized successfully!";
         feedback.className = "success";
 
-        // Wipe password fields clean after a successful update loop
+        // clear input after success
         form.querySelector("#current_password").value = "";
         form.querySelector("#new_password").value = "";
         form.querySelector("#confirm_password").value = "";
       } else {
-        // Fallback to backend validation messages if passed
         feedback.textContent =
           responseData.message || "× Verification failed. Check parameters.";
         feedback.className = "error";
       }
     } catch (err) {
-      console.error("Critical submission disruption:", err);
+      console.error("error submitting:", err);
       feedback.textContent = "× Connection lost. Try again.";
       feedback.className = "error";
     }
   });
 }
 
-// ==========================================
-// --- DYNAMIC DASHBOARD ORDERS RENDERING ---
-// ==========================================
+// render order in dashboard
 function renderDashboardOrders() {
   const ordersContainer = document.getElementById(
     "dash-recent-orders-container",
@@ -368,7 +345,7 @@ function renderDashboardOrders() {
 
   ordersContainer.innerHTML = "";
 
-  // 1. Parse string data safely out of your user dataset
+  // get order from user string
   let rawOrders = user["orders"] || [];
   let ordersArr =
     typeof rawOrders === "string" ? JSON.parse(rawOrders || "[]") : rawOrders;
@@ -378,11 +355,11 @@ function renderDashboardOrders() {
     return;
   }
 
-  // 2. Extract recent purchases (grabs up to 3 entries)
+  // grab up to 3 for recent
   const recentOrders = ordersArr.slice(-3).reverse();
 
-  // FIX: Using index tracking (idx) to shield unique rendering rows from ID collisions
   recentOrders.forEach((order, idx) => {
+    // use idx so id dont crash
     const transId = order.transaction_id
       ? order.transaction_id
       : `ORDER-${idx}`;
@@ -393,10 +370,9 @@ function renderDashboardOrders() {
     const statusText = order.status || "Paid";
     const isDelivered = order.delivered === "1";
 
-    // 3. Append distinct rows smoothly into the viewport template container
     const row = document.createElement("div");
     row.classList.add("order-row");
-    row.setAttribute("data-row-index", idx); // Guarantees element isolation in the DOM tree
+    row.setAttribute("data-row-index", idx);
 
     row.innerHTML = `
       <span class="order-id">#${transId}</span>
@@ -411,21 +387,18 @@ function renderDashboardOrders() {
   });
 }
 
-// ==========================================
-// --- FULL PAGE ORDERS RENDERING ENGINE ---
-// ==========================================
+// render all order on full page
 function renderFullOrdersPage() {
   const container = document.getElementById("full-orders-container");
   if (!container) return;
 
   container.innerHTML = "";
 
-  // 1. Parse string data safely out of your user dataset
   let rawOrders = user["orders"] || [];
   let ordersArr =
     typeof rawOrders === "string" ? JSON.parse(rawOrders || "[]") : rawOrders;
 
-  // 2. Handle empty state gracefully
+  // if no orders found
   if (!ordersArr || ordersArr.length === 0) {
     container.innerHTML = `
       <div class="full-orders-empty">
@@ -435,18 +408,17 @@ function renderFullOrdersPage() {
     return;
   }
 
-  // 3. Render ALL orders, newest first
+  // render all of them
   const allOrders = ordersArr.slice().reverse();
 
   const ordersGrid = document.createElement("div");
   ordersGrid.classList.add("orders-page-grid");
 
   allOrders.forEach((order, index) => {
-    // Extract data with fallbacks
     const transId = order.transaction_id
       ? order.transaction_id
       : `ORDER-${index}`;
-    const shortTransId = transId.substring(0, 12); // Slightly longer ID for the full page
+    const shortTransId = transId.substring(0, 12);
     const orderDate = order.date ? order.date : "N/A";
     const totalPaid = order.total_paid
       ? parseFloat(order.total_paid).toFixed(2)
@@ -454,7 +426,7 @@ function renderFullOrdersPage() {
     const statusText = order.status || "Paid";
     const isDelivered = order.delivered === "1";
 
-    // Count items to display a quick summary
+    // item counts for display
     const itemCount = order.items ? order.items.length : 0;
     const itemText = itemCount === 1 ? "1 Item" : `${itemCount} Items`;
 
