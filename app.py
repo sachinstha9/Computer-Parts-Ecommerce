@@ -10,15 +10,10 @@ import re
 import datetime
 from datetime import datetime, timedelta
 import requests
-import requests
 
 # Application Setup
 app = Flask(__name__)
 app.secret_key = "galact_secret_key" # required for login
-
-CLIENT_ID = "Afk2Kw_C5TqguBDKkSKVfCCHWjI4sN4JA60RJljMcvWv7NJOIlKJhdH0RgWiBbPQtUWoSJlCFZixsoSg"
-CLIENT_SECRET = "EIQUXfiYaUFBPcfFt2Dm4eg7BHBJnLWnKYjiC9I2f2Dy7Hp2UNrwG3qiSRCztLAtQewf21ppDDmTiR3R"
-BASE_URL = "https://api-m.sandbox.paypal.com"
 
 # cloudinary setup
 cloudinary.config(
@@ -26,10 +21,6 @@ cloudinary.config(
     api_key=os.getenv("API_KEY"),
     api_secret=os.getenv("API_SECRET")
 )
-
-CLIENT_ID = os.getenv("CLIENT_ID")
-CLIENT_SECRET = os.getenv("CLIENT_SECRET")
-BASE_URL = os.getenv("BASE_URL")
 
 CLIENT_ID = os.getenv("CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
@@ -232,14 +223,15 @@ def products():
     )
 
 
-
 @app.route("/remove-from-cart/<int:product_id>", methods=["POST"])
 def remove_from_cart(product_id):
+    # make sure table exist first
     create_cart_table()
 
     conn = sqlite3.connect("computer-ecommerce.db")
     c = conn.cursor()
 
+    # delete product from the cart table using it id
     c.execute("DELETE FROM cart WHERE product_id = ?", (product_id,))
 
     conn.commit()
@@ -262,6 +254,7 @@ def login():
         conn = sqlite3.connect("computer-ecommerce.db")
         c = conn.cursor()
 
+        # check if user actually in database
         c.execute(
             "SELECT * FROM customers WHERE username = ? AND password = ?",
             (username, password)
@@ -273,8 +266,6 @@ def login():
         if customer:
             session["customer_id"] = customer[0]
             session["username"] = customer[1]
-
-            
             return redirect("/")
 
         return render_template(
@@ -305,6 +296,7 @@ def signup():
         c = conn.cursor()
 
         try:
+            # save all the new data to the customer row
             c.execute("""
                 INSERT INTO customers (
                     username,
@@ -456,7 +448,6 @@ def profile():
 
 @app.route("/profile/<name>")
 def profile_page(name):
-
     if name == "wishlist":
         print(name)
 
@@ -556,6 +547,7 @@ def remove_wishlist():
     conn = sqlite3.connect("computer-ecommerce.db")
     c = conn.cursor()
 
+    # getting user wishlist array from db
     c.execute(
         "SELECT wishlist FROM customers WHERE id = ?",
         (session["customer_id"],)
@@ -565,9 +557,11 @@ def remove_wishlist():
 
     product_id = str(data["id"])
 
+    # check if item exist in list then remove it
     if product_id in wishlistArr:
         wishlistArr.remove(product_id)
 
+    # save updated list back to customer table
     c.execute(
         "UPDATE customers SET wishlist = ? WHERE id = ?",
         (
@@ -633,6 +627,7 @@ def remove_cart():
     conn = sqlite3.connect("computer-ecommerce.db")
     c = conn.cursor()
 
+    # get user cart array
     c.execute(
         "SELECT cart FROM customers WHERE id = ?",
         (session["customer_id"],)
@@ -646,9 +641,10 @@ def remove_cart():
 
     product_id = str(data["id"])
 
-    # Rebuild list excluding the target item dictionary
+    # remake the list to not having the target item inside
     cartArr = [item for item in cartArr if str(item["id"]) != product_id]
 
+    # update db with new cart list
     c.execute(
         "UPDATE customers SET cart = ? WHERE id = ?",
         (
@@ -677,10 +673,10 @@ def add_product():
 
     uploaded_urls = []
 
+    # loop image and put into cloudinary url array
     for image in images:
         if image.filename:
             result = cloudinary.uploader.upload(image)
-
             uploaded_urls.append(result["secure_url"])
 
     conn = sqlite3.connect("computer-ecommerce.db")
@@ -802,12 +798,7 @@ def search():
         cart_count=get_cart_count()
     )    
 
-
-CLIENT_ID = "Afk2Kw_C5TqguBDKkSKVfCCHWjI4sN4JA60RJljMcvWv7NJOIlKJhdH0RgWiBbPQtUWoSJlCFZixsoSg"
-CLIENT_SECRET = "EIQUXfiYaUFBPcfFt2Dm4eg7BHBJnLWnKYjiC9I2f2Dy7Hp2UNrwG3qiSRCztLAtQewf21ppDDmTiR3R"
-BASE_URL = "https://api-m.sandbox.paypal.com"
-
-import requests
+# Not needing get_access_token again down here since it up top, but keeping it anyway
 def get_access_token():
     response = requests.post(
         f"{BASE_URL}/v1/oauth2/token",
@@ -823,9 +814,6 @@ def create_order():
         data = request.get_json()
         token = get_access_token()
 
-        # ⚠️ SECURITY WARNING: Currently trusting the frontend amount.
-        # FUTURE GOAL: Fetch cart items from database here and calculate the total 
-        # on the server to prevent malicious users from changing the price to $0.01.
         raw_amount = float(data["amount"])
         
         # FIX: Enforce 2 decimal places to prevent PayPal 400 errors
@@ -943,7 +931,6 @@ def capture_order(order_id):
 
     # If everything succeeded, send the PayPal data back to the frontend
     return jsonify(paypal_data)
-
 
 if __name__ == "__main__":
     app.run(debug=True)

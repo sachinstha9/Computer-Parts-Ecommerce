@@ -12,6 +12,7 @@ import getUser from "./get-user.js";
 
 let user = (await getUser()) || {};
 let currentUrl = window.location.href;
+// getting product id from the url ending
 let productId = currentUrl.split("/");
 const btnAddToCart = document.querySelector("#add-to-cart");
 
@@ -28,14 +29,14 @@ const productImage = document.querySelector("#product-view-img-src");
 const productImageSrc = productImage.src;
 
 // Add to Cart
-// Add to Cart
 btnAddToCart.addEventListener("click", () => {
   const prodId = productId[productId.length - 1];
   const existingProduct = cart.find((item) => item.id === prodId);
 
+  // if product already inside just plus the quantity
   if (existingProduct) {
     existingProduct.quantity++;
-    
+
     if (user["loggedIn"]) {
       fetch("/add_cart", {
         method: "POST",
@@ -56,7 +57,7 @@ btnAddToCart.addEventListener("click", () => {
       image: productImageSrc,
       quantity: 1,
     };
-    
+
     cart.push(newProduct);
 
     if (user["loggedIn"]) {
@@ -73,11 +74,11 @@ btnAddToCart.addEventListener("click", () => {
     }
   }
 
-  // Only write to localStorage if user is a guest
+  // save for guest only so it dont mess up login user
   if (!user["loggedIn"]) {
     saveCart();
   }
-  
+
   updateCartCount();
   showCartPreview();
 
@@ -93,7 +94,7 @@ btnAddToCart.addEventListener("click", () => {
 });
 
 if (!user["loggedIn"]) {
-  const existingProduct = wishlist.find((item) => item.title === productName);  
+  const existingProduct = wishlist.find((item) => item.title === productName);
 
   if (existingProduct) {
     wishListAddButtonIcon.classList.remove("fa-heart-o");
@@ -123,7 +124,9 @@ wishListAddButton.addEventListener("click", async () => {
 
     if (!user["loggedIn"]) {
       // Logged Out: Save full object to localStorage
-      const existingProduct = wishlist.find((item) => item.title === productName);
+      const existingProduct = wishlist.find(
+        (item) => item.title === productName,
+      );
 
       if (!existingProduct) {
         wishlist.push({
@@ -137,8 +140,8 @@ wishListAddButton.addEventListener("click", async () => {
     } else {
       // Logged In: Push string ID to local array and sync with DB
       if (!wishlist.includes(prodId)) {
-        wishlist.push(prodId); 
-        
+        wishlist.push(prodId);
+
         fetch("/add_wishlist", {
           method: "POST",
           headers: {
@@ -148,7 +151,6 @@ wishListAddButton.addEventListener("click", async () => {
         }).then((response) => response.text());
       }
     }
-
   } else {
     // --- REMOVE FROM WISHLIST ---
     wishListAddButtonIcon.classList.remove("fa-heart");
@@ -157,7 +159,9 @@ wishListAddButton.addEventListener("click", async () => {
 
     if (!user["loggedIn"]) {
       // Logged Out: Remove object from localStorage
-      const index = wishlist.findIndex((product) => product.title === productName);
+      const index = wishlist.findIndex(
+        (product) => product.title === productName,
+      );
 
       if (index !== -1) {
         wishlist.splice(index, 1);
@@ -199,6 +203,8 @@ function getRadioValues() {
 
   return selectedChoices;
 }
+
+// reload page with new choice putting in url parameter
 document.querySelectorAll('input[type="radio"]').forEach((radio) => {
   radio.addEventListener("change", () => {
     const selectedChoices = getRadioValues();

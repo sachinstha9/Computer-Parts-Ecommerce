@@ -3,6 +3,7 @@ let carousel_items = document.querySelectorAll(".carousel-item");
 let carousel_indicators = document.querySelectorAll(".carousel-indicators li");
 
 function update_carousel(index) {
+  // keep index safe in loop so it dont break
   let current = index % carousel_items.length;
 
   carousel_container.style.transform = `translateX(-${current * 100}vw)`;
@@ -23,6 +24,8 @@ carousel_indicators.forEach((indicator, i) => {
 update_carousel(0);
 
 let c_i = 1;
+
+// run slider automatic every 5 sec
 setInterval(() => {
   update_carousel(c_i);
 
