@@ -468,71 +468,43 @@
 
     <!-- ============= START SHOPPING-CART ============== -->
 
-      <main class="checkout-page">
-        <div class="item-box"></div>
+<main class="checkout-page">
+  <section class="checkout-container">
+    <div class="checkout-items">
+      <div class="checkout-line"></div>
 
-        <section class="checkout-container">
-          <div class="checkout-items">
-            <div class="checkout-line"></div>
+      <div class="checkout-products"></div>
 
-            <div class="checkout-products">
-              {% if cart_items %} {% for item in cart_items %}
-              <article class="checkout-product">
-                <img src="{{ item.img_sources[0] }}" alt="{{ item.title }}" />
+      <div class="checkout-line"></div>
+    </div>
 
-                <div class="checkout-product-info">
-                  <h3>{{ item.title }}</h3>
+    <aside class="order-summary">
+      <h2>Order Summary</h2>
+      
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span class="subtotal-price" id="dom-subtotal">$0.00</span>
+      </div>
 
-                  <p>${{ "%.2f"|format(item.price) }}</p>
+      <div class="summary-row">
+        <span>Shipping</span>
+        <span class="shipping-price" id="dom-shipping">$0.00</span>
+      </div>
 
-                  <p>Quantity: {{ item.quantity }}</p>
+      <div class="summary-row total-row">
+        <span>TOTAL</span>
+        <span class="total-price" id="dom-total">$0.00</span>
+      </div>
 
-                  <form action="/remove-from-cart/{{ item.id }}" method="POST">
-                    <button class="remove-product" type="submit">Remove</button>
-                  </form>
-                </div>
-              </article>
-              {% endfor %} {% else %}
+      <label class="terms-row">
+        <input type="checkbox" id="terms-checkbox" />
+        <span>I agree to the Terms and Conditions</span>
+      </label>
 
-              <p class="empty-checkout-message">
-                Your shopping cart is currently empty.
-              </p>
-
-              {% endif %}
-            </div>
-
-            <div class="checkout-line"></div>
-          </div>
-
-          <aside class="order-summary">
-            <h2>Order Summary</h2>
-
-            <div class="summary-row">
-              <span>Subtotal</span>
-              <span class="subtotal-price">$0.00</span>
-            </div>
-
-            <div class="summary-row">
-              <span>Shipping</span>
-              <span class="shipping-price">$0.00</span>
-            </div>
-
-            <div class="summary-row total-row">
-              <span>TOTAL</span>
-              <span class="total-price">$0.00</span>
-            </div>
-
-            <label class="terms-row">
-              <input type="checkbox" />
-
-              <span>I agree to the Terms and Conditions</span>
-            </label>
-
-            <button class="continue-button">CONTINUE</button>
-          </aside>
-        </section>
-      </main>
-<div id="paypal-button-container">hello</div>
+      <div id="paypal-button-container"></div>
+    </aside>
+  </section>
+</main>
 
     </div>
 

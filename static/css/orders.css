@@ -1,9 +1,6 @@
-.main-content-layout {
-  flex: 1;
-  display: flex;
-  width: 100%;
-}
-
+/* ==========================================================================
+   --- ORDERS PAGE BASE LAYOUT ---
+   ========================================================================== */
 .orders {
   flex: 1;
   width: 100%;
@@ -16,15 +13,193 @@
 }
 
 .orders h1 {
-  margin: 0;
-  text-align: center;
-}
-
-.orders p {
-  margin: 0;
-  text-align: center;
+  font-family: "Fira Code", monospace;
+  font-size: 2rem;
+  color: #ffffff;
+  margin-bottom: 10px;
 }
 
 hr.solid {
-  border-top: 3px solid #bbb;
+  border: 0;
+  border-top: 2px solid rgba(255, 255, 255, 0.05);
+  margin: 0;
+}
+
+.loading-msg {
+  color: #8892b0;
+  font-family: "Fira Code", monospace;
+  margin-top: 20px;
+}
+
+/* ==========================================================================
+   --- THEMED DARK CARD ROW PRESENTATION ---
+   ========================================================================== */
+.orders-page-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.order-page-card {
+  position: relative;
+  background-color: #161b26; /* Deep slate background matching the UI frame */
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 16px;
+  padding-right: 80px; /* Leaves clear breathing room for the trailing action buttons */
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.order-page-card:hover {
+  background-color: #161b26;
+  transform: translateX(4px);
+}
+
+/* White Box Thumbnail Holder */
+.order-card-img-holder {
+  width: 70px;
+  height: 70px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 24px;
+}
+
+.order-card-img-holder img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Layout Alignment */
+.order-card-body {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 20px;
+}
+
+/* Info Section (ID, Status, and Items Details) */
+.order-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 2;
+}
+
+.order-card-title {
+  font-family: "Fira Code", monospace;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.order-card-date {
+  font-family: sans-serif;
+  font-size: 0.85rem;
+  color: #8892b0; /* Dimmed secondary text */
+}
+
+/* Inline Translucent Status Badge */
+.order-status-badge {
+  font-family: sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-paid {
+  background-color: rgba(59, 130, 246, 0.12);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+.status-delivered {
+  background-color: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+/* Price Display (Electric Blue Signature) */
+.order-card-price {
+  font-family: "Fira Code", monospace;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #3b82f6;
+  flex: 1;
+  text-align: right;
+  padding-right: 32px;
+}
+
+/* "View Details" Pill Button */
+.order-card-view-link {
+  display: inline-block;
+  background-color: #ffffff;
+  color: #111622;
+  font-family: "Fira Code", monospace;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: 24px; /* Pill shape */
+  white-space: nowrap;
+  transition: opacity 0.15s ease;
+}
+
+.order-card-view-link:hover {
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   --- EMPTY VIEW PRESENTATION ---
+   ========================================================================== */
+.full-orders-empty {
+  text-align: center;
+  padding: 80px 20px;
+  background: #11151e;
+  border-radius: 12px;
+  max-width: 500px;
+  margin: 40px auto 0 auto;
+}
+
+.full-orders-empty p {
+  color: #8892b0;
+  font-size: 1.1rem;
+  margin: 0 0 24px 0;
+}
+
+.orders-shop-btn {
+  display: inline-block;
+  background-color: #3b82f6;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: opacity 0.15s ease;
+}
+
+.orders-shop-btn:hover {
+  opacity: 0.9;
 }

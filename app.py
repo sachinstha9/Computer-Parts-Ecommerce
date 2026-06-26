@@ -10,10 +10,15 @@ import re
 import datetime
 from datetime import datetime, timedelta
 import requests
+import requests
 
 # Application Setup
 app = Flask(__name__)
 app.secret_key = "galact_secret_key" # required for login
+
+CLIENT_ID = "Afk2Kw_C5TqguBDKkSKVfCCHWjI4sN4JA60RJljMcvWv7NJOIlKJhdH0RgWiBbPQtUWoSJlCFZixsoSg"
+CLIENT_SECRET = "EIQUXfiYaUFBPcfFt2Dm4eg7BHBJnLWnKYjiC9I2f2Dy7Hp2UNrwG3qiSRCztLAtQewf21ppDDmTiR3R"
+BASE_URL = "https://api-m.sandbox.paypal.com"
 
 # cloudinary setup
 cloudinary.config(
@@ -25,6 +30,22 @@ cloudinary.config(
 CLIENT_ID = os.getenv("CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 BASE_URL = os.getenv("BASE_URL")
+
+CLIENT_ID = os.getenv("CLIENT_ID")
+CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+BASE_URL = os.getenv("BASE_URL")
+
+def get_access_token():
+    response = requests.post(
+        f"{BASE_URL}/v1/oauth2/token",
+        auth=(CLIENT_ID, CLIENT_SECRET),
+        data={"grant_type": "client_credentials"},
+    )
+    
+    # Good practice: raise an exception if the request failed (e.g., bad credentials)
+    response.raise_for_status() 
+    
+    return response.json()["access_token"]
 
 # Product Formatting Function
 def product_formatter(products):
@@ -385,7 +406,7 @@ def update_profile():
                 name = ?, 
                 address = ?, 
                 city = ?, 
-                postcode = ?
+                postcode = ?,
                 phone = ?
             WHERE id = ?
         """, (username, email, shipping_name, shipping_address, shipping_city, shipping_postcode, user_id, phone))
@@ -782,7 +803,11 @@ def search():
     )    
 
 
+CLIENT_ID = "Afk2Kw_C5TqguBDKkSKVfCCHWjI4sN4JA60RJljMcvWv7NJOIlKJhdH0RgWiBbPQtUWoSJlCFZixsoSg"
+CLIENT_SECRET = "EIQUXfiYaUFBPcfFt2Dm4eg7BHBJnLWnKYjiC9I2f2Dy7Hp2UNrwG3qiSRCztLAtQewf21ppDDmTiR3R"
+BASE_URL = "https://api-m.sandbox.paypal.com"
 
+import requests
 def get_access_token():
     response = requests.post(
         f"{BASE_URL}/v1/oauth2/token",
@@ -794,51 +819,131 @@ def get_access_token():
 
 @app.route("/create-order", methods=["POST"])
 def create_order():
-    data = request.get_json()
-    token = get_access_token()
+    try:
+        data = request.get_json()
+        token = get_access_token()
 
-    amount = data["amount"]
+        # ⚠️ SECURITY WARNING: Currently trusting the frontend amount.
+        # FUTURE GOAL: Fetch cart items from database here and calculate the total 
+        # on the server to prevent malicious users from changing the price to $0.01.
+        raw_amount = float(data["amount"])
+        
+        # FIX: Enforce 2 decimal places to prevent PayPal 400 errors
+        formatted_amount = f"{raw_amount:.2f}" 
 
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {token}",
-    }
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token}",
+        }
 
-    order = {
-        "intent": "CAPTURE",
-        "purchase_units": [
-            {
-                "amount": {
-                    "currency_code": "NZD",
-                    "value": str(amount)
+        order = {
+            "intent": "CAPTURE",
+            "purchase_units": [
+                {
+                    "amount": {
+                        "currency_code": "NZD",
+                        "value": formatted_amount
+                    }
                 }
-            }
-        ]
-    }
+            ]
+        }
 
-    response = requests.post(
-        f"{BASE_URL}/v2/checkout/orders",
-        json=order,
-        headers=headers,
-    )
+        response = requests.post(
+            f"{BASE_URL}/v2/checkout/orders",
+            json=order,
+            headers=headers,
+        )
+        response.raise_for_status()
 
-    return jsonify(response.json())
+        return jsonify(response.json())
+
+    except Exception as e:
+        print(f"Error creating order: {e}")
+        return jsonify({"error": "Failed to create order"}), 500
 
 @app.route("/capture-order/<order_id>", methods=["POST"])
 def capture_order(order_id):
-    token = get_access_token()
+    try:
+        # 1. Capture the payment with PayPal
+        token = get_access_token()
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token}",
+        }
+        
+        response = requests.post(
+            f"{BASE_URL}/v2/checkout/orders/{order_id}/capture",
+            headers=headers,
+        )
+        response.raise_for_status() 
+        paypal_data = response.json()
 
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {token}",
-    }
+        # ==========================================
+        # 2. RAW SQLITE DATABASE LOGIC
+        # ==========================================
+        if "customer_id" not in session:
+            return jsonify({"error": "User not logged in"}), 401
+            
+        customer_id = session["customer_id"]
+        
+        conn = sqlite3.connect("computer-ecommerce.db")
+        c = conn.cursor()
 
-    response = requests.post(
-        f"{BASE_URL}/v2/checkout/orders/{order_id}/capture",
-        headers=headers,
-    )
+        # Fetch current cart and orders
+        c.execute("SELECT cart, orders FROM customers WHERE id = ?", (customer_id,))
+        user_data = c.fetchone()
 
-    return jsonify(response.json())
+        if user_data:
+            # Parse the JSON strings from the database (fallback to empty list if None)
+            current_cart = json.loads(user_data[0]) if user_data[0] else []
+            current_orders = json.loads(user_data[1]) if user_data[1] else []
+
+            # Extract the actual captured amount from PayPal's response
+            captured_amount = paypal_data['purchase_units'][0]['payments']['captures'][0]['amount']['value']
+
+            # Create a new order dictionary containing the cart items
+            new_order = {
+                "transaction_id": order_id,
+                "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "total_paid": captured_amount,
+                "status": "Paid",
+                "items": current_cart,
+                "delivered": "0"
+            }
+
+            # Append the new order to their order history
+            current_orders.append(new_order)
+
+            # Update the database:
+            # 1. Empty the cart by setting it to "[]"
+            # 2. Save the updated orders array
+            c.execute("""
+                UPDATE customers 
+                SET cart = '[]', orders = ? 
+                WHERE id = ?
+            """, (json.dumps(current_orders), customer_id))
+
+            conn.commit()
+            
+    except requests.exceptions.RequestException as e:
+        print(f"PayPal API Error: {e}")
+        return jsonify({"error": "Failed to communicate with PayPal"}), 500
+        
+    except sqlite3.Error as e:
+        # If DB fails, rollback so we don't accidentally corrupt user data
+        if conn:
+            conn.rollback()
+        print(f"Database Error: {e}")
+        return jsonify({"error": "Failed to update user database"}), 500
+        
+    finally:
+        # Ensure the connection is always closed, even if an error happens
+        if 'conn' in locals() and conn:
+            conn.close()
+
+    # If everything succeeded, send the PayPal data back to the frontend
+    return jsonify(paypal_data)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -43,15 +43,9 @@
       <section class="dash-card wide-card">
         <h2>Recent Orders</h2>
 
-        {% if orders %} {% for order in orders[:3] %}
-        <div class="order-row">
-          <span>Order #{{ order.id }}</span>
-          <span>{{ order.date }}</span>
-          <span>${{ order.total }}</span>
+        <div id="dash-recent-orders-container">
+          <p class="dash-empty-msg">Loading your recent orders...</p>
         </div>
-        {% endfor %} {% else %}
-        <p>No previous orders yet.</p>
-        {% endif %}
 
         <a href="#" class="dash-link" id="view-all-orders">View All Orders</a>
       </section>

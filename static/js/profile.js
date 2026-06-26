@@ -1,7 +1,11 @@
 // ==========================================
 // --- IMPORTS & CORE SESSION INITIALIZATION ---
 // ==========================================
-import { wishlist, updateWishlistCount, showWishlistPreview } from "./header.js";
+import {
+  wishlist,
+  updateWishlistCount,
+  showWishlistPreview,
+} from "./header.js";
 import getProductDetails from "./get-product-details.js";
 import getUser from "./get-user.js";
 
@@ -15,8 +19,8 @@ const sidebar = document.querySelector(".sidebar");
 const sidebarToggler = document.querySelector(".sidebar-toggler");
 const menuToggler = document.querySelector(".menu-toggler");
 
-let collapsedSidebarHeight = "56px"; 
-let fullSidebarHeight = "calc(100vh - 32px)"; 
+let collapsedSidebarHeight = "56px";
+let fullSidebarHeight = "calc(100vh - 32px)";
 
 if (sidebarToggler && sidebar) {
   sidebarToggler.addEventListener("click", () => {
@@ -64,16 +68,18 @@ function loadPage(page) {
         clickShipping();
         clickWishlist();
         clickSettings();
-        
-        // Pass "dashboard" to render recent 3 items in a row layout
-        renderWishlist("dashboard"); 
+
+        // RUN BOTH CYBERPUNK DISPLAY LAYOUT ENGINE WRAPPERS HERE
+        renderDashboardOrders(); // Dynamic Order injection
+        renderWishlist("dashboard"); // Dynamic Wishlist injection
       } else if (page === "profile") {
         // Target and hook up the save interface routine
-        initializeProfileFormHandler();      
+        initializeProfileFormHandler();
       } else if (page === "wishlist") {
-        
         // Pass "full" to render all items in the full card grid layout
-        renderWishlist("full"); 
+        renderWishlist("full");
+      } else if (page == "orders") {
+        renderFullOrdersPage();
       }
     });
 }
@@ -83,13 +89,13 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const inner_page = urlParams.get("inner_page");
 
-if (inner_page === "profile") { 
+if (inner_page === "profile") {
   loadPage("profile");
-} else if (inner_page === "orders") { 
+} else if (inner_page === "orders") {
   loadPage("orders");
 } else if (inner_page === "wishlist") {
   loadPage("wishlist");
-} else if (inner_page === "settings") { 
+} else if (inner_page === "settings") {
   loadPage("settings");
 } else {
   loadPage("dashboard");
@@ -133,7 +139,6 @@ function clickSettings() {
   });
 }
 
-
 // ==========================================
 // --- ASYNC DASHBOARD WISHLIST RENDERING ---
 // ==========================================
@@ -144,8 +149,8 @@ async function renderWishlist(viewType = "dashboard") {
   const isDash = viewType === "dashboard";
 
   // 1. Assign target containers contextually based on active view type
-  const container = isDash 
-    ? document.querySelector(".dash-wishlist-items") 
+  const container = isDash
+    ? document.querySelector(".dash-wishlist-items")
     : document.getElementById("inner-page-wishlist-box");
 
   if (!container) return;
@@ -153,7 +158,9 @@ async function renderWishlist(viewType = "dashboard") {
 
   // 2. Natively handle dashboard count text if applicable
   if (isDash) {
-    const dashWishlistCountVal = document.querySelector(".dash-wishlist-count-val");
+    const dashWishlistCountVal = document.querySelector(
+      ".dash-wishlist-count-val",
+    );
     if (dashWishlistCountVal) {
       dashWishlistCountVal.textContent = wishlist ? wishlist.length : 0;
     }
@@ -161,7 +168,7 @@ async function renderWishlist(viewType = "dashboard") {
 
   // 3. Handle empty states gracefully for both separate layouts
   if (!wishlist || wishlist.length === 0) {
-    container.innerHTML = isDash 
+    container.innerHTML = isDash
       ? `<p class="dash-empty-msg">No items in your wishlist.</p>`
       : `<div class="full-wishlist-empty">
           <p>Your wishlist is currently empty.</p>
@@ -193,21 +200,28 @@ async function renderWishlist(viewType = "dashboard") {
         productDetails = await getProductDetails(item);
         if (!productDetails) continue;
       } catch (err) {
-        console.error(`Error resolving wishlist data parameters for ID ${item}:`, err);
+        console.error(
+          `Error resolving wishlist data parameters for ID ${item}:`,
+          err,
+        );
         continue;
       }
     }
 
-    const displayPrice = productDetails.price 
-      ? (productDetails.price.toString().startsWith('$') ? productDetails.price : `$${productDetails.price}`) 
+    const displayPrice = productDetails.price
+      ? productDetails.price.toString().startsWith("$")
+        ? productDetails.price
+        : `$${productDetails.price}`
       : "$0.00";
-    const displayImg = (productDetails.image && productDetails.image[0]) || "/images/placeholder.png";
+    const displayImg =
+      (productDetails.image && productDetails.image[0]) ||
+      "/images/placeholder.png";
     const displayTitle = productDetails.title || "Unknown Product";
     const productId = productDetails.id || item;
 
     // 7. Inject specific template blocks depending on the rendering flag context
     const element = document.createElement("div");
-    
+
     if (isDash) {
       element.classList.add("dash-wishlist-row");
       element.innerHTML = `
@@ -238,7 +252,9 @@ async function renderWishlist(viewType = "dashboard") {
     appendTarget.appendChild(element);
 
     // 8. Unified Delete Action Listener Mapping
-    const deleteBtn = element.querySelector(isDash ? ".dash-wishlist-remove-btn" : ".wishlist-card-delete-btn");
+    const deleteBtn = element.querySelector(
+      isDash ? ".dash-wishlist-remove-btn" : ".wishlist-card-delete-btn",
+    );
     deleteBtn.addEventListener("click", async (e) => {
       e.stopPropagation();
 
@@ -253,7 +269,7 @@ async function renderWishlist(viewType = "dashboard") {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: productId }),
-        }).catch(err => console.error(err));
+        }).catch((err) => console.error(err));
 
         if (response && response.ok) {
           wishlist.splice(globalIndex, 1);
@@ -263,7 +279,7 @@ async function renderWishlist(viewType = "dashboard") {
       // Sync all header components
       updateWishlistCount();
       await showWishlistPreview();
-      
+
       // Recursive call automatically maintains the current view state framework smoothly
       await renderWishlist(viewType);
     });
@@ -291,7 +307,8 @@ function initializeProfileFormHandler() {
     // Check if the user is trying to change their password
     if (newPass || confirmPass || currentPass) {
       if (!currentPass) {
-        feedback.textContent = "× Current password is required to verify changes.";
+        feedback.textContent =
+          "× Current password is required to verify changes.";
         feedback.className = "error";
         return;
       }
@@ -300,7 +317,8 @@ function initializeProfileFormHandler() {
         feedback.className = "error";
         return;
       }
-      if (newPass.length < 6) { // Optional safety check length
+      if (newPass.length < 6) {
+        // Optional safety check length
         feedback.textContent = "× New password must be at least 6 characters.";
         feedback.className = "error";
         return;
@@ -312,7 +330,7 @@ function initializeProfileFormHandler() {
       const response = await fetch("/update_profile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataPayload)
+        body: JSON.stringify(dataPayload),
       });
 
       const responseData = await response.json().catch(() => ({}));
@@ -320,14 +338,15 @@ function initializeProfileFormHandler() {
       if (response.ok) {
         feedback.textContent = "✓ Account details synchronized successfully!";
         feedback.className = "success";
-        
+
         // Wipe password fields clean after a successful update loop
         form.querySelector("#current_password").value = "";
         form.querySelector("#new_password").value = "";
         form.querySelector("#confirm_password").value = "";
       } else {
         // Fallback to backend validation messages if passed
-        feedback.textContent = responseData.message || "× Verification failed. Check parameters.";
+        feedback.textContent =
+          responseData.message || "× Verification failed. Check parameters.";
         feedback.className = "error";
       }
     } catch (err) {
@@ -336,4 +355,131 @@ function initializeProfileFormHandler() {
       feedback.className = "error";
     }
   });
+}
+
+// ==========================================
+// --- DYNAMIC DASHBOARD ORDERS RENDERING ---
+// ==========================================
+function renderDashboardOrders() {
+  const ordersContainer = document.getElementById(
+    "dash-recent-orders-container",
+  );
+  if (!ordersContainer) return;
+
+  ordersContainer.innerHTML = "";
+
+  // 1. Parse string data safely out of your user dataset
+  let rawOrders = user["orders"] || [];
+  let ordersArr =
+    typeof rawOrders === "string" ? JSON.parse(rawOrders || "[]") : rawOrders;
+
+  if (!ordersArr || ordersArr.length === 0) {
+    ordersContainer.innerHTML = `<p class="dash-empty-msg">No previous orders yet.</p>`;
+    return;
+  }
+
+  // 2. Extract recent purchases (grabs up to 3 entries)
+  const recentOrders = ordersArr.slice(-3).reverse();
+
+  // FIX: Using index tracking (idx) to shield unique rendering rows from ID collisions
+  recentOrders.forEach((order, idx) => {
+    const transId = order.transaction_id
+      ? order.transaction_id
+      : `ORDER-${idx}`;
+    const orderDate = order.date ? order.date.split(" ")[0] : "N/A";
+    const totalPaid = order.total_paid
+      ? parseFloat(order.total_paid).toFixed(2)
+      : "0.00";
+    const statusText = order.status || "Paid";
+    const isDelivered = order.delivered === "1";
+
+    // 3. Append distinct rows smoothly into the viewport template container
+    const row = document.createElement("div");
+    row.classList.add("order-row");
+    row.setAttribute("data-row-index", idx); // Guarantees element isolation in the DOM tree
+
+    row.innerHTML = `
+      <span class="order-id">#${transId}</span>
+      <span class="order-date">${orderDate}</span>
+      <span class="order-total">$${totalPaid}</span>
+      <span class="status-badge ${isDelivered ? "status-delivered" : "status-paid"}">
+        ${isDelivered ? "Delivered" : statusText}
+      </span>
+    `;
+
+    ordersContainer.appendChild(row);
+  });
+}
+
+// ==========================================
+// --- FULL PAGE ORDERS RENDERING ENGINE ---
+// ==========================================
+function renderFullOrdersPage() {
+  const container = document.getElementById("full-orders-container");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  // 1. Parse string data safely out of your user dataset
+  let rawOrders = user["orders"] || [];
+  let ordersArr =
+    typeof rawOrders === "string" ? JSON.parse(rawOrders || "[]") : rawOrders;
+
+  // 2. Handle empty state gracefully
+  if (!ordersArr || ordersArr.length === 0) {
+    container.innerHTML = `
+      <div class="full-orders-empty">
+        <p>You haven't placed any orders yet.</p>
+        <a href="/" class="orders-shop-btn">Start Shopping</a>
+      </div>`;
+    return;
+  }
+
+  // 3. Render ALL orders, newest first
+  const allOrders = ordersArr.slice().reverse();
+
+  const ordersGrid = document.createElement("div");
+  ordersGrid.classList.add("orders-page-grid");
+
+  allOrders.forEach((order, index) => {
+    // Extract data with fallbacks
+    const transId = order.transaction_id
+      ? order.transaction_id
+      : `ORDER-${index}`;
+    const shortTransId = transId.substring(0, 12); // Slightly longer ID for the full page
+    const orderDate = order.date ? order.date : "N/A";
+    const totalPaid = order.total_paid
+      ? parseFloat(order.total_paid).toFixed(2)
+      : "0.00";
+    const statusText = order.status || "Paid";
+    const isDelivered = order.delivered === "1";
+
+    // Count items to display a quick summary
+    const itemCount = order.items ? order.items.length : 0;
+    const itemText = itemCount === 1 ? "1 Item" : `${itemCount} Items`;
+
+    const card = document.createElement("div");
+    card.classList.add("order-page-card");
+
+    card.innerHTML = `
+      <div class="order-card-body">
+        <div class="order-card-info">
+          <h3 class="order-card-title">Order #${shortTransId}</h3>
+          <span class="order-card-date">${orderDate} • ${itemText}</span>
+        </div>
+        
+        <div class="order-card-status">
+          <span class="status-badge ${isDelivered ? "status-delivered" : "status-paid"}">
+            ${isDelivered ? "Delivered" : statusText}
+          </span>
+        </div>
+        
+        <div class="order-card-price">$${totalPaid}</div>
+        
+      </div>
+    `;
+    ordersGrid.appendChild(card);
+  });
+
+  container.appendChild(ordersGrid);
 }
