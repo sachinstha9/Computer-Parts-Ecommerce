@@ -397,7 +397,7 @@ def update_profile():
                 name = ?, 
                 address = ?, 
                 city = ?, 
-                postcode = ?
+                postcode = ?,
                 phone = ?
             WHERE id = ?
         """, (username, email, shipping_name, shipping_address, shipping_city, shipping_postcode, user_id, phone))
