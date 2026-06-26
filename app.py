@@ -10,6 +10,9 @@ import re
 import datetime
 from datetime import datetime, timedelta
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Application Setup
 app = Flask(__name__)
